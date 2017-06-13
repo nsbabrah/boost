@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>signin</title>
+
+<!-- Bootstrap -->
+<link href="../../static/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- NProgress -->
+<link href="../../static/nprogress.css" rel="stylesheet">
+<!-- Animate.css -->
+<link href="../../static/css/animate.css" rel="stylesheet">
+
+<!-- Custom Theme Style -->
+<link href="../../static/custom.css" rel="stylesheet">
+			<style type="text/css">
+			body { background-image: url('');}
+      #yourbox{
+   position:absolute;
+   right:380px;
+   top  :50px;
+}
+@import url(https://fonts.googleapis.com/css?family=Nunito:300);
+
+body { font-family: "Nunito", sans-serif; font-size: 24px; }
+a    { text-decoration: none; }
+p    { text-align: center; }
+sup  { font-size: 36px; font-weight: 100; line-height: 55px; }
+
+.button
+{
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  color: #0C5;
+
+  font-size: 24px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 300;
+
+  margin: 0em auto;
+
+  /*position: absolute;*/
+  /*top:0; right:0; bottom:220px; left:0;*/
+
+  padding: 20px ;
+  width: 220px;
+  height:30px;
+
+  background: #0D6;
+  border: 1px solid #0D6;
+  color: #FFF;
+  overflow: hidden;
+
+  transition: all 0.5s;
+}
+
+.button:hover, .button:active
+{
+  text-decoration: none;
+  color: #0C5;
+  border-color: #0C5;
+  background: #FFF;
+}
+
+.button span
+{
+  display: inline-block;
+  position: relative;
+  /*padding-right: 0;*/
+
+  transition: padding-right 0.5s;
+}
+
+.button span:after
+{
+  content: ' ';
+  /*position: absolute;
+  top: 0;
+  right: 18px;
+  opacity: 0;
+  width: 10px;
+  height: 10px;*/
+  margin-top: -10px;
+
+  background: rgba(0, 0, 0, 0);
+  border: 3px solid #FFF;
+  border-top: none;
+  border-right: none;
+  margin-left: -210px;
+
+  transition: opacity 0.5s, top 0.5s, right 0.5s;
+  transform: rotate(-45deg);
+}
+
+.button:hover span, .button:active span
+{
+  /*padding-right: 30px;*/
+}
+
+.button:hover span:after, .button:active span:after
+{
+  transition: opacity 0.5s, top 0.5s, right 0.5s;
+  opacity: 1;
+  border-color: #0C5;
+  /*right: -22220px;
+  left:30px;
+  bottom: 40px;
+  top:80px;*/
+  /*top: -50%;*/
+}
+		</style>
+
+			</head>
+
+
+  <body >
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+
+      <div class="login_wrapper" id="yourbox" style="">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form>
+              <h1>Sign in</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Password" required="" />
+              </div>
+              <div>
+                <!-- <a href="admin" class="button">
+                  <span>Hover Me</span>
+                </a> -->
+                <a class="btn btn-default submit button" href="admin">Log in</a>
+                <a class="reset_pass" href="#">Lost your password?</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">New to site?
+                  <a href="#signup" class="to_register"> Create Account </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-claw"></i></h1>
+                  <p>©2017 All Rights Reserved. Boostlikes</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form>
+              <h1>Create Account</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="email" class="form-control" placeholder="Email" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Password" required="" />
+              </div>
+              <div>
+                <a class=" button" href="index.html">Submit</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">Already a member ?
+                  <a href="#signin" class="to_register"> Log in </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br/>
+
+                <div>
+                  <h1><i class="fa fa-paw"></i> </h1>
+                  <p>©Boostlikes</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

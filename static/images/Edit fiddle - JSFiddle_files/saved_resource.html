@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0034)http://fiddle.jshell.net/_display/ -->
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+
+  
+  
+
+  
+  
+  
+
+  
+
+  <script type="text/javascript" src="./jquery-1.8.3.js"></script>
+
+  
+
+  
+    <link rel="stylesheet" type="text/css" href="./normalize.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" type="text/css" href="./result-light.css">
+  
+
+  
+
+  <style type="text/css">
+    
+  </style>
+
+  <title></title>
+
+  
+    
+
+
+
+
+<script type="text/javascript">//<![CDATA[
+
+
+
+
+      //    var txtFirstNumberValue = document.getElementById('txt1').value;
+      //    var txtSecondNumberValue = document.getElementById('txt2').value;
+       //
+      //  var number = Number(txtSecondNumberValue.replace(/[^0-9\.]+/g,""));
+       //
+      //    if (txtFirstNumberValue == "")
+      //        txtFirstNumberValue = 0;
+      //    if (txtSecondNumberValue == "")
+      //        txtSecondNumberValue = 0;
+       //
+      //    var result = parseInt(txtFirstNumberValue) * parseInt(number);
+      //    if (!isNaN(result)) {
+      //        document.getElementById('txt3').value = '$'+result;
+      function sum()
+    {
+      var price = $("#txt1").val();
+      console.log(price);
+        var price1 = $("#txt2").val();
+        var total = (price) * (price1);
+        if (!isNaN(total)) {
+         $("#txt3").val(total);
+         }
+    }
+       $('#txt3').on("change, keyup", "#txt2", result);
+
+
+
+
+//]]> 
+
+</script>
+
+  
+</head>
+
+<body>
+  <div class="form-group row">
+                                <label class="col-md-3 control-label">Total Machines:</label>
+                                <div class="col-md-8">
+                                  <input onkeyup="sum();" class="form-control total_machines" id="txt1" type="text" value="">
+                                </div>
+
+                                  </div>
+                              <div class="form-group row">
+                                <label class="col-md-3 control-label">Cost/Per:</label>
+                                <div class="col-md-8">
+                                  <input onkeyup="sum();" list="cost" class="form-control cost_per" id="txt2" name="cost_per" type="text" value="">
+                                </div>
+                              </div>
+                              <datalist id="cost">
+  <option value="100">
+  </option><option value="Firefox">
+  </option><option value="Google Chrome">
+  </option><option value="Opera">
+  </option><option value="Safari">
+</option></datalist>
+                              <div class="form-group row">
+                                <label class="col-md-3 control-label">Total Cost:</label>
+                                <div class="col-md-8">
+                                  <input class="form-control total_cost" id="txt3" name="password" type="text" value="">
+                                </div>
+                              </div>
+  
+  <script>
+  // tell the embed parent frame the height of the content
+  if (window.parent && window.parent.parent){
+    window.parent.parent.postMessage(["resultsFrame", {
+      height: document.body.getBoundingClientRect().height,
+      slug: "None"
+    }], "*")
+  }
+</script>
+
+
+
+
+
+</body></html>
