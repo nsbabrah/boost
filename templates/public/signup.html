@@ -17,94 +17,195 @@
 <link href="../../static/css/animate.css" rel="stylesheet">
 
 <!-- Custom Theme Style -->
-<link href="../../static/custom.css" rel="stylesheet">				<style type="text/css">
-			body { background-image: url('../../static/bg-login.jpg');}
-      #yourbox{
-   position:absolute;
-   right:-380px;
-   top  :50px;
+<link href="../../static/custom.css" rel="stylesheet">				
+<style>
+body{
+padding-top: 100px;
 }
-		</style></head>
+form{
+padding: 20px;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 15px 0 rgba(0,0,0,0.12) !important;
+}
+h4{
+text-align: center;
+}
+.btn{
+border-radius: 0px;
+}
+.form-control{
+border-radius: 0px;
+margin-bottom: 10px;
+}
+p{
+margin-bottom: 10px;
+margin-top: 10px;
+text-align: center;
+}
+.blue{
+color: #337ab7;
+}
+.fa{
+color: #337ab7;
+}
+.fa-facebook-f{
+padding: 10px 12px 10px 12px;
+border: 1px solid #337ab7;
+border-radius: 50%;
+}
+.fa-google-plus{
+padding: 10px 8px 10px 8px;
+border: 1px solid #337ab7;
+border-radius: 50%;
+}
+.fa-twitter{
+padding: 10px 8px 10px 8px;
+border: 1px solid #337ab7;
+border-radius: 50%;
+}
+i{
+margin-left: 5px;
+margin-right: 5px;
+}
+
+
+
+
+.flip {
+-webkit-perspective: 800;
+perspective: 800;
+
+position: relative;
+}
+.flip .card.flipped {
+-webkit-transform: rotatey(-180deg);
+transform: rotatey(-180deg);
+}
+.flip .card {
+
+height: 100%;
+-webkit-transform-style: preserve-3d;
+-webkit-transition: 0.5s;
+transform-style: preserve-3d;
+transition: 0.5s;
+}
+.flip .card .face {
+
+-webkit-backface-visibility: hidden ;
+backface-visibility: hidden ;
+z-index: 2;
+
+}
+.flip .card .front {
+position: absolute;
+width: 100%;
+z-index: 1;
+
+}
+.flip .card .back {
+-webkit-transform: rotatey(-180deg);
+transform: rotatey(-180deg);
+}
+.inner{margin:0px !important;}
+</style>
+<script>
+$('.fliper-btn').click(function(){
+$('.flip').find('.card').toggleClass('flipped');
+
+});
+</script></head>
 
 
   <body  >
-    <div>
-      <a class="hiddenanchor" id="signup"></a>
-      <a class="hiddenanchor" id="signin"></a>
-      <div class="login_wrapper">
-        <div class="animate form login_form" id="yourbox">
-          <section class="login_content">
-            <form>
-              <h1>Sign in</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
-              </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
-              </div>
-              <div>
-                <a class="btn btn-default submit" href="admin">Log in</a>
-                <a class="reset_pass" href="#">Lost your password?</a>
-              </div>
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"  rel="stylesheet">
+				<div class="container">
 
-              <div class="clearfix"></div>
+					<div class="row">
 
-              <div class="separator">
-                <p class="change_link">New to site?
-                  <a href="#signup" class="to_register"> Create Account </a>
-                </p>
-
-                <div class="clearfix"></div>
-                <br />
-
-                <div>
-                  <h1><i class="fa fa-claw"></i></h1>
-                  <p>©2017 All Rights Reserved. Boostlikes</p>
-                </div>
-              </div>
-            </form>
-          </section>
-        </div>
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<!-- <h4>Click "Create new account?"</h4>
 
 
-              <div id="yourbox" class="animate form registration_form">
-                <section class="login_content">
-                  <form>
-                    <h1>Create Account</h1>
-                    <div>
-                      <input type="text" class="form-control" placeholder="Username" required="" />
-                    </div>
-                    <div>
-                      <input type="email" class="form-control" placeholder="Email" required="" />
-                    </div>
-                    <div>
-                      <input type="password" class="form-control" placeholder="Password" required="" />
-                    </div>
-                    <div>
-                      <a class="btn btn-default submit" href="index.html">Submit</a>
-                    </div>
+						 	 <div class="flip">
+						  <div class="card">
+						 	 <div class="face front">
+ -->
 
-                    <div class="clearfix"></div>
 
-                    <div class="separator">
-                      <p class="change_link">Already a member ?
-                        <a href="#signin" class="to_register"> Log in </a>
-                      </p>
+						 		 <!-- <div class="panel panel-default">
 
-                      <div class="clearfix"></div>
-                      <br/>
+						 			 <form class="form-horizontal">
 
-                      <div>
-                        <h1><i class="fa fa-paw"></i> </h1>
-                        <p>©Boostlikes</p>
-                      </div>
-                    </div>
-                  </form>
-                </section>
-              </div>
-              </div>
+						 				 <br>
 
-      </div>
-    </div>
-  </body>
-</html>
+						 				 <h1 class="text-center">LOGO</h1>
+
+						 				 <br>
+
+						 				 <input class="form-control" placeholder="Username"/>
+						 				 <input class="form-control" placeholder="Password"/>
+						 				 <p class="text-right"><a href="">Forgot Password</a></p>
+						 				 <button class="btn btn-primary btn-block">LOG IN</button>
+						 				 <hr>
+						 				 <p class="blue">Sign in with</p>
+
+						 				 <p><i class="fa fa-facebook-f fa-lg"></i><i class="fa fa-twitter fa-lg"></i></p>
+
+						 				 <hr>
+						 				 <p class="text-center">
+						 					 <a href="signup" class="fliper-btn">Create new account?</a>
+						 				 </p>
+						 			 </form>
+
+						 		 </div>
+
+
+						 	 </div> -->
+
+		<div class="face back">
+
+
+ 			 <div class="panel panel-default">
+
+ 			 <form class="form-horizontal">
+
+ 				 <br>
+
+ 				 <h1 class="text-center">LOGO</h1>
+
+ 				 <br>
+ 				 <label>Basic Information</label>
+ 				 <input class="form-control" placeholder="Fullname"/>
+ 				 <input class="form-control" placeholder="Email"/>
+ 				 <label>Private Information</label>
+ 				 <input class="form-control" placeholder="Password"/>
+ 				 <input class="form-control" placeholder="Mobile Number"/>
+ 				 <button class="btn btn-primary btn-block">SIGN UP</button>
+
+
+ 				 <p class="text-center">
+ 					 <a href="signin" class="fliper-btn">Already have an account?</a>
+ 				 </p>
+
+ 			 </form>
+
+ 		 </div>
+
+
+
+
+ 	 </div>
+  </div>
+ </div>
+
+
+
+
+  </div>
+  <div class="col-md-4"></div>
+
+ </div>
+
+ </div><!-- /.container -->
+ </body>
+ </html>

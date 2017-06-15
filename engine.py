@@ -18,7 +18,7 @@ import time,sched
 s = sched.scheduler(time.time, time.sleep)
 
 
-PROXY = "127.0.0.1:34005" # IP:PORT or HOST:PORT
+PROXY = "127.0.0.1" # IP:PORT or HOST:PORT
 PROXY1 = "127.0.0.1:34002" # IP:PORT or HOST:PORT
 PROXY2 = "127.0.0.1:34003" # IP:PORT or HOST:PORT
 chrome_options = webdriver.ChromeOptions()
@@ -188,7 +188,7 @@ def index6():
     if request.method == 'POST':
         params = request.form
 
-        chrome_options.add_argument('--proxy-server=http://%s' % PROXY2)
+        chrome_options.add_argument('--proxy-server=http://%s' % PROXY1)
 
         chrome = webdriver.Chrome(chrome_options=chrome_options)
 
