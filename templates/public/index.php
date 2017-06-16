@@ -293,9 +293,9 @@ header.smaller nav a {
 }*/
 p{
 	z-index: 2;
-
+-webkit-font-smoothing:antialiased;
 	margin: 0 20px 20px;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1.9em;
   color:black;  font-family:"AtlasGrotesk";}
 .jj{
@@ -308,6 +308,7 @@ padding-bottom: 5px;
 }
 #sign-in{
 	width: 200;
+	font-weight: 70px;
 }
 
 
@@ -360,6 +361,23 @@ html, body {
     margin-top: 3.5%;
     float: right;
 }
+.container2 {
+    width:100%;
+    border:1px solid #d3d3d3;
+}
+.container2 div {
+    width:100%;
+}
+.container2 .header {
+    background-color:#d3d3d3;
+    padding: 2px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.container2 .content {
+    display: none;
+    padding : 5px;
+}
 </style>
 <script>
 $(".read-more").click(function() {
@@ -400,11 +418,33 @@ window.onload = init1();
 
 $( document ).ready(function() {
     $('.read-more').click(function(){
-			scrollTop: $(".container").offset().top},
-			'slow');
-        // $('.container').toggleClass('expanded');
-    });
+			// scrollTop: $(".container").offset().top},
+			// 'slow');
+  // $(window).scrollTop(-3);
+	// window.scrollTo(2,document.body.scrollHeight,'slow');
+// $('html,body').animate({ scrollTop: -89 }, 'slow');
+// $("html, body").animate({ scrollTop: $(document).height()-$(window).height() });
 
+        // $('.container').toggleClass('expanded');
+				  // $( ".container" ).slideDown( "slow" ).toggleClass('expanded');
+					 $(".container" ).toggleClass('expanded');
+					//  $(".container" ).slideToggle(2000);
+					 // $("body").scrollTop(220);
+					 $('html, body').animate({
+    scrollTop: $('.container').offset().top
+}, 500);
+// window.scrollTo('4px', document.body.scrollHeight);
+    });
+    });
+// 		$(".read-more").on("click", function() {
+//     // $("body").scrollTop(220);
+// });
+// $('.read-more').click(function(){
+//     $('.container').show(150);
+//     // $('.read-more').hide(150);
+//     // $('html, body').scrollTop($('.read-more').offset().top);
+//     // return false; // Please put the return false; at the end.
+// });
 		window.smoothScroll = function(target) {
 		    var scrollContainer = target;
 		    do { //find scroll container
@@ -431,13 +471,32 @@ $( document ).ready(function() {
 	// $('body').animate({
 			//  scrollTop: $(".container1").offset().top},
 			//  'slow');
-
+	//  $(".container0" ).hide();
     $('.read-more1').click(function(){
 		// $(".container1").offset().top},
 		// 	'slow');
         $('.container1').toggleClass('expanded');
+				$('html, body').animate({
+ scrollTop: $('.container1').offset().top
+}, 90);
     });
 	});
+
+$( document ).ready(function() {
+// $('body').animate({
+	//  scrollTop: $(".container1").offset().top},
+	//  'slow');
+
+$('.read-more0').click(function(){
+$(".container0").show();
+// 	'slow');
+		$('.container0').toggleClass('expanded');
+		$('html, body').animate({
+scrollTop: $('.container0').offset().top
+}, 90);
+});
+});
+
 
 var HeartsBackground = {
 	// text:30px,
@@ -549,6 +608,22 @@ HeartsBackground.initialize();
 function myFunction () {
   $(this).toggleClass('buttonClassB');
 };
+// $(".read-more").click(function () {
+//
+//     $header = $(this);
+//     //getting the next element
+//     $content = $header.next();
+//     //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+//     $content.slideToggle(500, function () {
+//         //execute this after slideToggle is done
+//         //change text of header based on visibility of content div
+//         $header.text(function () {
+//             //change text based on condition
+//             return $content.is(":visible") ? "Collapse" : "Expand";
+//         });
+//     });
+//
+// });
 </script>
 
 	</head>
@@ -585,8 +660,8 @@ function myFunction () {
 
 
 										<!-- <li><a class="cd-signin" name='main' href=""></a></li> -->
-																			<a class="cd-signup" href="signin">Sign In</a>
-																				<a class="cd-signup" href="signin">Terms </a>
+																			<a class="cd-signup" style="font-weight:300;" href="signin">Sign In</a>
+																				<a class="cd-signup"style="font-weight:300;" href="signin">Terms </a>
 
 				        </nav>
 				    </div>
@@ -612,115 +687,70 @@ function myFunction () {
 </div>
 						</div>
 
-						<!-- <div id="canvas1"> -->
 
-
-							<!-- <div class="fh5co-slider">
-								<div class="owl-carousel owl-carousel-fullwidth">
-
-								    <div class="item" style="background-image:url(../../css/static/images/slide_1.jpg)">
-								    	<div class="fh5co-overlay"></div>
-								    	<div class="container">
-								    		<div class="row">
-								    			<div class="col-md-8 col-md-offset-2">
-									    			<div class="fh5co-owl-text-wrap">
-												    	<div class="fh5co-owl-text text-center to-animate">
-												    		<h1 class="fh5co-lead">Boostlikes</h1>
-															<h2 class="fh5co-sub-lead">Let Boost Up Your Instagram profile <a href="#">Boostlikes</a></h2>
-															<p ><h1  class="animated bounceInRight">Boostlikes.ca</h1>
-
-															</div>
-												    </div>
-											    </div>
-								    		</div>
-								    	</div>
-								    </div>
-								    <div class="item" style="background-image:url(../../static/css/images/slide_2.jpg)">
-								    	<div class="fh5co-overlay"></div>
-								    	<div class="container">
-								    		<div class="row">
-								    			<div class="col-md-8 col-md-offset-2">
-									    			<div class="fh5co-owl-text-wrap">
-												    	<div class="fh5co-owl-text text-center to-animate">
-												    		<h1 class="fh5co-lead">A Digital Studio</h1>
-															<h2 class="fh5co-sub-lead"> You just need to sit back and relax <a href="#"></a>Boostlikes even manage your profile</h2>
-												    	</div>
-												    </div>
-											    </div>
-								    		</div>
-								    	</div>
-								    </div>
-								    <div class="item" style="background-image:url(../../static/css/images/slide_3.jpg)">
-								    	<div class="fh5co-overlay"></div>
-								    	<div class="container">
-								    		<div class="row">
-								    			<div class="col-md-8 col-md-offset-2">
-									    			<div class="fh5co-owl-text-wrap">
-												    	<div class="fh5co-owl-text text-center to-animate">
-												    		<h1 class="fh5co-lead">Branding, UX under in one roof</h1>
-															<h2 class="fh5co-sub-lead">Providing best service for your growth<a href="#"></a></h2>
-												    	</div>
-												    </div>
-											    </div>
-								    		</div>
-								    	</div>
-								    </div>
-								    <div class="item" style="background-image:url(../../static/css/images/slide_4.jpg)">
-								    	<div class="fh5co-overlay"></div>
-								    	<div class="container">
-								    		<div class="row">
-								    			<div class="col-md-8 col-md-offset-2">
-									    			<div class="fh5co-owl-text-wrap">
-												    	<div class="fh5co-owl-text text-center to-animate">
-												    		<h1 class="fh5co-lead">Performence</h1>
-															<h2 class="fh5co-sub-lead">Help your instagram profile to improve<a href="#"></a>100K likes and more</h2>
-												    	</div>
-												    </div>
-											    </div>
-								    		</div>
-								    	</div>
-								    </div>
-								</div>
-							</div>
- -->
-
-				<!-- Main -->
-					<!-- <div id="main" > -->
-
-					<!-- Section -->
 					<section class="wrapper style1">
 						<div class="inner">
 
 							<section class="wow fadeInUp" data-wow-delay="0s" style="visibility: visible; animation-name: fadeInUp;">
 							<div class="flex flex-2">
-								<div class="col col2">
+								<div class="col col5">
 									<h3>BoostUp Likes</h3>
 									<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 									<!-- <a href="about" class="button">Learn More</a> -->
-									<button type="button" onclick="smoothScroll(document.getElementById('second'))">Click Me!</button>
+									<!-- <button type="button " aria-controls="pyxl2481748964828192274" class="button read-more0">Read More</button> -->
+
 								</div>
 								<div class="col col1 first">
-									<div class="image round fit">
+									<!-- <div class="image round fit"> -->
 											<!-- <button onclick="myFunction.call(this)">Click me</button> -->
-										<a href="" class="link"><img src="../static/images/boost_comment.png" alt="" /></a>
+										<a href="" class="link"><img style="width:230px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 									</div>
 								</div>
 							</div>
 						</div>
 					</section>
 				</section>
-				<section class="wrapper style2">
+
+				<!-- <section class="wow slideInUp container0" style="background-color:#f6f9fc;" data-wow-offset="10">
+				<section class="wrapper style1">
+					<div class="inner">
+						<section class="wow fadeInUp" data-wow-delay="0s" style="visibility: visible; animation-name: fadeInUp;">
+
+							<div class="flex flex-1">
+								<div class="col col2">
+							<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;">
+								<h3>Listlike</h3>  <a href="" class="link"><img class='image round fit'style="width:220px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+								<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
+							 </div>
+
+
+									<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>AutoRound</h3>
+									<a href="" class="link"><img  class='image round fit' style="width:230px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+									<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
+								</div>
+
+
+													<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>Analytics</h3>
+													<a href="" class="link"><img  class='image round fit' style="width:230px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+													<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
+												</div></div></div>		</div>		</div>
+																</section>
+														</section></section> -->
+								<!-- </div> -->
+
+
+				<section class="wrapper style1">
 					<div class="inner">
 						<section class="wow fadeInUp" data-wow-delay="0s" style="visibility: visible; animation-name: fadeInUp;">
 							<div class="flex flex-2">
 								<div class="col col1">
-									<div class="image round fit">
-										<a href="generic.html"><img src="../static/images/boost_100k.png" alt="" /></a>
+									<!-- <div class="image round fit"> -->
+										<a href="generic.html"><img style="width:230px;heght:120px;" src="../static/images/boost_100k.png" alt="" /></a>
 									</div>
-								</div>
+								<!-- </div> -->
 
 						<!-- <div class="flex flex-2"> -->
-							<div class="col col2">
+							<div class="col col6">
 								<h3>Why Use Us</h3>
 								<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 								<!-- <a href="about" class="button">Learn More</a> -->
@@ -735,15 +765,15 @@ function myFunction () {
 				<!-- <div class="inner"> -->
 					<section class="wow fadeInUp  container" data-wow-delay="0s" style="visibility: visible; animation-name: fadeInUp;">
 		<section class="wrapper style3 ">
-						<div class="flex flex-1">
-							<div class="col col2">
-						<div class="col-md-6 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;">
-							<h3>Safe to Use</h3>  <a href="" class="link"><img class='image round fit'style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+						<div class="flex flex-21">
+							<div class="col col15">
+						<div class="col-md-16 col-sm-19 wow text-center fadeInUp col-xs-6 item"style="visibility: visible; animation-name: fadeInUp;">
+							<h3 style="width: 300;">Grow Your Business </h3>  <a href="" class="link"><img class='image round fit'style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 							<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 						 </div>
 
 
-								<div class="col-md-6 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>Safe to Use</h3>
+								<div class="col-md-6 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3 style="width: 300;">Grow Your Account</h3>
 								<a href="" class="link"><img  class='image round fit' style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 								<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 							</div>
@@ -760,19 +790,19 @@ function myFunction () {
 								<div class="flex flex-1">
 									<div class="col col2">
 								<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;">
-									<h3>Safe to Use</h3>  <a href="" class="link"><img class='image round fit'style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+									<h3>Listlike</h3>  <a href="" class="link"><img class='image round fit'style="width:200px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 									<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 								 </div>
 
 
-										<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>Safe to Use</h3>
-										<a href="" class="link"><img  class='image round fit' style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+										<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>AutoRound</h3>
+										<a href="" class="link"><img  class='image round fit' style="width:200px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 										<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 									</div>
 
 
-														<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>Safe to Use</h3>
-														<a href="" class="link"><img  class='image round fit' style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+														<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>Analytics</h3>
+														<a href="" class="link"><img  class='image round fit' style="width:200px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 														<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 														<!-- <div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>Safe to Use</h3>
 														<a href="" class="link"><img style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a> -->
@@ -792,13 +822,13 @@ function myFunction () {
 									<section class="wow fadeInUp" data-wow-delay="1s"  style="visibility: visible; animation-name: fadeInUp;">
 									<div class="flex flex-2">
 										<div class="col col1">
-											<div class="image round fit">
-												<a href="generic.html"><img src="../static/images/boost_100k.png" alt="" /></a>
+											<!-- <div class="image round fit"> -->
+												<a href="generic.html"><img style="width:200px;heght:120px;" src="../static/images/boost_100k.png" alt="" /></a>
 											</div>
-										</div>
+										<!-- </div> -->
 
 
-										<div class="col col2">
+										<div class="col col5">
 											<h3>How It's Work</h3>
 											<p>You get likes from real instagram users with real followers. You can even add extra packages to improve your account growth.</p>
 											<!-- <a  class="button read-more">Learn More</a> -->
@@ -820,7 +850,7 @@ function myFunction () {
 									<!-- <h2>Invite your fiernds</h2>
 									<p>Deals for suggesting</p> -->
 
-												<section class="wow slideInRight container1" style="background-color:#f6f9fc;" data-wow-offset="10">
+												<section class="wow slideInUp container1" style="background-color:#f6f9fc;" data-wow-offset="10">
 												<section class="wrapper style3">
 													<div class="inner">
 														<section class="wow fadeInUp" data-wow-delay="0s" style="visibility: visible; animation-name: fadeInUp;">
@@ -828,19 +858,19 @@ function myFunction () {
 															<div class="flex flex-1">
 																<div class="col col2">
 															<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;">
-																<h3>Safe to Use</h3>  <a href="" class="link"><img class='image round fit'style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+																<h3>Safe to Use</h3>  <a href="" class="link"><img class='image round fit'style="width:220px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 																<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 															 </div>
 
 
 																	<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>Safe to Use</h3>
-																	<a href="" class="link"><img  class='image round fit' style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+																	<a href="" class="link"><img  class='image round fit' style="width:230px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 																	<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 																</div>
 
 
 																					<div class="col-md-4 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3>Safe to Use</h3>
-																					<a href="" class="link"><img  class='image round fit' style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+																					<a href="" class="link"><img  class='image round fit' style="width:230px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 																					<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 																				</div></div></div>		</div>		</div>
 																								</section>
