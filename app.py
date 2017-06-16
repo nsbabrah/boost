@@ -41,6 +41,11 @@ def index2():
 		 return render_template('public/signup.html')
 	#
 
+@app.route('/trynow')
+def trynow():
+	 if request.method == 'GET':
+		 return render_template('public/trynow.html')
+	#
 @app.route('/home')
 def indexhome():
 	 if request.method == 'GET':

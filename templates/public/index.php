@@ -4,17 +4,15 @@
 	<head>
 		<title >Boostlikes</title>
 		<meta charset="utf-8" />
-		<meta property="og:title" content=""/>
-		<meta property="og:image" content=""/>
-		<meta property="og:url" content=""/>
-		<meta property="og:site_name" content=""/>
-		<meta property="og:description" content=""/>
-		<meta name="twitter:title" content="" />
-		<meta name="twitter:image" content="" />
-		<meta name="twitter:url" content="" />
-		<meta name="twitter:card" content="" />
+		<!-- <meta name="viewport" content="IE=edge,http-equiv="X-UA-Compatible" initial-scale=1"> -->
+		<meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1.0">
+		    <!-- <meta name=viewport content='user-scalable=no'> -->
+				<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+				<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+		    <meta name="description" content="">
+		<!-- <meta name=viewport content='width=700'> -->
 		<link rel="big-icon"style='background-size: 300px 150px;' background-image="../../static/images/rr.png" width="50%" height="50%" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
 		<link rel="stylesheet" href="../../static/css/main.css" />
     <style type="text/css">
 .main {
@@ -27,6 +25,72 @@
   width:400px;
 }.wow {
    visibility: hidden;
+}
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+/* Styles */
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen
+and (min-width : 321px) {
+/* Styles */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+/* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+/* Styles */
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen
+and (min-width : 1824px) {
+/* Styles */
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+/* Styles */
+}
+@media screen and (max-width: 500px) {
+/* applies only if the screen is narrower than 500px */
+  .tabs {
+    padding: 3px 1em
+  }
 }
 #container{
 background: #1c3149;
@@ -125,7 +189,11 @@ height: 100%;
 width: 100%;
 margin: 0;
 padding: 0;
-color:red;
+color:black;
+}
+canvas{
+	background-color: #f6f9fc;
+
 }
 h12 {
     /*display: block;*/
@@ -179,7 +247,7 @@ header {
     top: 0;
     left: 0;
     z-index: 999;
-    background-color: #0683c9;
+    background-color: #fff;
     -webkit-transition: height 0.3s;
     -moz-transition: height 0.3s;
     -ms-transition: height 0.3s;
@@ -205,6 +273,16 @@ header nav {
     display: inline-block;
     float: right;
 }
+button1{
+	margin-left: 15px;
+	margin-right: 5px;
+	display: flex;
+	transition: 0.25s border,0.25s background,0.25s color;
+	transition-duration: 0.25s, 0.25s, 0.25s;
+	transition-delay: initial, initial, initial;
+	margin-bottom: 30;
+margin-top: 20px;
+}
 header nav a {
     line-height: 50px;
     margin-left: 20px;
@@ -216,6 +294,7 @@ header nav a {
     -ms-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
+
 }
 header nav a:hover {
     color: white;
@@ -276,9 +355,18 @@ header.smaller nav a {
 	background-color: #f6f9fc;
 }
 .same{
-	background-color: deepskyblue;
+	background-color: #007ee5;
 	height: 40px;
 	width:170px;
+	text-align: center;
+	line-height: 22px;
+	font-weight: 400;
+	padding: 5px 8px;
+	padding-left: 18px;
+	padding-right: 18px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+
 
 }
 .same1{
@@ -302,13 +390,24 @@ p{
 border-bottom: 1px solid black;
 padding-bottom: 5px;
 }
+head
 .wrapper.style3{
 
 	background-color: #aed6f1;
 }
 #sign-in{
-	width: 200;
-	font-weight: 70px;
+	/*width: 200;*/
+	margin-left: 300px;
+	/*margin-top: 90px;*/
+	font-weight: 400;
+	/*line-height: 1.65;*/
+	max-width: 151px;
+
+	/*padding-top: 0px;
+	padding-right: 15px;
+	padding-left: 15px;
+	padding-bottom: 0px;*/
+	color:#637282;
 }
 
 
@@ -335,6 +434,7 @@ padding-bottom: 5px;
 html, body {
     width:100%;
     height: 100%;
+		-webkit-font-smoothing:antialiased;
 }
 #header {
     width: 100%;
@@ -361,6 +461,33 @@ html, body {
     margin-top: 3.5%;
     float: right;
 }
+#username{
+	font-weight: 14px !important;
+	font-style: "AtlasGrotesk","Open Sans",sans-serif;
+	border-color: #d0d4d9;
+	border: 1px solid #bdc4c9;
+	box-sizing: border-box;
+	color:#3d464d;
+	background-color: white;
+}
+#email{
+	font-weight: 14px !important;
+	font-style: "AtlasGrotesk","Open Sans",sans-serif;
+	border-color: #d0d4d9;
+	border: 1px solid #bdc4c9;
+	box-sizing: border-box;
+	color:#3d464d;
+	background-color: white;
+}
+#usrpassword{
+	font-weight: 14px !important;
+	font-style: "AtlasGrotesk","Open Sans",sans-serif;
+	border-color: #d0d4d9;
+	border: 1px solid #bdc4c9;
+	box-sizing: border-box;
+	color:#3d464d;
+	background-color: white;
+}
 .container2 {
     width:100%;
     border:1px solid #d3d3d3;
@@ -377,6 +504,20 @@ html, body {
 .container2 .content {
     display: none;
     padding : 5px;
+}
+/*###Desktops, big landscape tablets and laptops(Large, Extra large)####*/
+@media screen and (min-width: 1024px){
+/*Style*/
+}
+
+/*###Tablet(medium)###*/
+@media screen and (min-width : 768px) and (max-width : 1023px){
+/*Style*/
+}
+
+/*### Smartphones (portrait and landscape)(small)### */
+@media screen and (min-width : 0px) and (max-width : 767px){
+/*Style*/
 }
 </style>
 <script>
@@ -400,21 +541,21 @@ function init() {
     });
 }
 window.onload = init();
-function init1() {
-    window.addEventListener('scroll', function(e){
-        var distanceY = window.pageYOffset || document.documentElement.scrollTop,
-            shrinkOn = 300,
-            header = document.querySelector(".same1");
-        if (distanceY > shrinkOn) {
-            classie.add(header,"smaller");
-        } else {
-            if (classie.has(header,"smaller")) {
-                classie.remove(header,"smaller");
-            }
-        }
-    });
-}
-window.onload = init1();
+// function init1() {
+//     window.addEventListener('scroll', function(e){
+//         var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+//             shrinkOn = 300,
+//             header = document.querySelector(".same1");
+//         if (distanceY > shrinkOn) {
+//             classie.add(header,"smaller");
+//         } else {
+//             if (classie.has(header,"smaller")) {
+//                 classie.remove(header,"smaller");
+//             }
+//         }
+//     });
+// }
+// window.onload = init1();
 
 $( document ).ready(function() {
     $('.read-more').click(function(){
@@ -506,24 +647,26 @@ hearts: [],
 heartImage: 'http://i58.tinypic.com/ntnw5.png',
 maxHearts: 30,
 minScale: 0.4,
+
 draw: function() {
 
 	this.setCanvasSize();
 	this.ctx.clearRect(0, 0, this.w, this.h);
-	this.ctx.font = "30px non-seri";
+	this.ctx.font = "Bold 28px sans-serif";
 		// this.ctx.font-weight= "bold";
 	this.ctx.font="margin: 0 20px 20px";
 	this.ctx.font="font-size: 22px";
 	this.ctx.font="line-height: 1.9em";
-	this.ctx.font="color:blue;"
+	// this.ctx.font="color:blue;"
+	this.ctx.fillStyle="#3d464d";
 
 	this.ctx.fillText("Boost Up your instagram growth potential!", 20, 320);
-	this.ctx.font = "bold 82px Helvetica Neue";
-	this.ctx.font="font-size: 22px";
-	this.ctx.font="line-height: 1.9em";
-	this.ctx.font="color:#47525d";
+	this.ctx.font = "Bold 80px sans-serif";
+	// this.ctx.fill="font-size: 22px";
+	// this.ctx.font="line-height: 1.9em";
+	this.ctx.fillStyle="#47525d";
 	//  this.ctx.textBaseline = 'top';
-	this.ctx.fillText("BoostUplikes", 20, 280);
+	this.ctx.fillText("BoostUp Likes", 20, 280);
 
 	this.ctx.fill()
 	for (var i = 0; i < this.hearts.length; i++) {
@@ -643,10 +786,10 @@ function myFunction () {
 
 				<!-- Banner -->
 
-				<header style="background-color:#f6f9fc;">
+				<header style="background-color:#fff;">
 				    <!-- <div class="container clearfix"> -->
 						<!-- <h1 id="logo">sds</h1> -->
-						<button type="button " class="btn btn-primary same">Try Now</button>
+						<a href="trynow"><button1 type="button"  class="btn btn-primary same">Try Now</button1></a>
 
 
 						<!-- <button type="button " class="btn btn-primary same1">Try Now</button> -->
@@ -654,14 +797,14 @@ function myFunction () {
 						<!-- <div class="col col30 first"> -->
 							<!-- <div class="image round fit"> -->
 									<!-- <button onclick="myFunction.call(this)">Click me</button> -->
-								<img class="same1"src="../static/images/boost_comment.png" alt="" /></a>
+								<!-- <img class="same1"src="../static/images/boost_comment.png" alt="" /></a> -->
 							<!-- </div> -->
 				        <nav id='sign-in' >
 
 
 										<!-- <li><a class="cd-signin" name='main' href=""></a></li> -->
-																			<a class="cd-signup" style="font-weight:300;" href="signin">Sign In</a>
-																				<a class="cd-signup"style="font-weight:300;" href="signin">Terms </a>
+																			<a class="cd-signin" style="font-weight:300; " href="signin">Sign In</a>
+																				<a class="cd-signin"style="font-weight:300;" href="signin">Terms </a>
 
 				        </nav>
 				    </div>
@@ -670,17 +813,18 @@ function myFunction () {
 
 						<div >
 						    <canvas width="800" id="canvas"height="800"></canvas>
-								<h12 class="cd-signup sign" style="color:#2e639e; position:absolute;left:805px;top:220px;width:400px;">SIGN UP</h12>
-								<p12 style="color:#2e639e; position:absolute;left:805px;top:245px;width:400px;">Today</p12>
-						    <input type="text" placeholder="name"style="position:absolute;left:805px;top:300px;width:400px; etc...." />
-								 <input type="text" placeholder="email"style="position:absolute;left:800px;top:350px;width:200px; etc...." />
-								 <input type="text"placeholder="password" style="position:absolute;left:1010px;top:350px;width:200px; etc...." />
-								 <button type="button" style="position:absolute;left:820px;top:400px;width:380px; etc...."class="btn btn-primary same">Get Started</button>
-								 <input type="checkbox" name="terms" id="terms"  style="position:absolute;left:820px;top:300px;width:180px; ">  </input><br></br>
-							 <a style="position:absolute;left:820px;top:450px;width:180px; border-bottom: 1px solid black;padding-bottom: 5px;
-"class="jj"></a><p style="position:absolute;left:975.3px;top:440px;width:380px;">or</p> <a style="position:absolute;left:1015px;top:450px;width:180px; border-bottom: 1px solid black;padding-bottom: 5px;
-"class="jj"></a> <button type="button" style="position:absolute;left:820px;top:470px;width:380px; etc...."class="btn btn-primary same">Get Started with Google</button>
+								<h12 class="cd-signup sign" style="color:#2e639e; position:absolute;left:805px;top:220px;width:400px; font-family:inherit;">SIGN UP</h12>
+								<p12 style="color:#2e639e; position:absolute;left:805px;top:245px;width:400px; font-family:monospace;">Today</p12>
+						    <input type="text" id="username" placeholder="name"style="position:absolute;left:800px;top:300px;width:408px; etc...." />
+								 <input type="text"id="email" placeholder="email"style="position:absolute;left:800px;top:360px;width:200px; etc...." />
+								 <input type="text" id="usrpassword" placeholder="password" style="position:absolute;left:1010px;top:360px;width:200px; etc...." />
+								 <!-- <input type="checkbox" name="terms" id="terms"  style="position:absolute;left:820px;top:420px;width:200px; background-color:red; color:red;"> agree </input> -->
+								 <button type="button" style="position:absolute;left:800px;top:430px;width:408px; etc...."class="btn btn-primary same">Get Started</button>
+								 <!-- <button type="button" style="position:absolute;left:720px;top:400px;width:380px; etc...."class="btn btn-primary same">Get Started</button> -->
 
+							 <a style="position:absolute;left:820px;top:500px;width:196px; border-bottom: 1px solid black;padding-bottom: 5px;
+"class="jj"></a><p style="position:absolute;left:975.3px;top:540px;width:387px;"></p> <a style="position:absolute;left:1015px;top:500px;width:180px; border-bottom: 1px solid black;padding-bottom: 5px;
+"class="jj"></a>
     </div>
 
 
@@ -769,12 +913,13 @@ function myFunction () {
 							<div class="col col15">
 						<div class="col-md-16 col-sm-19 wow text-center fadeInUp col-xs-6 item"style="visibility: visible; animation-name: fadeInUp;">
 							<h3 style="width: 300;">Grow Your Business </h3>  <a href="" class="link"><img class='image round fit'style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+<div class="col col22">
 							<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 						 </div>
 
-
-								<div class="col-md-6 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3 style="width: 300;">Grow Your Account</h3>
-								<a href="" class="link"><img  class='image round fit' style="width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
+</div>
+								<div class="col-md-6 col-sm-6 wow text-center fadeInUp col-xs-12 item"style="visibility: visible; animation-name: fadeInUp;"><h3 style="width: 690;">Grow Your Account</h3>
+								<a href="" class="link"><img  class='image round fit' style="margin-left:190px; width:250px;heght:120px;" src="../static/images/boost_comment.png" alt="" /></a>
 								<p>With our service your account is completely safe. The login credentials are stored in encryption</p>
 							</div>
 
