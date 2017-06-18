@@ -1,18 +1,18 @@
 from flask import Flask, render_template, request
 import requests
 from bs4 import BeautifulSoup
-import MySQLdb
+# import MySQLdb
 import requests,urllib
-from flaskext.mysql import MySQL
+# from flaskext.mysql import MySQL
 # from init import botstart
-import engine
-mysql = MySQL()
+# import engine
+# mysql = MySQL()
 app = Flask(__name__,static_folder='static', static_url_path='/static')
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'canam1234'
+# app.config['MYSQL_DATABASE_USER'] = 'root'
+# app.config['MYSQL_DATABASE_PASSWORD'] = 'canam1234'
 
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
+# app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+# mysql.init_app(app)
 
 
 @app.route('/')
@@ -23,7 +23,7 @@ def index():
 	# soup = BeautifulSoup(page.content, 'html.parser')
 	# soup.find_all(id="lga")
 
-	return render_template('public/index.php')
+	return render_template('public/index.html')
 @app.route('/signin')
 def index1():
 	 if request.method == 'GET':
