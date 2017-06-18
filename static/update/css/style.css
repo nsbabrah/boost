@@ -8,15 +8,27 @@
     position: absolute;
     height: auto;
     width: 100%;
-    bottom: -25em;
+    /*bottom: -20em;*/
+}
+
+body {
+    overflow-x: hidden;
 }
 
 .m-top-20 {
     margin-top: 20em;
 }
 
+.m-top-10 {
+    margin-top: 10em;
+    padding-left: 7em;
+    padding-right: 7em;
+}
+
 .m-top-5 {
     margin-top: 5em;
+    padding-left: 7em;
+    padding-right: 7em;
 }
 
 .head {
