@@ -1,0 +1,79 @@
+ .a {
+     background-color: blue;
+     height: 200px;
+     width: 200px;
+ }
+
+ .aa {
+     background-color: green;
+     display: flex;
+     justify-content: space-around;
+ }
+
+ .outer-div {
+     margin-top: 10em;
+     padding: 30px;
+     background-color: black;
+ }
+
+ .carousel {
+     position: relative;
+     margin: 0 auto;
+     max-width: 26em;
+     top: 5em;
+     background-color: white;
+ }
+
+ .carousel-indicators {
+     display: none;
+ }
+
+ .inner-div {
+     margin: 0 auto;
+     max-width: 700px;
+     height: 100px;
+     background-color: #ccc;
+     border-radius: 3px;
+ }
+
+ .phone-text {
+     top: 20em;
+ }
+
+ .stand {
+     border: 1px solid #d0d4d9;
+     margin-top: 20px;
+ }
+
+ .adv {
+     border: 1px solid #d0d4d9;
+     margin-top: 0;
+     padding: 0;
+ }
+
+ .adv>.head {
+     background-color: #0071e0;
+     color: white;
+     height: 94px;
+     font-weight: 400;
+     font-size: 21px;
+     font-family: "AtlasGrotesk", "Open Sans", sans-serif;
+ }
+
+ .ent>.head,
+ .stand>head {
+     height: 94px;
+     font-weight: 400;
+     font-size: 21px;
+     font-family: "AtlasGrotesk", "Open Sans", sans-serif;
+     color: #47525d;
+ }
+
+ .adv>.head>h2 {
+     margin-left: 10px;
+ }
+
+ .ent {
+     border: 1px solid #d0d4d9;
+     margin-top: 20px;
+ }
