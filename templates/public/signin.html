@@ -124,7 +124,7 @@ $('.fliper-btn').click(function(){
 			        <div class="col-md-4"></div>
 			        <div class="col-md-4">
 
-			        <h4>Click "Create new account?"</h4>
+			        <h4>Create new account?</h4>
 
 
 			          <div class="flip">
@@ -135,16 +135,16 @@ $('.fliper-btn').click(function(){
 
 			            <div class="panel panel-default">
 
-			              <form class="form-horizontal">
+			              <form class="form-horizontal" action='/signin' method="POST" enctype="multipart/form-data" id="signForm" >
 
 			                <br>
 
-			                <h1 class="text-center">LOGO</h1>
+			                <h1 class="text-center">Sign In</h1>
 
 			                <br>
 
-			                <input class="form-control" placeholder="Username"/>
-			                <input class="form-control" placeholder="Password"/>
+			                <input class="form-control" name='username'  placeholder="Username"/>
+			                <input class="form-control" name='password' placeholder="Password"/>
 			                <p class="text-right"><a href="">Forgot Password</a></p>
 			                <button class="btn btn-primary btn-block">LOG IN</button>
 			                <hr>

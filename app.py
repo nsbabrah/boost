@@ -1,19 +1,41 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template,request
 import requests
-from bs4 import BeautifulSoup
-# import MySQLdb
-import requests,urllib
-# from flaskext.mysql import MySQL
+import jsonify
+from flask.ext.bcrypt import Bcrypt
 # from init import botstart
-# import engine
-# mysql = MySQL()
+from flask_login import LoginManager,login_user
+## from controllers import *
+login_manager = LoginManager()
 app = Flask(__name__,static_folder='static', static_url_path='/static')
-# app.config['MYSQL_DATABASE_USER'] = 'root'
-# app.config['MYSQL_DATABASE_PASSWORD'] = 'canam1234'
+login_manager.init_app(app)
+# Bcrypt Config
+from config import *
+from models import *
+app.config['SQLALCHEMY_DATABASE_URI'] = DB
 
-# app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-# mysql.init_app(app)
-
+# from controllers import *
+# DB instance init
+db = SQLAlchemy(app)
+# bcrypt = Bcrypt(app)
+@login_manager.user_loader
+def load_user(id):
+    '''User Loader for flask-login
+    :params
+     user_id -> email
+    '''
+    user = User.query.get(id)
+    if user:
+        return user
+    else:
+        return None
+def commit(obj):
+	if type(obj) == list:
+		for i in obj:
+			db.session.add(i)
+		db.session.commit()
+	else:
+		db.session.add(obj)
+		db.session.commit()
 
 @app.route('/')
 def index():
@@ -24,10 +46,38 @@ def index():
 	# soup.find_all(id="lga")
 
 	return render_template('public/index.html')
-@app.route('/signin')
+@app.route('/signin',methods=['POST','GET'])
 def index1():
-	 if request.method == 'GET':
-		 return render_template('public/signin.html')
+    if request.method == 'GET':
+        return render_template('public/signin.html')
+
+
+    if request.method == 'POST':
+
+        params = request.form
+        username = params['username']
+        password = params['password']
+        user = 'nav'
+        user = User.query.filter_by(username=username)
+        user = user.first()
+
+        if user:
+
+            if user.is_password_correct(password):
+				login_user(user)
+				user.authenticated = True
+				db.session.add(user)
+				db.session.commit()
+				return render_template('admin_boostlikes/index.html')
+
+
+
+
+
+
+
+
+
 @app.route('/admin')
 def admin():
 	 if request.method == 'GET':
@@ -35,11 +85,48 @@ def admin():
 	#admin
 	#admin
 
-@app.route('/signup')
+@app.route('/signup', methods=['POST','GET'])
 def index2():
-	 if request.method == 'GET':
-		 return render_template('public/signup.html')
+    if request.method == 'GET':
+        return render_template('public/signup.html')
+
+
+	# json_data = requests.json
+    # user = User(
+	#     name=json_data['name'],
+    #     email=json_data['email'],
+    #     password=json_data['password']
+    # )
+    # try:
+    #     db.session.add(user)
+    #     db.session.commit()
+    #     status = 'success'
+    # except:
+    #     status = 'this user is already registered'
+    # db.session.close()
+    # return jsonify({'result': status})
 	#
+
+
+    if request.method == 'POST':
+
+        params = request.form
+        username = params['username']
+        password = params['password']
+        email    = params['email']
+        user = 'nav'
+        user = User.query.filter_by(email=email)
+        user = user.first()
+
+        if user:
+
+            if user.is_password_correct(password):
+				login_user(user)
+				user.authenticated = True
+				db.session.add(user)
+				db.session.commit()
+				return redirect(url_for('admin_boostlikes/index.html'))
+
 
 @app.route('/trynow')
 def trynow():
@@ -78,51 +165,8 @@ def index6():
 	 if request.method == 'POST':
 		#  engine.index6()
 		 return render_template('admin_boostlikes/autoround.html')
-		#  engine.index()
-	#  if request.method == 'POST':
-	# 	#  engine.index()
-
-	#  if request.method == 'POST':
-	#
-	 #
-	# 	 return render_template('admin_boostlikes/autoround.html')
-		 #
-
-		# params = request.form
-		# print params
-		# round1 = params['round1']
-		# round2 = params['round2']
-		# round3 = params['name']
-		# account = params['account']
-		# username = params['username']
-		# resume = request.files['resume']
-		# resume.name = resume.filename
-
-	#
-
-# @app.route('/',methods=['POST','GET'])
-# def user_auth():
-# 	print 'this runs after request'
-#         ctx = app.test_request_context()
-#         ctx.push()
-#         ctx.pop()
-#         app.config['MYSQL_DATABASE_USER'] = 'root'
-#         app.config['MYSQL_DATABASE_PASSWORD'] = 'canam1234'
-#
-#         app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-#         conn = mysql.connect()
-#         cursor = conn.cursor()
-#         cursor.execute("USE Boostlikes;")
-#
-#         rv2 = request.form.get('username',type=str)
-#         rv1 = request.form.get('password',type=str)
-#         print rv2
-#         print rv1
-#         print rv3
-#         cursor.execute("INSERT INTO `user-assigned`( `username`, `password`) VALUES ( %s, %s)", (request.form.get('username'), request.form.get('password')))
-
 
 
 
 if __name__ == '__main__':
-	app.run(host ='0.0.0.0',port=8131,debug=True,threaded=True)
+	app.run(host ='0.0.0.0',port=8002,debug=True,threaded=True)

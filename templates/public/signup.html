@@ -17,7 +17,7 @@
 <link href="../../static/css/animate.css" rel="stylesheet">
 
 <!-- Custom Theme Style -->
-<link href="../../static/custom.css" rel="stylesheet">				
+<link href="../../static/custom.css" rel="stylesheet">
 <style>
 body{
 padding-top: 100px;
@@ -167,20 +167,20 @@ $('.flip').find('.card').toggleClass('flipped');
 
  			 <div class="panel panel-default">
 
- 			 <form class="form-horizontal">
+ 			 <form class="form-horizontal" action="signup" method="post"  enctype="multipart/form-data">
 
  				 <br>
 
- 				 <h1 class="text-center">LOGO</h1>
+ 				 <h1 class="text-center">Sign Up</h1>
 
  				 <br>
- 				 <label>Basic Information</label>
- 				 <input class="form-control" placeholder="Fullname"/>
- 				 <input class="form-control" placeholder="Email"/>
- 				 <label>Private Information</label>
- 				 <input class="form-control" placeholder="Password"/>
- 				 <input class="form-control" placeholder="Mobile Number"/>
- 				 <button class="btn btn-primary btn-block">SIGN UP</button>
+ 				 <label>User Information</label>
+ 				 <input class="form-control" name="username" placeholder="Username"/>
+ 				 <input class="form-control"email="email" placeholder="Email"/>
+
+ 				 <input class="form-control" password="password" placeholder="Password"/>
+ 				 <!-- <input class="form-control" placeholder="Mobile Number"/> -->
+ 				 <button class="btn btn-primary btn-block" id="signupbtn">SIGN UP</button>
 
 
  				 <p class="text-center">
