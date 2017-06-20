@@ -11,6 +11,15 @@
     /*bottom: -20em;*/
 }
 
+.checkbox {
+    cursor: pointer;
+    height: 14px;
+    width: 14px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
 body {
     overflow-x: hidden;
 }
