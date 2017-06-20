@@ -49,7 +49,7 @@ class User(db.Model):
 	email = db.Column(db.String(254), unique=True)
 
 
-	password = db.Column(db.String(254))
+	_password = db.Column(db.String(254))
 
 	# Flag for session management
 	authenticated = db.Column(db.Boolean, default=False)
@@ -61,16 +61,16 @@ class User(db.Model):
 	# .password hybrid property
 	@hybrid_property
 	def password(self):
-		return self.password
+		return self._password
 
 	# Hashing the password once and for all
 	@password.setter
 	def _set_password(self,plaintext):
-		self.password = bcrypt.generate_password_hash(plaintext)
+		self._password = bcrypt.generate_password_hash(plaintext)
 
 	# Password Matching
 	def is_password_correct(self,plaintext):
-		return bcrypt.check_password_hash(self.password, plaintext)
+		return bcrypt.check_password_hash(self._password, plaintext)
 
 
 	# Methods required for Flask-Login to work

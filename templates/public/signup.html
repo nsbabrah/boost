@@ -167,7 +167,7 @@ $('.flip').find('.card').toggleClass('flipped');
 
  			 <div class="panel panel-default">
 
- 			 <form class="form-horizontal" action="signup" method="post"  enctype="multipart/form-data">
+ 			 <form class="form-horizontal" action="/signup" method="post" >
 
  				 <br>
 
@@ -176,11 +176,11 @@ $('.flip').find('.card').toggleClass('flipped');
  				 <br>
  				 <label>User Information</label>
  				 <input class="form-control" name="username" placeholder="Username"/>
- 				 <input class="form-control"email="email" placeholder="Email"/>
+ 				 <input class="form-control"name="email" placeholder="Email"/>
 
- 				 <input class="form-control" password="password" placeholder="Password"/>
+ 				 <input class="form-control" name="password"  password="password"  placeholder="Password"/>
  				 <!-- <input class="form-control" placeholder="Mobile Number"/> -->
- 				 <button class="btn btn-primary btn-block" id="signupbtn">SIGN UP</button>
+ 				 <button class="btn btn-primary btn-block" type="submit" id="signupbtn">SIGN UP</button>
 
 
  				 <p class="text-center">

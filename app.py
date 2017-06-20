@@ -12,7 +12,9 @@ login_manager.init_app(app)
 from config import *
 from models import *
 app.config['SQLALCHEMY_DATABASE_URI'] = DB
-login_manager.login_view = 'signin'
+app.config['SECRET_KEY'] = '769876tr8629r9yog^%&^*)&*^%&()'
+
+login_manager.login_view = '/signin'
 # from controllers import *
 # DB instance init
 db = SQLAlchemy(app)
@@ -58,7 +60,7 @@ def index1():
 
         params = request.form
         username = params['username']
-        password = str(params['password'])
+        password = params['password']
         print password
         user = 'nav'
         user = User.query.filter_by(username=username)
@@ -82,8 +84,8 @@ def index1():
             if user.is_password_correct(password):
                 login_user(user)
                 user.authenticated = True
-                db.session.add(user)
-                db.session.commit()
+                # db.session.add(user)
+                # db.session.commit()
                 return render_template('public/trynow.html')
 
 
@@ -99,47 +101,28 @@ def admin():
         # admin
 
 
-@app.route('/signup', methods=['POST', 'GET'])
+@app.route('/signup', methods=['POST','GET'])
 def index2():
+
     if request.method == 'GET':
         return render_template('public/signup.html')
 
-        # json_data = requests.json
-    # user = User(
-        #     name=json_data['name'],
-    #     email=json_data['email'],
-    #     password=json_data['password']
-    # )
-    # try:
-    #     db.session.add(user)
-    #     db.session.commit()
-    #     status = 'success'
-    # except:
-    #     status = 'this user is already registered'
-    # db.session.close()
-    # return jsonify({'result': status})
-        #
 
     if request.method == 'POST':
+        login_manager.login_view = '/signup'
 
         params = request.form
         username = params['username']
         password = params['password']
         email = params['email']
-        user = 'nav'
-        user = User.query.filter_by(username=username)
-        # user = User.query.filter_by(usern)
-        user = user.first()
-
-        if user:
-
-            if user.is_password_correct(password):
-                login_user(user)
-                user.authenticated = True
-                db.session.add(user)
-                db.session.commit()
-                return render_template('public/trynow.html')
-        return render_template('public/trynow.html')
+        user = User()
+        user.username = username
+        user.password = password
+        user.email = email
+        db.session.add(user)
+        db.session.commit()
+        return render_template('public/index.html')
+        # return render_template('public/trynow.html')
 
 
 @app.route('/trynow')
