@@ -15,4 +15,20 @@ $(document).ready(function() {
             $("#trynow").addClass("try_now");
         }
     });
+    // $("#cont").slider()
+    $("#cont").slider({
+        autoMove: false,
+        autoMoveOptions: {
+            interval: 5000,
+            pauseOnHover: true,
+        },
+        buttonsEnabled: true,
+        buttonsOptions: {
+            leftText: "<",
+            rightText: ">",
+        },
+        bulletsEnabled: true,
+        slideWithFinger: true,
+        slideWithCursor: true,
+    })
 });
