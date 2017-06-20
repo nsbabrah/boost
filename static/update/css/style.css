@@ -35,11 +35,37 @@ body {
 }
 
 .m-top-5 {
-    margin-top: 5em;
+    margin-top: 15em;
     padding-left: 7em;
     padding-right: 7em;
+    /*padding-top: 5em;*/
+    /*margin-bottom: 10em;*/
 }
+.m-top-5sign{
+  margin-top: 15em;
+  margin-left:370px;
+  padding-right: 7em;
+}
+.m-top-10firstdiv {
+  margin-top: -11em;
+  padding-left: 7em;
+  padding-right: 7em;
+}
+.m-top-5dropdown {
+    margin-top: 2em;
+    padding-left: 7em;
+    padding-right: 7em;
+    /*padding-top: 5em;*/
+    /*margin-bottom: 10em;*/
+}
+/*.col-md-12 {
+  margin-top: 10em;
+  padding-left: 7em;
+  padding-right: 7em;
+  padding-top: 1em;
+  margin-bottom: 10em;
 
+}*/
 .head {
     color: #47525d;
     font: Bold 80px sans-serif

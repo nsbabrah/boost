@@ -1,2 +1,2 @@
 
-DB = 'mysql://boostlikes:boostlikes@localhost:3307/Boostlikes'
+DB = 'mysql://boostlikes:boostlikes@127.0.0.1:3307/Boostlikes'
