@@ -52,12 +52,18 @@ body {
   width:40px;
 
 }
+b, strong{
+font-weight: 400;
+}
+.name{
+  margin-bottom: 20px;
+}
 /*.name{
 
   margin-top: 2px;
 }*/
 .m-top-10firstdiv {
-  margin-top: -11em;
+  margin-top: -2em;
   padding-left: 7em;
   padding-right: 7em;
 }
@@ -69,10 +75,10 @@ body {
     /*margin-bottom: 10em;*/
 }
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
 
-html{
-  font-family: 'Open Sans' , 'sans-serif';
+html,body,canvas{
+  font-family: 'Open Sans Condensed' , 'sans-serif';
 }
 /*.col-md-12 {
   margin-top: 10em;
