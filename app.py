@@ -10,6 +10,7 @@ from flask_cors import CORS, cross_origin
 import paypalrestsdk
 from flask_login import LoginManager,login_user
 # from controllers import *
+from models import *
 from OpenSSL import SSL
 # context = SSL.Context(SSL.SSLv23_METHOD)
 # context.use_privatekey_file('yourserver.key')
@@ -239,8 +240,10 @@ def index5():
         # except paypalrestsdk.exceptions.ResourceNotFound as ex:
         #     print('Paypal resource not found: {}'.format(ex))
         #     abort(404)
+        print payer_id
 
         if payment.execute({"payer_id": payer_id}):
+
             # pending_payment.state = payment.state
             # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
             return render_template('admin_boostlikes/autoround.html')
