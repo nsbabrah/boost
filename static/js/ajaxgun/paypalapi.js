@@ -113,40 +113,68 @@
 //       }
 //
 //   }, '#paypal-button');
-paypal.Button.render({
-
-           env: 'sandbox', // sandbox | production
-
-           // PayPal Client IDs - replace with your own
-           // Create a PayPal app: https://developer.paypal.com/developer/applications/create
-           client: {
-               sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
-               production: 'AYIV-LTwqnn52pR-g-OHDhEp36DD3aw5PiKP866R3MVePcNg0NTSRgAUAbiUrZsyaJHv5o_L9fSOF3aA'
-           },
-
-           // Show the buyer a 'Pay Now' button in the checkout flow
-           commit: true,
-
-           // payment() is called when the button is clicked
-           payment: function(data, actions) {
-
-               // Make a call to the REST api to create the payment
-               return actions.payment.create({
-                   transactions: [
-                       {
-                           amount: { total: '0.01', currency: 'USD' }
-                       }
-                   ]
-               });
-           },
-
-           // onAuthorize() is called when the buyer approves the payment
-           onAuthorize: function(data, actions) {
-
-               // Make a call to the REST api to execute the payment
-               return actions.payment.execute().then(function() {
-                   window.alert('Payment Complete!');
-               });
-           }
-
-                  }, '#paypal-button-container');
+// paypal.Button.render({
+//
+//            env: 'sandbox', // sandbox | production
+//
+//            // PayPal Client IDs - replace with your own
+//            // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+//            client: {
+//                sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+//                production: 'AYIV-LTwqnn52pR-g-OHDhEp36DD3aw5PiKP866R3MVePcNg0NTSRgAUAbiUrZsyaJHv5o_L9fSOF3aA'
+//            },
+//
+//            // Show the buyer a 'Pay Now' button in the checkout flow
+//            commit: true,
+//
+//            // payment() is called when the button is clicked
+//            payment: function(data, actions) {
+//
+//                // Make a call to the REST api to create the payment
+//                return actions.payment.create({
+//                    transactions: [
+//                        {
+//                            amount: { total: '0.01', currency: 'USD' }
+//                        }
+//                    ]
+//                });
+//            },
+//
+//            // onAuthorize() is called when the buyer approves the payment
+//            onAuthorize: function(data, actions) {
+//
+//                // Make a call to the REST api to execute the payment
+//                return actions.payment.execute().then(function() {
+//                    window.alert('Payment Complete!');
+//                });
+//            }
+//
+//                   }, '#paypal-button-container');
+// var CREATE_PAYMENT_URL  = 'https://my-store.com/paypal/create-payment';
+//    var EXECUTE_PAYMENT_URL = 'https://my-store.com/paypal/execute-payment';
+//
+//    paypal.Button.render({
+//
+//        env: 'sandbox', // Or 'sandbox'
+//
+//        commit: true, // Show a 'Pay Now' button
+//
+//        payment: function() {
+//            return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {
+//                return data.id;
+//               //  console.log(data.i)
+//            });
+//        },
+//
+//        onAuthorize: function(data) {
+//            return paypal.request.post(EXECUTE_PAYMENT_URL, {
+//                paymentID: data.paymentID,
+//                payerID:   data.payerID
+//            }).then(function() {
+//
+//                // The payment is complete!
+//                // You can now show a confirmation message to the customer
+//            });
+//        }
+//
+//    }, '#paypal-button');
