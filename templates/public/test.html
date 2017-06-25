@@ -44,7 +44,7 @@
             </v-toolbar>
             <main>
                 <v-container fluid>
-
+                    <ppdialog></ppdialog>
                     <v-layout row-sm wrap column v-if="showUsers">
                         <v-flex xs12 sm12 lg1>
                             <v-btn floating large @click.native="add" class="blue text-xs-right ma-1">
@@ -53,7 +53,7 @@
                         </v-flex>
                         <div v-for="(item,index) in users">
                             <v-flex xs12>
-                                <card :key="item" v-on:remove="users.splice(index, 1)" :data="item" class="ma-1"></card>
+                                <cards :key="item" v-on:remove="users.splice(index, 1)" :data="item" class="ma-1"></cards>
                             </v-flex>
                         </div>
                     </v-layout>
@@ -68,194 +68,35 @@
         </v-app>
     </div>
 
-    <script type="text/x-template" id="card">
-        <v-card>
-            <v-card-row class="green darken-1">
-                <v-card-title>
-                    <span class="white--text">User</span>
-                    <v-spacer></v-spacer>
-                    <div>
-                        <v-menu id="marriot" bottom left origin="top right">
-                            <v-btn icon="icon" slot="activator" class="white--text">
-                                <v-icon>more_vert</v-icon>
-                            </v-btn>
-                            <v-list>
-                                <v-list-item>
-                                    <v-list-tile>
-                                        <v-list-tile-title @click="$emit('remove')">Remove</v-list-tile-title>
-                                    </v-list-tile>
-                                </v-list-item>
-                                <v-list-item>
-                                    <v-list-tile>
-                                        <v-list-tile-title>Send Feedback</v-list-tile-title>
-                                    </v-list-tile>
-                                </v-list-item>
-                            </v-list>
-                        </v-menu>
-                    </div>
-                </v-card-title>
-            </v-card-row>
-            <v-card-text>
-                <v-card-row height="75px">
-                    <v-icon class="mr-5" dark>card_membership</v-icon>
-                    <div>
-                        <div>{{this.data.name}}</div><strong>{{this.data.id}}</strong>
-                    </div>
-                </v-card-row>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-row actions class="mt-0">
-                <v-btn flat class="green--text darken-1">Contact Info</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn small floating primary class="ml-2">
-                    <v-icon light>play_arrow</v-icon>
-                </v-btn>
-                <v-spacer></v-spacer>
+    <!--<script type="text/x-template" id="card">-->
 
-                <v-btn small floating primary class="ml-2">
-                    <v-icon light>pause_circle_filled</v-icon>
-                </v-btn>
-
-            </v-card-row>
-        </v-card>
-    </script>
-    <script type="text/x-template" id="tabs">
-        <v-tabs id="mobile-tabs-4" grow icons light v-model="activeTab">
-            <v-card class="primary white--text">
-                <div>
-                    <v-card-row @click="$emit('goback')">
-                        <v-btn icon light>
-                            <v-icon>arrow_back</v-icon>
-                        </v-btn>
+    <!--</script>-->
+    <script type="text/x-template" id="ppdialog">
+        <v-layout row justify-center>
+            <v-dialog v-model="isOpen()">
+                <v-card>
+                    <v-card-row>
+                        <v-card-title>Payment Approved</v-card-title>
                     </v-card-row>
                     <v-card-row>
-                        <v-card-title>Add user</v-card-title>
+                        <v-card-text>
+                            <h3>Thank You</h3>
+                        </v-card-text>
                     </v-card-row>
-                </div>
-            </v-card>
-            <v-tabs-bar slot="activators">
-                <v-tabs-slider></v-tabs-slider>
-                <v-tabs-item href="#mobile-tabs-4-1">
-                    STEP
-                    <v-icon>looks_one</v-icon>
-                </v-tabs-item>
-                <v-tabs-item href="#mobile-tabs-4-2">
-                    STEP
-                    <v-icon>looks_two</v-icon>
-                </v-tabs-item>
-                <v-tabs-item href="#mobile-tabs-4-3">
-                    STEP
-                    <v-icon>looks_3</v-icon>
-                </v-tabs-item>
-            </v-tabs-bar>
-            <v-tabs-content :id="'mobile-tabs-4-1'">
-                <v-card class="elevation-0">
-                    <v-card-text>
-                        <v-container fluid>
-                            <v-layout row>
-                                <v-flex xs4>
-                                    <v-subheader>Enter First Name</v-subheader>
-                                </v-flex>
-                                <v-flex xs8>
-                                    <v-text-field required label="Name" :error="Userinfo.firstName ? false : true" v-model="Userinfo.firstName"></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row>
-                                <v-flex xs4>
-                                    <v-subheader>Choose a Package</v-subheader>
-                                </v-flex>
-                                <v-flex xs8>
-                                    <v-select v-model="Userinfo.selectedPack" :error="Userinfo.selectedPack ? false : true" v-bind:items="packages" label="Select" class="input-group--focused" dark item-value="text"></v-select>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row>
-                                <v-flex xs3 offset-xs8>
-                                    <div v-on:click="activeTab = check1() || 'mobile-tabs-4-1'">
-                                        <v-btn light info>
-                                            Next</v-btn>
-                                    </div>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
+                    <v-card-row actions>
+                        <v-btn floating medium class="green" @click.native="close($event)">
+                            <v-icon light>check</v-icon>
+                        </v-btn>
+                    </v-card-row>
                 </v-card>
-            </v-tabs-content>
-            <v-tabs-content :id="'mobile-tabs-4-2'">
-                <v-card class="elevation-0">
-                    <v-card-text>
-                        <v-container fluid>
-                            <v-layout row>
-                                <v-flex xs4>
-                                    <v-subheader>Enter Account Info</v-subheader>
-                                </v-flex>
-                                <v-flex xs8>
-                                    <v-text-field required label="Account Info" :error="Userinfo.AccountInfo ? false : true" v-model="Userinfo.AccountInfo"></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row>
-                                <v-flex xs4>
-                                    <v-subheader>Enter Name</v-subheader>
-                                </v-flex>
-                                <v-flex xs8>
-                                    <v-text-field required label="Name" :error="Userinfo.name ? false : true" v-model="Userinfo.name"></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row>
-                                <v-flex xs4>
-                                    <v-subheader>Enter Email</v-subheader>
-                                </v-flex>
-                                <v-flex xs8>
-                                    <v-text-field type="email" required label="Email" :error="Userinfo.email ? false : true" v-model="Userinfo.email"></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row>
-                                <v-flex xs4>
-                                    <v-subheader>Enter Purchase Order</v-subheader>
-                                </v-flex>
-                                <v-flex xs8>
-                                    <v-text-field required label="Purchase Order" :error="Userinfo.purchaseOrder ? false : true" v-model="Userinfo.purchaseOrder"></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row>
-                                <v-flex xs3 offset-xs8>
-                                    <div v-on:click="activeTab = check2() || 'mobile-tabs-4-2'">
-                                        <v-btn light info>
-                                            Next</v-btn>
-                                    </div>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-                </v-card>
-            </v-tabs-content>
-            <v-tabs-content :id="'mobile-tabs-4-3'">
-                <v-card class="elevation-0">
-                    <v-card-text>
-                        <v-container fluid>
-                            <v-layout row>
-                                <v-flex xs3>
-                                    <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif">
-                                    </div>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row>
-                                <v-flex xs3 offset-xs8>
-                                    <!--<div v-on:click="">-->
-                                    <v-btn light info>
-                                        Submit</v-btn>
-                                    <!--</div>-->
-                                </v-flex>
-
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-                </v-card>
-            </v-tabs-content>
-        </v-tabs>
+            </v-dialog>
+        </v-layout>
     </script>
-    <script src="/static/update/js/vue.js"></script>
-    <script src="/static/update/js/vuetify.js"></script>
-    <script src="/static/update/js/autoround.js"></script>
+    <script src="/static/update/js/vuejs/vue.js"></script>
+    <script src="/static/update/js/vuejs/vuetify.js"></script>
+    <script src="/static/update/js/vuejs/cards.js"></script>
+    <script src="/static/update/js/vuejs/autoround.js"></script>
+    <script src="/static/update/js/vuejs/tabs.js"></script>
 </body>
 
 </html>

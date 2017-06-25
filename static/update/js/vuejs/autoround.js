@@ -1,47 +1,22 @@
-Vue.component('card', {
-    template: "#card",
-    props: ['data']
-})
-var data = {
-    activeTab: null,
-    packages: ['$15', '$25', '$35', '$45'],
-    Userinfo: {
-        selectedPack: null,
-        firstName: null,
-        AccountInfo: null,
-        name: null,
-        email: null,
-        purchaseOrder: null,
-    }
-}
-Vue.component('tabs', {
-    template: "#tabs",
-    data: function() {
-        return data;
-    },
+Vue.component('ppdialog', {
+    template: "#ppdialog",
     methods: {
-        check1: function() {
-            console.log(data.Userinfo.firstName);
-            if (data.Userinfo.selectedPack != null && data.Userinfo.firstName != null || data.Userinfo.firstName > 1) {
-                return 'mobile-tabs-4-2';
+        isOpen: function() {
+            if (/approve/g.test(window.location.href)) {
+                console.log(window.location.href);
+                return true;
             }
+            return false;
         },
-        check2: function() {
-            let count = 0;
-            for (var k in data.Userinfo) {
-                if (!data.Userinfo.hasOwnProperty(k)) continue;
-                if (data.Userinfo[k] === null || data.Userinfo[k].length < 1) {
-                    count++;
-                }
-
-            }
-            if (count == 0) {
-                console.log(count);
-                return 'mobile-tabs-4-3';
+        close: function(event) {
+            if (event) {
+                event.preventDefault();
+                window.location.href = window.location.href.substr(0, window.location.href.indexOf("?"));
             }
         }
     }
-})
+});
+
 var template = new Vue({
     el: '#app',
     data: {
