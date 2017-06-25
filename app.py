@@ -237,7 +237,6 @@ def paymentpaypalsuccess():
             payment_history = paypalrestsdk.Payment.all({"count": 1})
             r = payment_history.payments
             print r
-            import json
             with open('dt.json', 'w') as outfile:
                 json.dump(r[0], outfile)
             with open('dt.json') as data_file:
