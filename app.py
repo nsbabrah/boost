@@ -55,7 +55,7 @@ payment = paypalrestsdk.Payment({
  # "type": "SHIPPING",
 
 "amount": {
-"total": "1.00",
+"total": "2.05",
 "currency": "CAD" },
 # "type": "no_shipping"
 "description": "creating a payment" } ] })
@@ -222,18 +222,33 @@ def paymentpaypalsuccess():
         print r
 
 
-        print
+        # print
 
 
         if payment.execute({"payer_id": payer_id}):
+            payment = paypalrestsdk.Payment.find(payment_id)
 
-            # pending_payment.state = payment.state
-            # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
+            # Get List of Payments
+            payment_history = paypalrestsdk.Payment.all({"count": 1})
+            r=payment_history.payments
+            print r
+            # authorization = Authorization.find(authid)
+            # print authorization
+
+
+              # pending_payment.state = payment.state
+              # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
             return render_template('admin_boostlikes/payements/payementsuccessfull.html')
         else:
+            payment = paypalrestsdk.Payment.find(payment_id)
+
+            # Get List of Payments
+            payment_history = paypalrestsdk.Payment.all({"count": 1})
+            r=payment_history.payments
+            print r
+
             return render_template('admin_boostlikes/ERROR/payementerror.html')
-        # return render_template('admin_boostlikes/ERORR/payementerror.html')
-        #
+
 
 
 
