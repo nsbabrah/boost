@@ -9,7 +9,7 @@ from flask_bcrypt import Bcrypt
 # from init import botstart
 from flask_cors import CORS, cross_origin
 import paypalrestsdk
-from flask_login import LoginManager,login_user
+from flask_login import LoginManager, login_user
 # from controllers import *
 # from boost.models.sig
 # impomodelclass import *
@@ -36,41 +36,43 @@ login_manager.init_app(app)
 # CORS(app)
 # logging.getLogger('flask_cors').level = logging.DEBUG
 logging.basicConfig(level=logging.INFO)
-my_api=paypalrestsdk.configure({
-  "mode": "live", # sandbox or live
-  "client_id": "ARfJ7TKcE2_LI3EnqpX9gfAu5q0N_5AIetmWIvLdwQdRkSDP5nXxjLiXJsgQzuT5yLdwUbJ_WX8vNzNN",
-  "client_secret": "EDnnJIy3J41BACVB69NxZMf01sZiU0UEM31NdE9GkpGdj4Da8XbFdqwTESYrNZmevI8Uuwg6EP-s4SlR" })
+my_api = paypalrestsdk.configure({
+    "mode": "live",  # sandbox or live
+    "client_id": "ARfJ7TKcE2_LI3EnqpX9gfAu5q0N_5AIetmWIvLdwQdRkSDP5nXxjLiXJsgQzuT5yLdwUbJ_WX8vNzNN",
+    "client_secret": "EDnnJIy3J41BACVB69NxZMf01sZiU0UEM31NdE9GkpGdj4Da8XbFdqwTESYrNZmevI8Uuwg6EP-s4SlR"})
 
 my_api.get_access_token()
 
 payment = paypalrestsdk.Payment({
-"intent": "sale",
-"payer": {
-"payment_method": "paypal" },
-"redirect_urls": {
-"return_url": "http://192.168.2.56:2300/Payementsuccessful",
-"cancel_url": "http://192.168.2.56:2300/Payementcancel" },
+    "intent": "sale",
+    "payer": {
+        "payment_method": "paypal"},
+    "redirect_urls": {
+        "return_url": "http://192.168.2.56:2300/Payementsuccessful",
+        "cancel_url": "http://192.168.2.56:2300/Payementcancel"},
 
-"transactions": [ {
- # "type": "SHIPPING",
+    "transactions": [{
+        # "type": "SHIPPING",
 
-"amount": {
-"total": "2.05",
-"currency": "CAD" },
-# "type": "no_shipping"
-"description": "creating a payment" } ] })
+        "amount": {
+            "total": "2.05",
+            "currency": "CAD"},
+        # "type": "no_shipping"
+        "description": "creating a payment"}]})
 
 from config import *
 from model import *
 app.config['SQLALCHEMY_DATABASE_URI'] = DB
 app.config['SECRET_KEY'] = '769876tr8629r9yog^%&^*13*^&)&*^%&()'
- # the payment transaction description."}]})
+# the payment transaction description."}]})
 
 login_manager.login_view = '/signin'
 # from controllers import *
 # DB instance init
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
+
 @login_manager.user_loader
 def load_user(id):
     '''User Loader for flask-login
@@ -82,19 +84,20 @@ def load_user(id):
         return user
     else:
         return None
+
+
 def commit(obj):
-	if type(obj) == list:
-		for i in obj:
-			db.session.add(i)
-		db.session.commit()
-	else:
-		db.session.add(obj)
-		db.session.commit()
+    if type(obj) == list:
+        for i in obj:
+            db.session.add(i)
+        db.session.commit()
+    else:
+        db.session.add(obj)
+        db.session.commit()
 
 
 @app.route('/')
 def index():
-
 
     return render_template('public/index.html')
 
@@ -128,9 +131,7 @@ def index1():
                 # db.session.commit()
                 return render_template('admin_boostlikes/index.html')
 
-
-        return render_template('public/signin.html',fail=True)
-
+        return render_template('public/signin.html', fail=True)
 
 
 @app.route('/admin')
@@ -141,12 +142,11 @@ def admin():
         # admin
 
 
-@app.route('/signup', methods=['POST','GET'])
+@app.route('/signup', methods=['POST', 'GET'])
 def index2():
 
     if request.method == 'GET':
         return render_template('public/signup.html')
-
 
     if request.method == 'POST':
         login_manager.login_view = '/signup'
@@ -203,6 +203,7 @@ def index4():
         return render_template('admin_boostlikes/Listlike.html')
         #
 
+
 @app.route('/Payementsuccessful', methods=['POST', 'GET'])
 def paymentpaypalsuccess():
     if request.method == 'GET':
@@ -224,38 +225,39 @@ def paymentpaypalsuccess():
 
         # Get List of Payments
         payment_history = paypalrestsdk.Payment.all({"count": 1})
-        r=payment_history.payments
+        r = payment_history.payments
         print r
 
-
         # print
-
 
         if payment.execute({"payer_id": payer_id}):
             payment = paypalrestsdk.Payment.find(payment_id)
 
             # Get List of Payments
             payment_history = paypalrestsdk.Payment.all({"count": 1})
-            r=payment_history.payments
+            r = payment_history.payments
             print r
+            import json
+            with open('dt.json', 'w') as outfile:
+                json.dump(r[0], outfile)
+            with open('dt.json') as data_file:
+                data = json.load(data_file)
+            print data['state']
             # authorization = Authorization.find(authid)
             # print authorization
 
-
-              # pending_payment.state = payment.state
-              # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
+            # pending_payment.state = payment.state
+            # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
             return render_template('admin_boostlikes/payements/payementsuccessfull.html')
         else:
             payment = paypalrestsdk.Payment.find(payment_id)
 
             # Get List of Payments
             payment_history = paypalrestsdk.Payment.all({"count": 1})
-            r=payment_history.payments
+            r = payment_history.payments
             print r
 
             return render_template('admin_boostlikes/ERROR/payementerror.html')
-
-
 
 
 @app.route('/Payementcancel', methods=['POST', 'GET'])
@@ -264,19 +266,13 @@ def paymentpaypalcancel():
 
             # pending_payment.state = payment.state
             # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
-            return render_template('admin_boostlikes/ERROR/payementcancel.html')
+        return render_template('admin_boostlikes/ERROR/payementcancel.html')
 
 
-
-
-@app.route('/dashboard',methods=['GET'])
+@app.route('/dashboard', methods=['GET'])
 def index5():
     if request.method == 'GET':
-            return render_template('admin_boostlikes/index.html')
-
-
-
-
+        return render_template('admin_boostlikes/index.html')
 
 
 @app.route('/AutoRound', methods=['POST', 'GET'])
@@ -285,34 +281,27 @@ def index6():
 
     if request.method == 'GET':
 
-           return render_template('admin_boostlikes/autoround.html')
-
-
-
+        return render_template('admin_boostlikes/autoround.html')
 
     if request.method == 'POST':
 
         if payment.create():
-           print("Payment created successfully")
-           for link in payment.links:
-            if link.method == "REDIRECT":
-                redirect_url = str(link.href)
+            print("Payment created successfully")
+            for link in payment.links:
+                if link.method == "REDIRECT":
+                    redirect_url = str(link.href)
 
-                print('Redirect for approval: {}'.format(redirect_url))
-                url=('{}'.format(redirect_url))
-                # return re('Redirect for approval: {}'.format(redirect_url))direct(redirect_urls)
-                # payer_id = request.args.get('payerId')
-                # payment_id = request.args.get('paymentId')
-                # token = request.args.get('token')
-                return redirect(url)
-
-
-
-
+                    print('Redirect for approval: {}'.format(redirect_url))
+                    url = ('{}'.format(redirect_url))
+                    # return re('Redirect for approval: {}'.format(redirect_url))direct(redirect_urls)
+                    # payer_id = request.args.get('payerId')
+                    # payment_id = request.args.get('paymentId')
+                    # token = request.args.get('token')
+                    return redirect(url)
 
         else:
-           print(payment.error)
-           return render_template('admin_boostlikes/autoround.html')
+            print(payment.error)
+            return render_template('admin_boostlikes/autoround.html')
 
         # paypalrestsdk.configure({
         #   'mode': 'sandbox',
@@ -325,10 +314,7 @@ def index6():
         #    payment_history.payments
         #    print payment
         #    print(payment)
-           return render_template('admin_boostlikes/index.html')
-
-
-
+            return render_template('admin_boostlikes/index.html')
 
 
 if __name__ == '__main__':
