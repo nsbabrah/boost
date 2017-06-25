@@ -28,7 +28,8 @@
     <footer id="footer">
         <div class="m-top-5 col-md-12" style="text-align:center">
             <ul class="social-network social-circle">
-                <!-- <li><a href="#" class="social icoRss" title="Rss"><i class="fa fa-rss"></i></a></li>
+
+ <input id="dump" type="hidden" value="{{r}}"><input> <!-- <li><a href="#" class="social icoRss" title="Rss"><i class="fa fa-rss"></i></a></li>
                 <li><a href="#" class="social icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                 <li><a href="#" class="social icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
                 <li><a href="#" class="social icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>
@@ -41,5 +42,11 @@
         </div>
     </footer>
 </body>
+<script>
+var g=$('#dump').val();
+var s = JSON.parse(g.replace(/'/g,'\"').replace(/u/g,''));
+window.location.href='http://192.168.2.56:2300/test/?'+s[0]['state'];
+// $.get('/test',s[0]['state']);
 
+</script>
 </html>

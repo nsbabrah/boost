@@ -55,7 +55,7 @@ payment = paypalrestsdk.Payment({
         # "type": "SHIPPING",
 
         "amount": {
-            "total": "2.05",
+            "total": "0.05",
             "currency": "CAD"},
         # "type": "no_shipping"
         "description": "creating a payment"}]})
@@ -221,14 +221,14 @@ def paymentpaypalsuccess():
         #     abort(404)
         print payer_id
         print payment_id
-        payment = paypalrestsdk.Payment.find(payment_id)
-
-        # Get List of Payments
-        payment_history = paypalrestsdk.Payment.all({"count": 1})
-        r = payment_history.payments
-        print r
-
-        # print
+        # payment = paypalrestsdk.Payment.find(payment_id)
+        #
+        # # Get List of Payments
+        # payment_history = paypalrestsdk.Payment.all({"count": 1})
+        # r = payment_history.payments
+        # print r
+        #
+        # # print
 
         if payment.execute({"payer_id": payer_id}):
             payment = paypalrestsdk.Payment.find(payment_id)
@@ -236,25 +236,25 @@ def paymentpaypalsuccess():
             # Get List of Payments
             payment_history = paypalrestsdk.Payment.all({"count": 1})
             r = payment_history.payments
-            print r
-            with open('dt.json', 'w') as outfile:
-                json.dump(r[0], outfile)
-            with open('dt.json') as data_file:
-                data = json.load(data_file)
-            print data['state']
+            # d=json.loads(str(r)).decode('utf-8')
+            # with open('dt.json', 'w') as outfile:
+            #     json.dump(r, outfile).decode('utf-8')
+            # with open('dt.json','r') as data_file:
+            #     data = json.load(data_file)
+
             # authorization = Authorization.find(authid)
             # print authorization
 
             # pending_payment.state = payment.state
             # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
-            return render_template('admin_boostlikes/payements/payementsuccessfull.html')
+            return render_template('admin_boostlikes/payements/payementsuccessfull.html',r=r)
         else:
-            payment = paypalrestsdk.Payment.find(payment_id)
-
-            # Get List of Payments
-            payment_history = paypalrestsdk.Payment.all({"count": 1})
-            r = payment_history.payments
-            print r
+            # payment = paypalrestsdk.Payment.find(payment_id)
+            #
+            # # Get List of Payments
+            # payment_history = paypalrestsdk.Payment.all({"count": 1})
+            # r = payment_history.payments
+            # print r
 
             return render_template('admin_boostlikes/ERROR/payementerror.html')
 
