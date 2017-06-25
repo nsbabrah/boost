@@ -176,7 +176,13 @@ def trynow():
 def indexhome():
     if request.method == 'GET':
         return render_template('adminm/home.html')
-        #
+
+
+@app.route('/test')
+def test():
+    if request.method == 'GET':
+        return render_template('public/test.html')
+        #      #
 
 
 @app.route('/about')
