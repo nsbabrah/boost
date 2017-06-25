@@ -2,16 +2,31 @@ from flask import Flask, render_template, request
 import requests
 from paypalrestsdk import Payment
 import logging
+import json
 # import jsonify
 from paypalrestsdk import BillingPlan, BillingAgreement
-from flask.ext.bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt
 # from init import botstart
 from flask_cors import CORS, cross_origin
 import paypalrestsdk
 from flask_login import LoginManager,login_user
 # from controllers import *
-from models import *
+# from boost.models.sig
+# impomodelclass import *
+# from boost import boost
 from OpenSSL import SSL
+import models
+# from boost.model import *
+# from setuptools import setup
+# setup(
+#     name='models',
+#     packages=['models'],
+#     include_package_data=True,
+#     install_requires=[
+#         'flask',
+#     ],
+# )
+
 # context = SSL.Context(SSL.SSLv23_METHOD)
 # context.use_privatekey_file('yourserver.key')
 # context.use_certificate_file('yourserver.crt')
@@ -33,17 +48,20 @@ payment = paypalrestsdk.Payment({
 "payer": {
 "payment_method": "paypal" },
 "redirect_urls": {
-"return_url": "http://192.168.2.56:3000/dashboard",
-"cancel_url": "http://192.168.2.56:3000/AutoRound" },
+"return_url": "http://192.168.2.56:2300/Payementsuccessful",
+"cancel_url": "http://192.168.2.56:2300/Payementcancel" },
 
 "transactions": [ {
+ # "type": "SHIPPING",
+
 "amount": {
 "total": "1.00",
 "currency": "CAD" },
+# "type": "no_shipping"
 "description": "creating a payment" } ] })
 
 from config import *
-# from models import *
+from model import *
 app.config['SQLALCHEMY_DATABASE_URI'] = DB
 app.config['SECRET_KEY'] = '769876tr8629r9yog^%&^*13*^&)&*^%&()'
  # the payment transaction description."}]})
@@ -179,13 +197,13 @@ def index4():
         return render_template('admin_boostlikes/Listlike.html')
         #
 
-
-@app.route('/dashboard',methods=['GET'])
-def index5():
+@app.route('/Payementsuccessful', methods=['POST', 'GET'])
+def paymentpaypalsuccess():
     if request.method == 'GET':
 
         payment_id = request.args.get('paymentId', None)
         payer_id = request.args.get('PayerID', None)
+        # payer_id = request.args.get('PayerID', None)
         payment = paypalrestsdk.Payment.find(payment_id)
         # pending_payment = PayPalPayment.query.filter_by(token=token).filter_by(state='created').first_or_404()
         #
@@ -195,14 +213,47 @@ def index5():
         #     print('Paypal resource not found: {}'.format(ex))
         #     abort(404)
         print payer_id
+        print payment_id
+        payment = paypalrestsdk.Payment.find(payment_id)
+
+        # Get List of Payments
+        payment_history = paypalrestsdk.Payment.all({"count": 1})
+        r=payment_history.payments
+        print r
+
+
+        print
+
 
         if payment.execute({"payer_id": payer_id}):
 
             # pending_payment.state = payment.state
             # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
-            return render_template('admin_boostlikes/autoround.html')
+            return render_template('admin_boostlikes/payements/payementsuccessfull.html')
         else:
+            return render_template('admin_boostlikes/ERROR/payementerror.html')
+        # return render_template('admin_boostlikes/ERORR/payementerror.html')
+        #
+
+
+
+@app.route('/Payementcancel', methods=['POST', 'GET'])
+def paymentpaypalcancel():
+    if request.method == 'GET':
+
+            # pending_payment.state = payment.state
+            # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
+            return render_template('admin_boostlikes/ERROR/payementcancel.html')
+
+
+
+
+@app.route('/dashboard',methods=['GET'])
+def index5():
+    if request.method == 'GET':
             return render_template('admin_boostlikes/index.html')
+
+
 
 
 
@@ -260,4 +311,4 @@ def index6():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=2300, debug=True, threaded=True)
