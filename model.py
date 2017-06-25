@@ -91,35 +91,24 @@ class User(db.Model):
 	def __repr__(self):
 		return 'User : {}'.format(self.username)
 
-    # def __init__(self,username,password,email):
-    #     self.username = username
-    #     self.password = password
-    #
-    # def is_authenticated(self):
-    #     return True
-    #
-    # def is_active(self):
-    #     return True
-    #
-    # def is_anonymous(self):
-    #     return False
-    #
-    # def get_id(self):
-    #     return unicode(self.id)
-    #
-    # def __repr__(self):
-    #     return '<User %r>' % (self.username)
-# print User
+
+class Userpayemt(db.Model):
+    # __bind_key__ = 'local'
+    # __tablename__ = ""
+
+    usr_id = db.Column(db.Integer, primary_key = True, autoincrement =True)
+    username = db.Column(db.String(254))
+    # last_name = db.Column(db.String(254))
+    access = db.Column(db.String(254))
+    status = db.Column(db.String(254))
+    email = db.Column(db.String(254), unique=True)
 
 
-        # self.email = email
-        # self.registered_on = datetime.utcnow()
-# import sqlalchemy
-# from sqlalchemy.orm import sessionmaker, scoped_session
-#
-# engine = sqlalchemy.create_engine('mysql+mysqldb://boostlikes:boostlikes@localhost/STUDENT')
-# Session = scoped_session(sessionmaker(bind=engine))
-#
-# s = Session()
-# result = s.execute('SELECT * FROM STUDENT;')
-# print result
+
+
+    # Flag for session management
+    authenticated = db.Column(db.Boolean, default=False)
+
+    #Flag for email verification
+    email_confirmed = db.Column(db.Boolean, default=False)
+    

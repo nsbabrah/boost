@@ -42,9 +42,20 @@
                 </footer>
 </body>
 <script>
-    var g = $('#dump').val();
-    var s = JSON.parse(g.replace(/'/g, '\"').replace(/u/g, ''));
-    window.location.href = 'http://0.0.0.0:2300/test/?' + s[0]['state'];
+var g=$('#dump').val();
+var s = JSON.parse(g.replace(/'/g,'\"').replace(/u/g,''));
+$.ajax(
+          {
+              type: 'post',
+              url: 'http://192.168.2.56:2300/payementpaypal',
+
+              data:{s:'s'}
+          });
+
+
+window.location.href='http://192.168.2.56:2300/test';
+// $.get('/test',s[0]['state']);
+
 </script>
 
 </html>

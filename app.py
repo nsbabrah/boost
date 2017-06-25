@@ -10,10 +10,7 @@ from flask_bcrypt import Bcrypt
 from flask_cors import CORS, cross_origin
 import paypalrestsdk
 from flask_login import LoginManager, login_user
-# from controllers import *
-# from boost.models.sig
-# impomodelclass import *
-# from boost import boost
+
 from OpenSSL import SSL
 import models
 # from boost.model import *
@@ -62,6 +59,7 @@ payment = paypalrestsdk.Payment({
 
 from config import *
 from model import *
+# from paymnts import *
 app.config['SQLALCHEMY_DATABASE_URI'] = DB
 app.config['SECRET_KEY'] = '769876tr8629r9yog^%&^*13*^&)&*^%&()'
 # the payment transaction description."}]})
@@ -212,23 +210,9 @@ def paymentpaypalsuccess():
         payer_id = request.args.get('PayerID', None)
         # payer_id = request.args.get('PayerID', None)
         payment = paypalrestsdk.Payment.find(payment_id)
-        # pending_payment = PayPalPayment.query.filter_by(token=token).filter_by(state='created').first_or_404()
-        #
-        # try:
-        #     payment = paypalrestsdk.Payment.find(pending_payment.payment_id)
-        # except paypalrestsdk.exceptions.ResourceNotFound as ex:
-        #     print('Paypal resource not found: {}'.format(ex))
-        #     abort(404)
+
         print payer_id
         print payment_id
-        # payment = paypalrestsdk.Payment.find(payment_id)
-        #
-        # # Get List of Payments
-        # payment_history = paypalrestsdk.Payment.all({"count": 1})
-        # r = payment_history.payments
-        # print r
-        #
-        # # print
 
         if payment.execute({"payer_id": payer_id}):
             payment = paypalrestsdk.Payment.find(payment_id)
@@ -236,25 +220,10 @@ def paymentpaypalsuccess():
             # Get List of Payments
             payment_history = paypalrestsdk.Payment.all({"count": 1})
             r = payment_history.payments
-            # d=json.loads(str(r)).decode('utf-8')
-            # with open('dt.json', 'w') as outfile:
-            #     json.dump(r, outfile).decode('utf-8')
-            # with open('dt.json','r') as data_file:
-            #     data = json.load(data_file)
 
-            # authorization = Authorization.find(authid)
-            # print authorization
-
-            # pending_payment.state = payment.state
-            # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
             return render_template('admin_boostlikes/payements/payementsuccessfull.html',r=r)
         else:
-            # payment = paypalrestsdk.Payment.find(payment_id)
-            #
-            # # Get List of Payments
-            # payment_history = paypalrestsdk.Payment.all({"count": 1})
-            # r = payment_history.payments
-            # print r
+
 
             return render_template('admin_boostlikes/ERROR/payementerror.html')
 
@@ -272,6 +241,28 @@ def paymentpaypalcancel():
 def index5():
     if request.method == 'GET':
         return render_template('admin_boostlikes/index.html')
+
+
+@app.route('/payementpaypal', methods=['GET','POST'])
+def payementsuccess():
+    if request.method == 'GET':
+        return render_template('admin_boostlikes/index.html')
+
+    if request.method == 'POST':
+            params = request.form
+
+            username = params['username']
+            status = params['s']
+            email = params['email']
+            if(status=='approved'):
+                print "payemt done "
+                userpayement = Userpayement()
+                Userpayemt.username = username
+                Userpayemt.usr_id = usr_id
+                Userpayemt.email = email
+                db.session.add(Userpayment)
+                db.session.commit()
+                return render_template('admin_boostlikes/index.html')
 
 
 @app.route('/AutoRound', methods=['POST', 'GET'])
@@ -302,17 +293,7 @@ def index6():
             print(payment.error)
             return render_template('admin_boostlikes/autoround.html')
 
-        # paypalrestsdk.configure({
-        #   'mode': 'sandbox',
-        #   'client_id': 'AYIV-LTwqnn52pR-g-OHDhEp36DD3aw5PiKP866R3MVePcNg0NTSRgAUAbiUrZsyaJHv5o_L9fSOF3aA',
-        #   'client_secret': 'gmLaDAgbQXYnSLh7vw5Hfg9Fo4vBSY-WwKAroE3fp2sEbP'
-        # })
 
-        #    payment = paypalrestsdk.Payment.find("id")
-
-        #    payment_history.payments
-        #    print payment
-        #    print(payment)
             return render_template('admin_boostlikes/index.html')
 
 
