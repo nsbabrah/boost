@@ -1,7 +1,7 @@
 var template = new Vue({
     el: '#app',
     data: {
-        showUsers: false,
+        showUsers: true,
         clipped: true,
         drawer: true,
         fixed: false,

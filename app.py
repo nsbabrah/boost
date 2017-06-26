@@ -10,6 +10,7 @@ from flask_bcrypt import Bcrypt
 from flask_cors import CORS, cross_origin
 import paypalrestsdk
 from flask_login import LoginManager, login_user
+# cors = CORS(app, resources={r"/test/*": {"origins": "*"}})
 
 from OpenSSL import SSL
 import models
@@ -33,6 +34,7 @@ login_manager.init_app(app)
 # CORS(app)
 # logging.getLogger('flask_cors').level = logging.DEBUG
 logging.basicConfig(level=logging.INFO)
+logging.getLogger('flask_cors').level = logging.DEBUG
 my_api = paypalrestsdk.configure({
     "mode": "live",  # sandbox or live
     "client_id": "ARfJ7TKcE2_LI3EnqpX9gfAu5q0N_5AIetmWIvLdwQdRkSDP5nXxjLiXJsgQzuT5yLdwUbJ_WX8vNzNN",
@@ -40,22 +42,6 @@ my_api = paypalrestsdk.configure({
 
 my_api.get_access_token()
 
-payment = paypalrestsdk.Payment({
-    "intent": "sale",
-    "payer": {
-        "payment_method": "paypal"},
-    "redirect_urls": {
-        "return_url": "http://192.168.2.56:2300/Payementsuccessful",
-        "cancel_url": "http://192.168.2.56:2300/Payementcancel"},
-
-    "transactions": [{
-        # "type": "SHIPPING",
-
-        "amount": {
-            "total": "0.01",
-            "currency": "CAD"},
-        # "type": "no_shipping"
-        "description": "creating a payment"}]})
 
 from config import *
 from model import *
@@ -293,15 +279,36 @@ def payementsuccess():
 
 
 
-@app.route('/AutoRound', methods=['POST', 'GET'])
-# @cross_origin(origin='*')
+@app.route('/test', methods=['POST', 'GET'])
+#@cross_origin()
 def index6():
 
     if request.method == 'GET':
 
-        return render_template('admin_boostlikes/autoround.html')
+        return render_template('public/test.html')
 
     if request.method == 'POST':
+        parms=request.data
+        print parms
+        # # return parms
+        payment = paypalrestsdk.Payment({
+            "intent": "sale",
+            "payer": {
+                "payment_method": "paypal"},
+            "redirect_urls": {
+                "return_url": "http://0.0.0.0:2300/Payementsuccessful",
+                "cancel_url": "http://192.168.2.56:2300/Payementcancel"},
+
+            "transactions": [{
+                # "type": "SHIPPING",
+
+                "amount": {
+                    "total": "0.01",
+                    "currency": "CAD"},
+                # "type": "no_shipping"
+                "description": "creating a payment"}]})
+        # payment.create()
+
 
         if payment.create():
             print("Payment created successfully")
@@ -315,14 +322,15 @@ def index6():
                     # payer_id = request.args.get('payerId')
                     # payment_id = request.args.get('paymentId')
                     # token = request.args.get('token')
-                    return redirect(url)
+                    return url
+                    # return render_template('admin_boostlikes/index.html')
 
         else:
             print(payment.error)
             return render_template('admin_boostlikes/autoround.html')
 
 
-            return render_template('admin_boostlikes/index.html')
+        # return 'http://0.0.0.0:2300/'
 
 
 if __name__ == '__main__':

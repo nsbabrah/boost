@@ -165,17 +165,19 @@ Vue.component('tabs', {
         },
         paypal: function () {
             if (this.check2() == 'mobile-tabs-4-3') {
-                alert('Oops You Missed One Input');
-
-            } else {
                 console.log(data.Userinfo);
-                axios.get('https://yesno.wtf/api')
+                axios.post('http://0.0.0.0:2300/test',data.Userinfo)
                     .then(function (response) {
-                        console.log(response.data.answer);
+                        console.log(response);
+                        window.location.href = response.data;
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
+
+            } else {
+                alert('Oops You Missed One Input');
+
 
             }
         }
