@@ -92,7 +92,7 @@ class User(db.Model):
 		return 'User : {}'.format(self.username)
 
 
-class Userpayemt(db.Model):
+class Userpayment(db.Model):
     # __bind_key__ = 'local'
     # __tablename__ = ""
 
@@ -111,4 +111,7 @@ class Userpayemt(db.Model):
 
     #Flag for email verification
     email_confirmed = db.Column(db.Boolean, default=False)
-    
+
+
+def __repr__(self):
+	return 'Userpayment : {}'.format(self.username)
