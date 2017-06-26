@@ -77,7 +77,7 @@ def load_user(id):
     :params
      user_id -> email
     '''
-    user = model.User.query.get(id)
+    user = User.query.get(id)
     if user:
         return user
     else:
@@ -87,32 +87,32 @@ def load_user(id):
 def commit(obj):
     if type(obj) == list:
         for i in obj:
-            model.db.session.add(i)
-        model.db.session.commit()
+            db.session.add(i)
+        db.session.commit()
     else:
-        model.db.session.add(obj)
-        model.db.session.commit()
+        db.session.add(obj)
+        db.session.commit()
 
 
 @app.route('/')
 def index():
 
-    return model.render_template('public/index.html')
+    return render_template('public/index.html')
 
 
 @app.route('/signin', methods=['POST', 'GET'])
 def index1():
-    if model.request.method == 'GET':
-        return model.render_template('public/signin.html')
+    if request.method == 'GET':
+        return render_template('public/signin.html')
 
-    if model.request.method == 'POST':
+    if request.method == 'POST':
 
-        params = model.request.form
+        params = request.form
         username = params['username']
         password = params['password']
         print password
         user = 'nav'
-        user = model.User.query.filter_by(username=username)
+        user = User.query.filter_by(username=username)
         user = user.first()
 
         if 'remember' in params:
@@ -127,15 +127,15 @@ def index1():
                 user.authenticated = True
                 # db.session.add(user)
                 # db.session.commit()
-                return model.render_template('admin_boostlikes/index.html')
+                return render_template('admin_boostlikes/index.html')
 
-        return model.render_template('public/signin.html', fail=True)
+        return render_template('public/signin.html', fail=True)
 
 
 @app.route('/admin')
 def admin():
-    if model.request.method == 'GET':
-        return model.render_template('admin_boostlikes/index.html')
+    if request.method == 'GET':
+        return render_template('admin_boostlikes/index.html')
         # admin
         # admin
 
@@ -143,71 +143,71 @@ def admin():
 @app.route('/signup', methods=['POST', 'GET'])
 def index2():
 
-    if model.request.method == 'GET':
-        return model.render_template('public/signup.html')
+    if request.method == 'GET':
+        return render_template('public/signup.html')
 
-    if model.request.method == 'POST':
+    if request.method == 'POST':
         login_manager.login_view = '/signup'
 
-        params = model.request.form
+        params = request.form
         username = params['username']
         password = params['password']
         email = params['email']
-        user = model.User()
+        user = User()
         user.username = username
         user.password = password
         user.email = email
-        model.db.session.add(user)
-        model.db.session.commit()
-        return model.render_template('public/index.html')
+        db.session.add(user)
+        db.session.commit()
+        return render_template('public/index.html')
         # return render_template('public/trynow.html')
 
 
 @app.route('/trynow')
 def trynow():
-    if model.request.method == 'GET':
-        return model.render_template('public/trynow.html')
+    if request.method == 'GET':
+        return render_template('public/trynow.html')
         #
 
 
 @app.route('/home')
 def indexhome():
-    if model.request.method == 'GET':
-        return model.render_template('adminm/home.html')
+    if request.method == 'GET':
+        return render_template('adminm/home.html')
 
 
 @app.route('/test')
 def test():
-    if model.request.method == 'GET':
-        return model.render_template('public/test.html')
+    if request.method == 'GET':
+        return render_template('public/test.html')
         #      #
 
 
 @app.route('/about')
 def indexabout():
-    if model.request.method == 'GET':
-        return model.render_template('public/about.html')
+    if request.method == 'GET':
+        return render_template('public/about.html')
 
 
 @app.route('/Boost')
 def index3():
-    if model.request.method == 'GET':
-        return model.render_template('admin_boostlikes/Boost.html')
+    if request.method == 'GET':
+        return render_template('admin_boostlikes/Boost.html')
 
 
 @app.route('/Listlike')
 def index4():
-    if model.request.method == 'GET':
-        return model.render_template('admin_boostlikes/Listlike.html')
+    if request.method == 'GET':
+        return render_template('admin_boostlikes/Listlike.html')
         #
 
 
 @app.route('/Payementsuccessful', methods=['POST', 'GET'])
 def paymentpaypalonetime():
-    if model.request.method == 'GET':
+    if request.method == 'GET':
 
-        payment_id = model.request.args.get('paymentId', None)
-        payer_id = model.request.args.get('PayerID', None)
+        payment_id = request.args.get('paymentId', None)
+        payer_id = request.args.get('PayerID', None)
         # payer_id = request.args.get('PayerID', None)
         payment = paypalrestsdk.Payment.find(payment_id)
 
@@ -236,8 +236,8 @@ def paymentpaypalonetime():
                     userpy.email = status
                     userpy.status = status
                     print  userpy.username
-                    model.db.session.add(userpy)
-                    model.db.session.commit()
+                    db.session.add(userpy)
+                    db.session.commit()
                     print "payemt done"
                     return render_template('public/test.html', i=i)
                 else:
@@ -249,29 +249,29 @@ def paymentpaypalonetime():
 
 @app.route('/Payementcancel', methods=['POST', 'GET'])
 def paymentpaypalcancel():
-    if model.request.method == 'GET':
+    if request.method == 'GET':
 
             # pending_payment.state = payment.state
             # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
-        return model.render_template('admin_boostlikes/ERROR/payementcancel.html')
+        return render_template('admin_boostlikes/ERROR/payementcancel.html')
 
 
 @app.route('/dashboard', methods=['GET'])
 def index5():
-    if model.request.method == 'GET':
-        return model.render_template('admin_boostlikes/index.html')
+    if request.method == 'GET':
+        return render_template('admin_boostlikes/index.html')
 
 
 @app.route('/payementpaypal', methods=['POST'])
 def payementsuccess():
-    if model.request.method == 'GET':
-        return model.render_template('admin_boostlikes/index.html')
+    if request.method == 'GET':
+        return render_template('admin_boostlikes/index.html')
 
-    if model.request.method == 'POST':
+    if request.method == 'POST':
             # params = request.form
             # status = request.gets_json()
-            status=model.request.json['s']
-            package1=model.request.json['s']
+            status=request.json['s']
+            package1=request.json['s']
             print status
             # return render_template('admin_boostlikes/autoround.html')
 
@@ -284,12 +284,12 @@ def payementsuccess():
                userpy.email=status
                userpy.status=status
                print  userpy.username
-               model.db.session.add(userpy)
-               model.db.session.commit()
+               db.session.add(userpy)
+               db.session.commit()
                print "payemt done"
-               return model.render_template('admin_boostlikes/autoround.html')
+               return render_template('admin_boostlikes/autoround.html')
             else:
-               return model.render_template('admin_boostlikes/index.html')
+               return render_template('admin_boostlikes/index.html')
 
 
 
@@ -297,11 +297,11 @@ def payementsuccess():
 # @cross_origin(origin='*')
 def index6():
 
-    if model.request.method == 'GET':
+    if request.method == 'GET':
 
-        return model.render_template('admin_boostlikes/autoround.html')
+        return render_template('admin_boostlikes/autoround.html')
 
-    if model.request.method == 'POST':
+    if request.method == 'POST':
 
         if payment.create():
             print("Payment created successfully")
@@ -315,14 +315,14 @@ def index6():
                     # payer_id = request.args.get('payerId')
                     # payment_id = request.args.get('paymentId')
                     # token = request.args.get('token')
-                    return model.redirect(url)
+                    return redirect(url)
 
         else:
             print(payment.error)
-            return model.render_template('admin_boostlikes/autoround.html')
+            return render_template('admin_boostlikes/autoround.html')
 
 
-            return model.render_template('admin_boostlikes/index.html')
+            return render_template('admin_boostlikes/index.html')
 
 
 if __name__ == '__main__':

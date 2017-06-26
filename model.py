@@ -97,20 +97,14 @@ class Userpayment(db.Model):
     # __tablename__ = ""
 
     usr_id = db.Column(db.Integer, primary_key = True, autoincrement =True)
-    username = db.Column(db.String(254))
+    username = db.Column(db.String(255))
     # last_name = db.Column(db.String(254))
-    access = db.Column(db.String(254))
-    status = db.Column(db.String(254))
-    email = db.Column(db.String(254), unique=True)
+    # access = db.Column(db.String(254))
+    status = db.Column(db.String(255))
+    email = db.Column(db.String(255), unique=True)
 
 
 
-
-    # Flag for session management
-    authenticated = db.Column(db.Boolean, default=False)
-
-    #Flag for email verification
-    email_confirmed = db.Column(db.Boolean, default=False)
 
 
 def __repr__(self):
