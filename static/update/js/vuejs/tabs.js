@@ -3,13 +3,17 @@ var data = {
     packages: ['$15', '$25', '$35', '$45'],
     Userinfo: {
         selectedPack: null,
-        firstName: null,
-        AccountInfo: null,
-        name: null,
+        username: null,
         email: null,
         purchaseOrder: null,
+    },
+    reviewNames: {
+        'selectedPack': 'Selected pack',
+        'username': 'User Name',
+        'email': 'Email',
+        'purchaseOrder': 'Purchase Order'
     }
-}
+};
 Vue.component('tabs', {
     template: `        <v-tabs id="mobile-tabs-4" grow icons light v-model="activeTab">
             <v-card class="primary white--text">
@@ -45,10 +49,10 @@ Vue.component('tabs', {
                         <v-container fluid>
                             <v-layout row>
                                 <v-flex xs4>
-                                    <v-subheader>Enter First Name</v-subheader>
+                                    <v-subheader>Enter User Name</v-subheader>
                                 </v-flex>
                                 <v-flex xs8>
-                                    <v-text-field required label="Name" :error="Userinfo.firstName ? false : true" v-model="Userinfo.firstName"></v-text-field>
+                                    <v-text-field required label="Name" :error="Userinfo.username ? false : true" v-model="Userinfo.username"></v-text-field>
                                 </v-flex>
                             </v-layout>
                             <v-layout row>
@@ -75,22 +79,6 @@ Vue.component('tabs', {
                 <v-card class="elevation-0">
                     <v-card-text>
                         <v-container fluid>
-                            <v-layout row>
-                                <v-flex xs4>
-                                    <v-subheader>Enter Account Info</v-subheader>
-                                </v-flex>
-                                <v-flex xs8>
-                                    <v-text-field required label="Account Info" :error="Userinfo.AccountInfo ? false : true" v-model="Userinfo.AccountInfo"></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row>
-                                <v-flex xs4>
-                                    <v-subheader>Enter Name</v-subheader>
-                                </v-flex>
-                                <v-flex xs8>
-                                    <v-text-field required label="Name" :error="Userinfo.name ? false : true" v-model="Userinfo.name"></v-text-field>
-                                </v-flex>
-                            </v-layout>
                             <v-layout row>
                                 <v-flex xs4>
                                     <v-subheader>Enter Email</v-subheader>
@@ -124,36 +112,45 @@ Vue.component('tabs', {
                     <v-card-text>
                         <v-container fluid>
                             <v-layout row>
-                                <v-flex xs3>
-                                    <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif">
-                                    </div>
+                                <v-flex xs12>
+                                    <v-list subheader>
+                                        <v-subheader>Review</v-subheader>
+                                        <v-list-item v-for="(value,key) in Userinfo" v-bind:key="key">
+                                            <v-list-tile avatar>
+                                                <v-list-tile-content>
+                                                    {{reviewNames[key]}}
+                                                </v-list-tile-content>
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>{{value}}</v-list-tile-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+                                        </v-list-item>
+                                    </v-list>
                                 </v-flex>
                             </v-layout>
                             <v-layout row>
-                                <v-flex xs3 offset-xs8>
-                                    <!--<div v-on:click="">-->
-                                    <v-btn light info>
-                                        Submit</v-btn>
-                                    <!--</div>-->
+                                <v-flex xs3 offset-xs7>
+                                <a type="link" style="cursor:pointer" v-on:click="paypal" >
+                                    <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif">
+                                    </a>
                                 </v-flex>
-
                             </v-layout>
                         </v-container>
                     </v-card-text>
                 </v-card>
             </v-tabs-content>
         </v-tabs>`,
-    data: function() {
+    data: function () {
         return data;
     },
     methods: {
-        check1: function() {
-            console.log(data.Userinfo.firstName);
-            if (data.Userinfo.selectedPack != null && data.Userinfo.firstName != null || data.Userinfo.firstName > 1) {
+        check1: function () {
+            console.log(data.Userinfo.username);
+            if (data.Userinfo.selectedPack != null && data.Userinfo.username != null || data.Userinfo.username > 1) {
                 return 'mobile-tabs-4-2';
             }
         },
-        check2: function() {
+        check2: function () {
             let count = 0;
             for (var k in data.Userinfo) {
                 if (!data.Userinfo.hasOwnProperty(k)) continue;
@@ -163,9 +160,24 @@ Vue.component('tabs', {
 
             }
             if (count == 0) {
-                console.log(count);
                 return 'mobile-tabs-4-3';
+            }
+        },
+        paypal: function () {
+            if (this.check2() == 'mobile-tabs-4-3') {
+                alert('Oops You Missed One Input');
+
+            } else {
+                console.log(data.Userinfo);
+                axios.get('https://yesno.wtf/api')
+                    .then(function (response) {
+                        console.log(response.data.answer);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
             }
         }
     }
-})
+});
