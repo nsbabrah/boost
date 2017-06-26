@@ -13,7 +13,7 @@ from flask_login import LoginManager, login_user
 
 from OpenSSL import SSL
 import models
-# from boost.model import *
+# from boost.model import  *
 # from setuptools import setup
 # setup(
 #     name='models',

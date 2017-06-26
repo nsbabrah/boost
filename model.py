@@ -15,7 +15,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 # db = SQLAlchemy(app)
 
 # engine = sqlalchemy.create_engine('mysql+mysqldb://boostlikes:boostlikes@localhost/STUDENT')
-# Session = scoped_session(sessionmaker(bind=engine))
+# Session =  scoped_session(sessionmaker(bind=engine))
 
 # s = Session()
 # result = s.execute('SELECT * FROM STUDENT;')
