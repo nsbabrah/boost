@@ -19,7 +19,7 @@ Vue.component('tabs', {
             <v-card class="primary white--text">
                 <div>
                     <v-card-row @click="$emit('goback')">
-                        <v-btn icon light>
+                        <v-btn v- icon light>
                             <v-icon>arrow_back</v-icon>
                         </v-btn>
                     </v-card-row>

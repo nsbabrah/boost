@@ -32,64 +32,77 @@ class User1(db.Model):
     def __init__(self , username ,password , email):
         self.username = username
         self.password = password
-	def add(self , username ,password , email):
-		self.username = username
+    def add(self , username ,password , email):
+        self.username = username
         self.password = password
 
         # add=
 
 
 class User(db.Model):
-	# __bind_key__ = 'local'
-
-	id = db.Column(db.Integer, primary_key = True, autoincrement =True)
-	username = db.Column(db.String(254))
-	# last_name = db.Column(db.String(254))
-	access = db.Column(db.String(254))
-	email = db.Column(db.String(254), unique=True)
+    # __bind_key__ = 'local'
+    __tablename__ = "user"
 
 
-	_password = db.Column(db.String(254))
+    id = db.Column(db.Integer, primary_key = True, autoincrement =True)
 
-	# Flag for session management
-	authenticated = db.Column(db.Boolean, default=False)
+    username = db.Column (db.String (254))
+    # last_name = db.Column(db.String(254))
+    # access = db.Column (db.String (254))
+    email = db.Column (db.String (254), unique=True)
 
-	#Flag for email verification
-	email_confirmed = db.Column(db.Boolean, default=False)
+    _password = db.Column (db.String (254))
 
+    # def get_username(self,username):
+    #     return unicode (self.username)
 
-	# .password hybrid property
-	@hybrid_property
-	def password(self):
-		return self._password
-
-	# Hashing the password once and for all
-	@password.setter
-	def _set_password(self,plaintext):
-		self._password = bcrypt.generate_password_hash(plaintext)
-
-	# Password Matching
-	def is_password_correct(self,plaintext):
-		return bcrypt.check_password_hash(self._password, plaintext)
+    # def verify_password(self,password):
+    #     return  bcrypt.check_password_hash(self._password,password)
+    #
+    #
 
 
-	# Methods required for Flask-Login to work
+    # def __init__(self, username, password):
+    #     self.username = username
+    #     self._password = password
 
-	def is_active(self):
-		return True
+            # self._password = db.Column(db.String(254))
 
-	def get_id(self):
-		return unicode(self.id)
+        # Flag for session management
+    # def getuser(self):
+    #     return
 
-	def is_authenticated(self):
-		return self.authenticated
+    @hybrid_property
+    def password(self):
+        return self._password
 
-	def is_anonymous(self):
-		return False
+    # Hashing the password once and for all
+    @password.setter
+    def _set_password(self,plaintext):
+        self._password = bcrypt.generate_password_hash(plaintext)
+
+    # Password Matching
+    def is_password_correct(self,plaintext):
+        return bcrypt.check_password_hash(self._password,plaintext)
+
+    def getuser(self):
+        return [username,_password,email]
+
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        return unicode(self.id)
+
+    def is_authenticated(self):
+        return self.authenticated
+
+    def is_anonymous(self):
+        return False
 
 
-	def __repr__(self):
-		return 'User : {}'.format(self.username)
+    def __repr__(self):
+        return 'User : {}'.format(self.username,self._password)
 
 
 class Userpayment(db.Model):
@@ -103,9 +116,29 @@ class Userpayment(db.Model):
     status = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True)
 
+    def __repr__(self):
+        return 'Userpayment : {}'.format(self.username)
+
+
+class userpackage(db.Model):
+    # __bind_key__ = 'local'
+    __tablename__ = "userpackage"
+
+    usr_id = db.Column(db.Integer, primary_key = True, autoincrement =True)
+    username = db.Column(db.String(255))
+    # last_name = db.Column(db.String(254))
+    # access = db.Column(db.String(254))
+    # status = db.Column(db.String(255))
+    usr_email = db.Column(db.String(255), unique=True)
 
 
 
+    def get_id(self):
+        return unicode(self.username)
 
-def __repr__(self):
-	return 'Userpayment : {}'.format(self.username)
+
+    def user_data(self):
+        return unicode(self.username)
+
+    def __repr__(self):
+        return 'Userpackage: {}'.format(self.username)
