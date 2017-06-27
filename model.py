@@ -102,7 +102,7 @@ class User(db.Model):
 
 
     def __repr__(self):
-        return 'User : {}'.format(self.username,self._password)
+        return 'User : {}'.format(self.username,self._password,self.email)
 
 
 class Userpayment(db.Model):

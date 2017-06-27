@@ -116,22 +116,7 @@ def index1():
         user = db.session.query(User).filter(User.username==username).first()
         print user.username
 
-        # print user
-        # if 'remember' in params:
-        #     remember = True
 
-        # user = User(username,password,email)
-        # print  user._password
-
-        # user =db.session.query(User).filter(User.username==username, User._password==password)
-        #
-        # user = user.one()
-        # print user
-        # print user.username
-        # user = User (username,password)
-        # user = db.session.query(User.id).filter(User.username==username,User._password==password).first()
-
-        #
         import bcrypt
         # password = bcrypt.generate_password_hash(password)
         print password
@@ -205,24 +190,39 @@ def index2():
         password = params['password']
         email = params['email']
         text1 = params['username']
-        password = bcrypt.generate_password_hash(password)
-        print password
-        user = User()
-        user.username=username
-        user._password=password
-        user.email=email
+        user = db.session.query (User).filter (User.username == username).first ()
+        email = db.session.query (User).filter (User.email == email).first ()
+        print user
+        if user:
+            return render_template ('public/signup.html')
 
-        db.session.add(user)
 
-        db.session.commit()
+        if email:
+            return render_template ('public/signup.html')
 
-        text =  text1  + make_footer(username,password,email)
-        send_mail(username,text)
-        # login_user(user)
-        # user.authenticated = True
+        else:
+            password = bcrypt.generate_password_hash (password)
+            print password
+            user = User ()
+            user.username = username
+            user._password = password
+            user.email = email
 
-        return render_template('public/signin.html')
-        # return render_template('public/trynow.html')
+            db.session.add (user)
+
+            db.session.commit ()
+
+            text = text1 + make_footer (username, password, email)
+            send_mail (username,text)
+            # login_user(user)
+            # user.authenticated = True
+
+            return render_template ('public/signin.html')
+            # return render_template('public/trynow.html')
+
+            print user._password
+            print user.email
+
 
 
 
@@ -432,7 +432,7 @@ def make_footer(username,password,email):
 	t = '\n\nRegards,\n'
 	t += username+ '\n'
 	t += password + '\n'
-	t += email + '\n'
+	# t += email + '\n'
     # t += url  + '\n'
 
 
