@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import request, redirect, url_for, render_template
-from app import db,bcrypt
+from app import db,bcrypt,UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 #from flask.ext.security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 #
@@ -39,7 +39,7 @@ class User1(db.Model):
         # add=
 
 
-class User(db.Model):
+class User(db.Model,UserMixin):
     # __bind_key__ = 'local'
     __tablename__ = "user"
 
@@ -102,7 +102,7 @@ class User(db.Model):
 
 
     def __repr__(self):
-        return 'User : {}'.format(self.username,self._password,self.email)
+        return 'User : {}'.format(self.username)
 
 
 class Userpayment(db.Model):
@@ -130,15 +130,21 @@ class userpackage(db.Model):
     # access = db.Column(db.String(254))
     # status = db.Column(db.String(255))
     usr_email = db.Column(db.String(255), unique=True)
-
-
+    Auto_ac_name = db.Column (db.String (255))
+    Listlikepackage = db.Column (db.String (255))
 
     def get_id(self):
         return unicode(self.username)
 
+    # def __init__(self, username,Auto_ac_name):
+    #     self.username = username
+    #     self.Auto_ac_name= Auto_ac_name
+        # self._password = password
 
     def user_data(self):
-        return unicode(self.username)
+        # for i in package1:
+            return [{"username":self.username,"package1":self.Auto_ac_name,"id":self.usr_id},]
+
 
     def __repr__(self):
-        return 'Userpackage: {}'.format(self.username)
+        return '{}'.format(self.username,self.Auto_ac_name,self.Listlikepackage)

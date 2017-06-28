@@ -5,6 +5,9 @@ $(document).ready(function() {
         }
         $(this).children().toggle();
     });
+    function myFunc(vars) {
+    return vars
+}
     $(window).on('scroll', function() {
         var value = $(this).scrollTop();
         if (value > 170) {

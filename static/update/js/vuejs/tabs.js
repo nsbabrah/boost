@@ -14,6 +14,7 @@ var data = {
         'purchaseOrder': 'Purchase Order'
     }
 };
+
 Vue.component('tabs', {
     template: `        <v-tabs id="mobile-tabs-4" grow icons light v-model="activeTab">
             <v-card class="primary white--text">
@@ -143,6 +144,7 @@ Vue.component('tabs', {
     data: function () {
         return data;
     },
+    // var j =$('#')
     methods: {
         check1: function () {
             console.log(data.Userinfo.username);
@@ -163,6 +165,7 @@ Vue.component('tabs', {
                 return 'mobile-tabs-4-3';
             }
         },
+
         paypal: function () {
             if (this.check2() == 'mobile-tabs-4-3') {
                 console.log(data.Userinfo);

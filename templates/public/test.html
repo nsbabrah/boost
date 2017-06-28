@@ -1,4 +1,13 @@
- {% raw %}
+ <script type="text/javascript">
+var data = document.getElementById('#data');
+
+       console.log(data);
+</script>
+
+<input :id="data" type="text" value="{{user|safe}}"> </input>
+
+{% raw %}
+
 <!DOCTYPE html>
 <html>
 
@@ -9,10 +18,14 @@
     <title>BoostUpLikes</title>
     <link href='/static/update/css/google_fonts.css' rel="stylesheet" type="text/css">
     <link href="/static/update/css/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+   <script type="text/javascript">
+
+</script>
 </head>
 
 <body>
     <div id="app">
+
         <v-app>
             <v-navigation-drawer persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer">
                 <v-list>
@@ -28,6 +41,7 @@
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>
+
             <v-toolbar>
                 <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <v-toolbar-title v-text="title"></v-toolbar-title>
@@ -59,6 +73,7 @@
             </v-footer>
         </v-app>
     </div>
+
     <script src="/static/update/js/vuejs/vue.js"></script>
     <script src="/static/update/js/vuejs/vuetify.js"></script>
     <script src="/static/update/js/vuejs/cards.js"></script>
@@ -66,6 +81,7 @@
     <script src="/static/update/js/vuejs/tabs.js"></script>
     <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
     <script src="/static/update/js/vuejs/autoround.js"></script>
+
 </body>
 
 </html>

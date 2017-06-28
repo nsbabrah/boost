@@ -1,7 +1,10 @@
 # import SQLAlchemy as SQLAlchemy
-from flask import Flask, render_template, request
+import re
+
+from flask import Flask, render_template, request, jsonify
 import requests
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import logout_user, login_required,UserMixin
 
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.exc import MultipleResultsFound
@@ -18,7 +21,7 @@ from flask_bcrypt import Bcrypt
 from flask_cors import CORS, cross_origin
 import paypalrestsdk
 import flask_login
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user,logout_user
 # cors = CORS(app, resources={r"/test/*": {"origins": "*"}})
 
 from OpenSSL import SSL
@@ -41,9 +44,9 @@ import models
 URL = 'https://api.mailgun.net/v3/sandbox047085ca4cac4999b35d70a3e5be1c30.mailgun.org'
 MAILGUN_API_KEY = 'key-ac15a94e886e6bc11d0886c4192d4536'
 
-# login_manager = LoginManager()
+login_manager = LoginManager()
 app = Flask(__name__, static_folder='static', static_url_path='/static')
-# login_manager.init_app(app)
+login_manager.init_app(app)
 # CORS(app)
 # logging.getLogger('flask_cors').level = logging.DEBUG
 # logging.basicConfig(level=logging.INFO)
@@ -68,26 +71,36 @@ app.config['SECRET_KEY'] = '769876tr8629r9yog^%&^*13*^&)&*^%&()'
 # DB instance init
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 #
 # def commit(obj):
-#     if type(obj) == list:
-#         for i in obj:
-#             db.session.add(i)
-#         db.session.commit()
-#     else:
-#         db.session.add(obj)
-#         db.session.commit()
+# 	if type(obj) == list:
+# 		for i in obj:
+# 			db.session.add(i)
+# 		db.session.commit()
+# 	else:
+# 		db.session.add(obj)
+# 		db.session.commit()
 #
 #
+# from models import *
+# # from controllers import *
+
 # @login_manager.user_loader
-# def load_user(user_id):
+# def load_user(id):
 #     '''User Loader for flask-login
 #     :params
 #      user_id -> email
 #     '''
-#     return User.query.get(user_id)
-
-
+#     user = User.query.get(id)
+#     if user:
+#         return None
+#     else:
+#         return None
 
 
 @app.route('/')
@@ -111,68 +124,28 @@ def index1():
         username = params['username']
         password = params['password'].encode('utf-8')
 
-        # user= db.session.query(db.exists().where(User.username ==  username)).scalar()
-        # print user.password
+
         user = db.session.query(User).filter(User.username==username).first()
-        print user.username
+        try:
+            usern=user.username
+            import bcrypt
+            # password = bcrypt.generate_password_hash(password)
+            print (password)
+            if user:
+                # print user._password
+                if user.is_password_correct (password):
+                    # login_user(user)
+                    # Authenticated = True
+                    # user.authenticated = True
+                    # return redirect(url_for('test',user=user.username))
+                    return render_template ('public/test.html',user=user.username)
+                else:
+                    return render_template ('public/signin.html', fail=True)
 
-
-        import bcrypt
-        # password = bcrypt.generate_password_hash(password)
-        print password
-        if user:
-            # print user._password
-            if user.is_password_correct(password):
-                return redirect (url_for ('test'))
             else:
-                return render_template('public/signin.html', fail=True)
-
-            # print db.session.query(user)
-            # # print dir(user)
-            # user =User(username,password)
-
-            # print (user._password)
-            # if user._password):
-            #     login_user (user)
-            #     user.authenticated = True
-            #     db.session.add (user)
-            #     db.session.commit ()
-
-
-            # return redirect (url_for ('test'))
-            #  print (user.username)
-            # # #  user.authenticated = False
-            # print user.verify_password(password)
-            # pwhash = bcrypt.check_password_hash(password,user
-
-            # p = bcrypt.check_password_hash(password,user._password)
-            # print p
-            # if user._password == p:
-            #      # print (user.password)
-            #      return render_template ('public/text.html')
-            #
-
-
-            #      # print user.username
-            #     #  login_user(user)
-
-
-
-        else:
-            return render_template('public/signin.html', fail=True)
-
-            # print 'asasas'
-            # return render_template('public/trynow.html')
-
-        #     if user.is_password_correct(password):
-        #         # login_user(user)
-        #         # user.authenticated = True
-        #         # db.session.add(user)
-        #         # db.session.commit()
-        #         return render_template('public/test.html')
-        #
-        # return render_template('public/signin.html', fail=True)
-        #
+                return render_template ('public/signin.html', fail=True)
+        except:
+            return render_template ('public/signin.html', fail=True)
 
 
 
@@ -190,9 +163,9 @@ def index2():
         password = params['password']
         email = params['email']
         text1 = params['username']
-        user = db.session.query (User).filter (User.username == username).first ()
-        email = db.session.query (User).filter (User.email == email).first ()
-        print user
+        user = db.session.query(User).filter(User.username == username).first ()
+        email = db.session.query(User).filter(User.email == email).first ()
+        print (user)
         if user:
             return render_template ('public/signup.html')
 
@@ -201,27 +174,30 @@ def index2():
             return render_template ('public/signup.html')
 
         else:
-            password = bcrypt.generate_password_hash (password)
-            print password
-            user = User ()
-            user.username = username
-            user._password = password
-            user.email = email
+            try:
+                password = bcrypt.generate_password_hash (password)
+                # print password
+                user = User()
+                user.username = username
+                user._password = password
+                user.email = email
 
-            db.session.add (user)
+                db.session.add (user)
 
-            db.session.commit ()
+                db.session.commit()
 
-            text = text1 + make_footer (username, password, email)
-            send_mail (username,text)
-            # login_user(user)
-            # user.authenticated = True
+                text = text1 + make_footer (username, password, email)
+                send_mail (username,text)
+                # login_user(user)
+                # user.authenticated = True
 
-            return render_template ('public/signin.html')
-            # return render_template('public/trynow.html')
+                return render_template('public/signin.html')
+                # return render_template('public/trynow.html')
 
-            print user._password
-            print user.email
+                print user._password
+                print user.email
+            except:
+                return render_template ('public/signup.html')
 
 
 
@@ -242,6 +218,7 @@ def indexhome():
 
 
 @app.route('/test')
+# @login_required
 def test():
     if request.method == 'GET':
         return render_template('public/test.html')
@@ -326,6 +303,27 @@ def index5():
     if request.method == 'GET':
         return render_template('admin_boostlikes/index.html')
 
+@app.route('/userauth', methods=['POST'])
+def userauth():
+    global t
+    if request.method == 'POST':
+        username = request.get_json()
+        us=username['username']
+
+        user = db.session.query(userpackage.username,userpackage.Auto_ac_name,userpackage.Listlikepackage,userpackage.usr_id).filter(userpackage.username == us).all()
+
+        t=[]
+        col = ["username","Auto_ac_name","listlike","usr_id"]
+
+        for i in user:
+            t.append(list(i))
+
+        temp = []
+        for i in t:
+            temp.append (dict (zip (col, i)))
+        print temp
+        return json.dumps(temp)
+
 
 @app.route('/payementpaypal', methods=['POST'])
 def payementsuccess():
@@ -360,7 +358,7 @@ def payementsuccess():
 
 @app.route('/test', methods=['POST', 'GET'])
 #@cross_origin()
-# @login_required.user.id
+@login_required
 def index6():
 
     if request.method == 'GET':
@@ -378,9 +376,13 @@ def index6():
             "redirect_urls": {
                 "return_url": "http://0.0.0.0:2300/Payementsuccessful",
                 "cancel_url": "http://0.0.0.0:2300/Payementcancel"},
-
+            # "input_fields": {
+            #     "no_shipping": 1,
+            #     "address_override": 1
+            # },
+            # "type": {"NOSHIPPING": "1"},
             "transactions": [{
-                # "type": "SHIPPING",
+                # "type": {"NOSHIPPING":"1"},
 
                 "amount": {
                     "total": "0.01",

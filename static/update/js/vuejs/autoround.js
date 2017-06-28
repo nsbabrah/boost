@@ -1,3 +1,6 @@
+// var d = {{usern}};
+// cosole.log(d)
+
 var template = new Vue({
     el: '#app',
     data: {
