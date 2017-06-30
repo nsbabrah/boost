@@ -29,7 +29,7 @@ Vue.component('cards', {
                 <v-card-row height="75px">
                     <v-icon class="mr-5" dark>card_membership</v-icon>
                     <div>
-                        <div>{{this.data.name}}</div><strong>{{this.data.id}}</strong>
+                        <div>{{this.data}}</div><strong>{{this.data.usr_id}}</strong>
                     </div>
                 </v-card-row>
             </v-card-text>

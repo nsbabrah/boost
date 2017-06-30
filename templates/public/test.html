@@ -1,10 +1,4 @@
- <script type="text/javascript">
-var data = document.getElementById('#data');
 
-       console.log(data);
-</script>
-
-<input :id="data" type="text" value="{{user|safe}}"> </input>
 
 {% raw %}
 
@@ -59,7 +53,7 @@ var data = document.getElementById('#data');
                         </v-flex>
                         <div v-for="(item,index) in users">
                             <v-flex xs12>
-                                <cards :key="item" v-on:remove="users.splice(index, 1)" :data="item" class="ma-1"></cards>
+                                <cards :key="users" v-on:remove="users.splice(index, 1)" :data="item" class="ma-1"></cards>
                             </v-flex>
                         </div>
                     </v-layout>

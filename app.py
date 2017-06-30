@@ -58,7 +58,7 @@ my_api = paypalrestsdk.configure({
 
 my_api.get_access_token()
 
-
+login_manager.session_protection = "strong"
 from config import *
 from model import *
 # from paymnts import *
@@ -66,41 +66,40 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DB
 app.config['SECRET_KEY'] = '769876tr8629r9yog^%&^*13*^&)&*^%&()'
 # the payment transaction description."}]})
 
-# login_manager.login_view = '/signin'
+login_manager.login_view = 'signin'
 # from controllers import *
 # DB instance init
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
+SECRET_KEY = '$&^&B&*^*MN&*CDMN&*()B^&*()P^&_N*NM(P)*&D()&*^'
 
+#
+def commit(obj):
+	if type(obj) == list:
+		for i in obj:
+			db.session.add(i)
+		db.session.commit()
+	else:
+		db.session.add(obj)
+		db.session.commit()
+
+
+from model import *
+# from controllers import *
 @login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
-#
-# def commit(obj):
-# 	if type(obj) == list:
-# 		for i in obj:
-# 			db.session.add(i)
-# 		db.session.commit()
-# 	else:
-# 		db.session.add(obj)
-# 		db.session.commit()
-#
-#
-# from models import *
-# # from controllers import *
+def load_user(id):
+    '''User Loader for flask-login
+    :params
+     user_id -> email
+    '''
+    user = User.query.get(id)
+    if user:
+        return user
+    else:
+        return None
 
-# @login_manager.user_loader
-# def load_user(id):
-#     '''User Loader for flask-login
-#     :params
-#      user_id -> email
-#     '''
-#     user = User.query.get(id)
-#     if user:
-#         return None
-#     else:
-#         return None
+
 
 
 @app.route('/')
@@ -123,22 +122,31 @@ def index1():
         params = request.form
         username = params['username']
         password = params['password'].encode('utf-8')
+        remember = False
 
+        if 'remember' in params:
+            remember = True
 
-        user = db.session.query(User).filter(User.username==username).first()
+        # user = db.session.query(User).filter(User.username==username).first()
+        user = User.query.filter_by (username=username)
+        user = user.first()
+
         try:
             usern=user.username
             import bcrypt
             # password = bcrypt.generate_password_hash(password)
             print (password)
+            # user = User.query.get (username=username).first()
             if user:
                 # print user._password
-                if user.is_password_correct (password):
-                    # login_user(user)
-                    # Authenticated = True
-                    # user.authenticated = True
-                    # return redirect(url_for('test',user=user.username))
-                    return render_template ('public/test.html',user=user.username)
+                if user.is_password_correct(password):
+                    login_user(user)
+                    user.authenticated = True
+
+
+                    return redirect(url_for('test',user=user.username))
+                    # return render_template ('public/test.html',user=user.username)
+
                 else:
                     return render_template ('public/signin.html', fail=True)
 
@@ -164,13 +172,13 @@ def index2():
         email = params['email']
         text1 = params['username']
         user = db.session.query(User).filter(User.username == username).first ()
-        email = db.session.query(User).filter(User.email == email).first ()
+        emailusr = db.session.query(User).filter(User.email == email).first ()
         print (user)
         if user:
             return render_template ('public/signup.html')
 
 
-        if email:
+        if emailusr:
             return render_template ('public/signup.html')
 
         else:
@@ -188,16 +196,13 @@ def index2():
 
                 text = text1 + make_footer (username, password, email)
                 send_mail (username,text)
-                # login_user(user)
-                # user.authenticated = True
-
-                return render_template('public/signin.html')
-                # return render_template('public/trynow.html')
 
                 print user._password
                 print user.email
+                return render_template('public/signin.html')
+
             except:
-                return render_template ('public/signup.html')
+                return redirect(url_for('signup'))
 
 
 
@@ -293,8 +298,7 @@ def paymentpaypalonetime():
 def paymentpaypalcancel():
     if request.method == 'GET':
 
-            # pending_payment.state = payment.state
-            # pending_payment.updated_at = datetime.strptime(payment.update_time, "%Y-%m-%dT%H:%M:%SZ")
+
         return render_template('admin_boostlikes/ERROR/payementcancel.html')
 
 
@@ -320,7 +324,7 @@ def userauth():
 
         temp = []
         for i in t:
-            temp.append (dict (zip (col, i)))
+            temp.append(dict(zip(col,i)))
         print temp
         return json.dumps(temp)
 
@@ -445,4 +449,4 @@ def make_footer(username,password,email):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=2300, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
