@@ -1,16 +1,17 @@
 # import SQLAlchemy as SQLAlchemy
 import re
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, g
 import requests
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import logout_user, login_required,UserMixin
+from requests import auth
 
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.exc import MultipleResultsFound
 # import flask_sqlalchemy
 from paypalrestsdk import Payment
-import logging
+#import logging
 import json
 # import jsonify
 from paypalrestsdk import BillingPlan, BillingAgreement
@@ -23,7 +24,8 @@ import paypalrestsdk
 import flask_login
 from flask_login import LoginManager, login_user,logout_user
 # cors = CORS(app, resources={r"/test/*": {"origins": "*"}})
-
+from flask.ext.httpauth import HTTPBasicAuth
+auth = HTTPBasicAuth()
 from OpenSSL import SSL
 import models
 # from boost.model import  *
@@ -58,7 +60,7 @@ my_api = paypalrestsdk.configure({
 
 my_api.get_access_token()
 
-login_manager.session_protection = "strong"
+# login_manager.session_protection = "strong"
 from config import *
 from model import *
 # from paymnts import *
@@ -84,7 +86,7 @@ def commit(obj):
 		db.session.add(obj)
 		db.session.commit()
 
-
+# from controll.controller import
 from model import *
 # from controllers import *
 @login_manager.user_loader
@@ -107,10 +109,11 @@ def index():
 
     return render_template('public/index.html')
 
-
 @app.route('/signin', methods=['POST', 'GET'])
 
-def index1():
+# @auth.login_required
+# @auth.verify_password
+def verify_user_password():
     if request.method == 'GET':
         # logout_user(user)
 
@@ -120,6 +123,7 @@ def index1():
 
 
         params = request.form
+        # print params
         username = params['username']
         password = params['password'].encode('utf-8')
         remember = False
@@ -127,7 +131,7 @@ def index1():
         if 'remember' in params:
             remember = True
 
-        # user = db.session.query(User).filter(User.username==username).first()
+#        user = db.session.query(User).filter(User.username==username).first()
         user = User.query.filter_by (username=username)
         user = user.first()
 
@@ -135,13 +139,14 @@ def index1():
             usern=user.username
             import bcrypt
             # password = bcrypt.generate_password_hash(password)
-            print (password)
+            # print (password)
             # user = User.query.get (username=username).first()
             if user:
-                # print user._password
-                if user.is_password_correct(password):
+
+                if user.verify_password(username,password):
                     login_user(user)
                     user.authenticated = True
+                    print user._password
 
 
                     return redirect(url_for('test',user=user.username))
@@ -154,7 +159,6 @@ def index1():
                 return render_template ('public/signin.html', fail=True)
         except:
             return render_template ('public/signin.html', fail=True)
-
 
 
 @app.route('/signup', methods=['POST', 'GET'])
@@ -222,12 +226,6 @@ def indexhome():
         return render_template('adminm/home.html')
 
 
-@app.route('/test')
-# @login_required
-def test():
-    if request.method == 'GET':
-        return render_template('public/test.html')
-        #      #
 
 
 @app.route('/about')
@@ -360,9 +358,10 @@ def payementsuccess():
 
 
 
-@app.route('/test', methods=['POST', 'GET'])
+@app.route('/test', methods=['GET','POST'])
 #@cross_origin()
-@login_required
+# @auth.verify_password
+@auth.login_required
 def index6():
 
     if request.method == 'GET':
@@ -371,15 +370,15 @@ def index6():
 
     if request.method == 'POST':
         parms=request.data
-        # print parms
+        print parms
         # # return parms
         payment = paypalrestsdk.Payment({
             "intent": "sale",
             "payer": {
                 "payment_method": "paypal"},
             "redirect_urls": {
-                "return_url": "http://0.0.0.0:2300/Payementsuccessful",
-                "cancel_url": "http://0.0.0.0:2300/Payementcancel"},
+                "return_url": "http://127.0.0.1:5000/Payementsuccessful",
+                "cancel_url": "http://127.0.0.1:5000/Payementcancel"},
             # "input_fields": {
             #     "no_shipping": 1,
             #     "address_override": 1
@@ -449,4 +448,4 @@ def make_footer(username,password,email):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    app.run(host='0.0.0.0',port=2600,debug=True)

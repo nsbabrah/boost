@@ -67,8 +67,9 @@
 
 
 #Author: Navjot Singh Babrah
+
 from selenium import webdriver
-from instagram.client import InstagramAPI
+#from instagram.client import InstagramAPI
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -92,7 +93,7 @@ PROXY2 = "127.0.0.1:34003" # IP:PORT or HOST:PORT
 
 paid_user=['jeffrr111111','jonathananthan','davidryan0']
 password=['jeff1234','tigerisback','therockiscooking']
-proxy=['127.0.0.1:34007','127.0.0.1:34003','127.0.0.1:34002','127.0.0.1:34002','127.0.0.1:34003']
+proxy=['64.202.115.145:80']
 
 # target=['manpreetsingh8750','bennuttan','samra1850','pavitar_chhina_','deep3214']
 target=['gagan_babrah_7860',
@@ -557,8 +558,8 @@ def userprofile_info(sc):
         db = MySQLdb.connect(host="127.0.0.1",port=3307, user="boostlikes", passwd="boostlikes",db='Boostlikes')
         cursor = db.cursor()
 
-
-        chrome = webdriver.Chrome(chrome_options=chrome_options,executable_path=r"../../usr/local/bin/chromedriver")
+#../../usr/local/bin/chromedriver      for cron tab
+        chrome = webdriver.Chrome(chrome_options=chrome_options,executable_path=r"../chromedriver")
         dd1 = ("https://www.instagram.com/accounts/login/")
         driver1 = chrome
         driver1.get(dd1)

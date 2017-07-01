@@ -167,7 +167,7 @@ Vue.component('tabs', {
         paypal: function () {
             if (this.check2() == 'mobile-tabs-4-3') {
                 console.log(data.Userinfo);
-                axios.post('http://0.0.0.0:2300/test',data.Userinfo)
+                axios.post('https://127.0.0.1/test',data.Userinfo)
                     .then(function (response) {
                         console.log(response);
                         window.location.href = response.data;

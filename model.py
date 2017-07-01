@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import request, redirect, url_for, render_template
-from app import db,bcrypt,UserMixin
+from config import *
+from app import db,bcrypt,UserMixin,auth
 from sqlalchemy.ext.hybrid import hybrid_property
 #from flask.ext.security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 #
@@ -82,8 +83,18 @@ class User(db.Model,UserMixin):
         self._password = bcrypt.generate_password_hash(plaintext)
 
     # Password Matching
+    # @auth.is_password_correct
     def is_password_correct(self,plaintext):
         return bcrypt.check_password_hash(self._password,plaintext)
+
+    # @auth.verify_password
+    # def verify_password(self,password):
+    #     user.verify_password (password):
+    #         return False
+    #     g.user = user
+    #     print g.user
+    #
+    #     return True
 
     def getuser(self):
         return [username,_password,email]
