@@ -9,7 +9,8 @@
                 <v-icon v-html="item.icon"></v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title><a style="outline:none;text-decoration:none" :href="item.href">{{item.text}}</a></v-list-tile-title>
+                  <router-link style="text-decoration:none" :to="item.href"> <v-list-tile-title>{{item.text}}</v-list-tile-title>
+               </router-link>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-item>
@@ -57,7 +58,7 @@ export default {
       fixed: false,
       items: [
         { icon: 'dashboard', text: 'Dashboard', 'href':'/' },
-        { icon: 'thumb_up', text: 'List Likes', 'href':'/#listlike' },
+        { icon: 'thumb_up', text: 'List Likes', 'href':'/listlike' },
         { icon: 'brightness_auto', text: 'Auto Round', 'href':'/' },
         { icon: 'favorite_border', text: 'Boost', 'href':'/' },
         { icon: 'account_circle', text: 'Manage Account', 'href':'/' },

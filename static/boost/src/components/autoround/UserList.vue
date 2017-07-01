@@ -28,7 +28,9 @@
     </v-card-row>
     <v-card-text>
       <v-card-row height="75px">
-        <v-icon class="mr-5" dark>card_membership</v-icon>
+        <img :src="this.data.image" width="100px" height="100px">
+        <!--<v-icon class="mr-5" dark>card_membership</v-icon>-->
+        <v-spacer></v-spacer>
         <div>
           <div>{{this.data.name}}</div>
           <strong>{{this.data.usr_id}}</strong>

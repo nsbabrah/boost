@@ -8,7 +8,7 @@
             <v-icon light>add</v-icon>
           </v-btn>
         </v-flex>
-        <div v-for="(item,index) in users">
+        <div v-for="(item,index) in users" :key="index">
           <v-flex xs12>
             <cards :key="users" v-on:remove="users.splice(index, 1)" :data="item" class="ma-1"></cards>
           </v-flex>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import cards from './UserList.vue';
 import tabs from './AddUser.vue';
 export default {
@@ -40,9 +41,9 @@ export default {
     },
     auth: function () {
       console.log('auth');
-      setTimeout(() => {
-        this.users = [{ 'name': 'random', 'usr_id': '1' }, { 'name': 'random1', 'usr_id': '2' }];
-      }, 1000);
+      this.users = [{ 'name': 'random', 'usr_id': '1' }];
+      this.users.push({ 'name': 'random1', 'usr_id': '2' });
+      const self = this;
       // axios.post('http://0.0.0.0:2300/userauth', { "username": "nav" })
       //   .then(function (response) {
 
@@ -58,10 +59,21 @@ export default {
       //   .catch(function (error) {
       //     console.log(error);
       //   });
+      axios.get('https://yesno.wtf/api').then((res)=>{
+        console.log(res);
+        self.users[1].name = res.data.answer;
+        self.users[1]['image'] = res.data.image;
+        self.users.$nextTick(function () {
+            this.$el[0]['image'] = res.data.image;
+      });
+        // Vue.set(, 'image', res.data.image);
+      }).catch((err)=>{
+        console.log(err);
+      })
 
     }
   },
-  mounted: function () {
+  created: function () {
     this.auth();
   }
 }
