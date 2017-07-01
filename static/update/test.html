@@ -1,0 +1,82 @@
+
+
+{% raw %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoostUpLikes</title>
+    <link href='/static/update/css/google_fonts.css' rel="stylesheet" type="text/css">
+    <link href="/static/update/css/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+   <script type="text/javascript">
+
+</script>
+</head>
+
+<body>
+    <div id="app">
+
+        <v-app>
+            <v-navigation-drawer persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer">
+                <v-list>
+                    <v-list-item v-for="(item, i) in items" :key="i">
+                        <v-list-tile value="true">
+                            <v-list-tile-action>
+                                <v-icon v-html="item.icon"></v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title v-text="item.text"></v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list-item>
+                </v-list>
+            </v-navigation-drawer>
+
+            <v-toolbar>
+                <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+                <v-toolbar-title v-text="title"></v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn class="white">Logout</v-btn>
+            </v-toolbar>
+            <main>
+                <v-container fluid>
+                    <ppdialog></ppdialog>
+                    <v-layout row-sm wrap column v-if="showUsers">
+                        <v-flex xs12 sm12 lg1>
+                            <v-btn floating large @click.native="add" class="blue text-xs-right ma-1">
+                                <v-icon light>add</v-icon>
+                            </v-btn>
+                        </v-flex>
+                        <div v-for="(item,index) in users">
+                            <v-flex xs12>
+                                <cards :key="users" v-on:remove="users.splice(index, 1)" :data="item" class="ma-1"></cards>
+                            </v-flex>
+                        </div>
+                    </v-layout>
+                    <v-layout row-lg wrap column v-else>
+                        <tabs v-on:goback="showUsers = true"> </tabs>
+                    </v-layout>
+                </v-container>
+            </main>
+            <v-footer :fixed="fixed">
+                <span>&copy; 2017</span>
+            </v-footer>
+        </v-app>
+    </div>
+
+    <script src="/static/update/js/vuejs/vue.js"></script>
+    <script src="/static/update/js/vuejs/vuetify.js"></script>
+    <script src="/static/update/js/vuejs/cards.js"></script>
+    <script src="/static/update/js/vuejs/dialog.js"></script>
+    <script src="/static/update/js/vuejs/tabs.js"></script>
+    <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="/static/update/js/vuejs/autoround.js"></script>
+
+</body>
+
+</html>
+{% endraw %}

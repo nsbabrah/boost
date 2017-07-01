@@ -32,7 +32,7 @@ var template = new Vue({
             this.showUsers = false;
         },
         auth:function () {
-            axios.post('http://0.0.0.0:2300/userauth',{"username":"nav"})
+            axios.post('http://0.0.0.0:2600/userauth',{"username":"dj"})
                     .then(function (response) {
 
 //in Vue js call template which is page variable and send data from here

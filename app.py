@@ -1,10 +1,12 @@
 # import SQLAlchemy as SQLAlchemy
 import re
 
-from flask import Flask, render_template, request, jsonify, g
+import flask
+from flask import Flask, render_template, request, jsonify, g,make_response,redirect,url_for,session
+
 import requests
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import logout_user, login_required,UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import logout_user, login_required,UserMixin
 from requests import auth
 
 from sqlalchemy.orm.exc import NoResultFound
@@ -19,13 +21,13 @@ from flask_bcrypt import Bcrypt
 # import bcrypt
 # import Bcr
 # from init import botstart
-from flask_cors import CORS, cross_origin
+#from flask_cors import CORS, cross_origin
 import paypalrestsdk
 import flask_login
 from flask_login import LoginManager, login_user,logout_user
 # cors = CORS(app, resources={r"/test/*": {"origins": "*"}})
-from flask.ext.httpauth import HTTPBasicAuth
-auth = HTTPBasicAuth()
+#from flask_httpauth import HTTPBasicAuth
+#auth = HTTPBasicAuth()
 from OpenSSL import SSL
 import models
 # from boost.model import  *
@@ -60,7 +62,7 @@ my_api = paypalrestsdk.configure({
 
 my_api.get_access_token()
 
-# login_manager.session_protection = "strong"
+login_manager.session_protection = "strong"
 from config import *
 from model import *
 # from paymnts import *
@@ -76,7 +78,7 @@ bcrypt = Bcrypt(app)
 
 SECRET_KEY = '$&^&B&*^*MN&*CDMN&*()B^&*()P^&_N*NM(P)*&D()&*^'
 
-#
+
 def commit(obj):
 	if type(obj) == list:
 		for i in obj:
@@ -90,17 +92,22 @@ def commit(obj):
 from model import *
 # from controllers import *
 @login_manager.user_loader
-def load_user(id):
+def load_user(user_id):
     '''User Loader for flask-login
     :params
      user_id -> email
     '''
-    user = User.query.get(id)
+    user = User.query.get(user_id)
     if user:
         return user
     else:
         return None
 
+# @login_manager.user_loader
+# def load_user(user_id):
+#      user=User.query.get(user_id)
+#      return user
+#
 
 
 
@@ -131,34 +138,34 @@ def verify_user_password():
         if 'remember' in params:
             remember = True
 
-#        user = db.session.query(User).filter(User.username==username).first()
+        # user = db.session.query(User).filter(User.username==username).first()
         user = User.query.filter_by (username=username)
         user = user.first()
+        if user:
 
-        try:
-            usern=user.username
-            import bcrypt
-            # password = bcrypt.generate_password_hash(password)
-            # print (password)
-            # user = User.query.get (username=username).first()
-            if user:
+                usern=user.username
+                import bcrypt
+                # return flask.redirect (flask.url_for ('test'))
+                # password = bcrypt.generate_password_hash(password)
+                print (password)
 
-                if user.verify_password(username,password):
+                # user = User.query.get (username=username).first()
+
+
+                if user.is_password_correct(password):
+                    # user = User()
                     login_user(user)
                     user.authenticated = True
-                    print user._password
+                    print (user.password)
 
-
-                    return redirect(url_for('test',user=user.username))
-                    # return render_template ('public/test.html',user=user.username)
+                    # return flask.redirect(flask.url_for('test'))
+                    return render_template ('public/test.html')
 
                 else:
                     return render_template ('public/signin.html', fail=True)
 
-            else:
-                return render_template ('public/signin.html', fail=True)
-        except:
-            return render_template ('public/signin.html', fail=True)
+        else:
+            return render_template ('public/sigin.html')
 
 
 @app.route('/signup', methods=['POST', 'GET'])
@@ -201,12 +208,12 @@ def index2():
                 text = text1 + make_footer (username, password, email)
                 send_mail (username,text)
 
-                print user._password
-                print user.email
+                print (user._password)
+                print (user.email)
                 return render_template('public/signin.html')
 
             except:
-                return redirect(url_for('signup'))
+                return render_template ('public/signup.html')
 
 
 
@@ -218,7 +225,11 @@ def trynow():
     if request.method == 'GET':
         return render_template('public/trynow.html')
         #
-
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(somewhere)
 
 @app.route('/home')
 def indexhome():
@@ -323,7 +334,7 @@ def userauth():
         temp = []
         for i in t:
             temp.append(dict(zip(col,i)))
-        print temp
+        print (temp)
         return json.dumps(temp)
 
 
@@ -361,16 +372,14 @@ def payementsuccess():
 @app.route('/test', methods=['GET','POST'])
 #@cross_origin()
 # @auth.verify_password
-@auth.login_required
+@login_required
 def index6():
 
     if request.method == 'GET':
-
         return render_template('public/test.html')
-
     if request.method == 'POST':
         parms=request.data
-        print parms
+        # print parms
         # # return parms
         payment = paypalrestsdk.Payment({
             "intent": "sale",
@@ -448,4 +457,4 @@ def make_footer(username,password,email):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=2600,debug=True)
+    app.run(host='0.0.0.0',port=6300,debug=True)

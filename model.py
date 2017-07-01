@@ -45,7 +45,7 @@ class User(db.Model,UserMixin):
     __tablename__ = "user"
 
 
-    id = db.Column(db.Integer, primary_key = True, autoincrement =True)
+    user_id = db.Column(db.Integer, primary_key = True, autoincrement =True)
 
     username = db.Column (db.String (254))
     # last_name = db.Column(db.String(254))
@@ -95,6 +95,8 @@ class User(db.Model,UserMixin):
     #     print g.user
     #
     #     return True
+    def __init__(self, user_id):
+        return self.user_id
 
     def getuser(self):
         return [username,_password,email]
@@ -103,7 +105,7 @@ class User(db.Model,UserMixin):
         return True
 
     def get_id(self):
-        return unicode(self.id)
+        return unicode(self.user_id)
 
     def is_authenticated(self):
         return self.authenticated
@@ -113,7 +115,7 @@ class User(db.Model,UserMixin):
 
 
     def __repr__(self):
-        return 'User : {}'.format(self.username)
+        return 'User : {}'.format(self.username,self.user_id)
 
 
 class Userpayment(db.Model):
