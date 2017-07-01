@@ -74,6 +74,6 @@ export default {
 </script>
 
 <style>
-@import '../static/vuetify_fonts.css';
+@import '../static/css/vuetify_fonts.css';
 @import '../node_modules/vuetify/dist/vuetify.min.css';
 </style>

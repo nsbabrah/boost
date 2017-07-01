@@ -383,11 +383,11 @@ def payementsuccess():
 @app.route('/test', methods=['GET','POST'])
 #@cross_origin()
 # @auth.verify_password
-@login_required
+# @login_required
 def dashboard():
 
     if request.method == 'GET':
-        return render_template('public/test.html')
+        return render_template('public/test1.html')
  
     if request.method == 'POST':
         parms=request.data

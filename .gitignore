@@ -10,3 +10,7 @@ venv/lib/python2\.7/
 \.DS_Store
 
 *.log
+
+static/static_vuejs/
+
+templates/public/test1\.html

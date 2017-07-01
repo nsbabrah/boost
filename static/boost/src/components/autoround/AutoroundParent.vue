@@ -59,17 +59,17 @@ export default {
       //   .catch(function (error) {
       //     console.log(error);
       //   });
-      axios.get('https://yesno.wtf/api').then((res)=>{
-        console.log(res);
-        self.users[1].name = res.data.answer;
-        self.users[1]['image'] = res.data.image;
-        self.users.$nextTick(function () {
-            this.$el[0]['image'] = res.data.image;
-      });
-        // Vue.set(, 'image', res.data.image);
-      }).catch((err)=>{
-        console.log(err);
-      })
+      // axios.get('https://yesno.wtf/api').then((res)=>{
+      //   console.log(res);
+      //   self.users[1].name = res.data.answer;
+      //   self.users[1]['image'] = res.data.image;
+      //   self.users.$nextTick(function () {
+      //       this.$el[0]['image'] = res.data.image;
+      // });
+      //   // Vue.set(, 'image', res.data.image);
+      // }).catch((err)=>{
+      //   console.log(err);
+      // })
 
     }
   },
