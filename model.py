@@ -95,8 +95,11 @@ class User(db.Model,UserMixin):
     #     print g.user
     #
     #     return True
-    def __init__(self, user_id):
-        return self.user_id
+    # def __init__(self, user_id):
+    #     return self.user_id
+        # return self.user_id
+
+
 
     def getuser(self):
         return [username,_password,email]

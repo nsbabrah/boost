@@ -1,8 +1,9 @@
 # import SQLAlchemy as SQLAlchemy
 import re
+import user
 
 import flask
-from flask import Flask, render_template, request, jsonify, g,make_response,redirect,url_for,session
+from flask import Flask, render_template, request, jsonify, g,make_response,redirect,url_for,session,send_from_directory
 
 import requests
 from flask_sqlalchemy import SQLAlchemy
@@ -47,9 +48,9 @@ import models
 # from manage import User
 URL = 'https://api.mailgun.net/v3/sandbox047085ca4cac4999b35d70a3e5be1c30.mailgun.org'
 MAILGUN_API_KEY = 'key-ac15a94e886e6bc11d0886c4192d4536'
-
+d='static/boost/dist/static'
 login_manager = LoginManager()
-app = Flask(__name__, static_folder='static', static_url_path='/static')
+app = Flask(__name__)
 login_manager.init_app(app)
 # CORS(app)
 # logging.getLogger('flask_cors').level = logging.DEBUG
@@ -70,6 +71,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DB
 app.config['SECRET_KEY'] = '769876tr8629r9yog^%&^*13*^&)&*^%&()'
 # the payment transaction description."}]})
 
+# app.config['CONTENT_DIR'] = d
 login_manager.login_view = 'signin'
 # from controllers import *
 # DB instance init
@@ -113,8 +115,14 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-
-    return render_template('public/index.html')
+    f="/static/boost/dist/"
+    return send_from_directory(f,'index.html')
+    
+#     # return render_template('public/index.html')
+# @app.route('/<path:path>')
+# def static_proxy(path):
+#   # send_static_file will guess the correct MIME type
+#   return app.send_static_file(path)
 
 @app.route('/signin', methods=['POST', 'GET'])
 
@@ -141,31 +149,47 @@ def verify_user_password():
         # user = db.session.query(User).filter(User.username==username).first()
         user = User.query.filter_by (username=username)
         user = user.first()
+
         if user:
+            if user.is_password_correct(password):
+                login_user(user)
+                # user.is_authenticated()
 
-                usern=user.username
-                import bcrypt
-                # return flask.redirect (flask.url_for ('test'))
-                # password = bcrypt.generate_password_hash(password)
-                print (password)
+                flask.flash ('Logged in successfully.')
 
-                # user = User.query.get (username=username).first()
+                next = flask.request.args.get('next')
+                # is_safe_url should check if the url is safe for redirects.
+                # See http://flask.pocoo.org/snippets/62/ for an example.
 
 
-                if user.is_password_correct(password):
-                    # user = User()
-                    login_user(user)
-                    user.authenticated = True
-                    print (user.password)
+                return flask.redirect (next or flask.url_for ('test'))
+            return flask.render_template ('public/signin.html')
 
-                    # return flask.redirect(flask.url_for('test'))
-                    return render_template ('public/test.html')
-
-                else:
-                    return render_template ('public/signin.html', fail=True)
-
-        else:
-            return render_template ('public/sigin.html')
+        # if user:
+        #
+        #         usern=user.username
+        #         import bcrypt
+        #         # return flask.redirect (flask.url_for ('test'))
+        #         # password = bcrypt.generate_password_hash(password)
+        #         print (password)
+        #
+        #         # user = User.query.get (username=username).first()
+        #
+        #
+        #         if user.is_password_correct(password):
+        #             # user = User()
+        #             # login_user(user)
+        #             # user.authenticated = True
+        #             print (user.password)
+        #
+        #             return flask.redirect(flask.url_for('test'))
+        #             # return render_template('public/test.html')
+        #
+        #         else:
+        #             return render_template ('public/signin.html', fail=True)
+        #
+        # else:
+        #     return render_template ('public/sigin.html')
 
 
 @app.route('/signup', methods=['POST', 'GET'])
@@ -373,7 +397,7 @@ def payementsuccess():
 #@cross_origin()
 # @auth.verify_password
 @login_required
-def index6():
+def test():
 
     if request.method == 'GET':
         return render_template('public/test.html')
@@ -457,4 +481,4 @@ def make_footer(username,password,email):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=6300,debug=True)
+    app.run(host='0.0.0.0',port=3100,debug=True)
