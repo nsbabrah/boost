@@ -47,8 +47,7 @@ export default {
       }).catch((err)=>{
         console.log(err);
       })
-        // this.users.push({'username': 'test', 'listlike': 'test', 'usr_id': '1', 'Auto_ac_name': 'test'});
-
+      this.users = [{'username': 'test', 'listlike': 'test', 'usr_id': '1', 'Auto_ac_name': 'test'}];
     }
   },
   created: function () {
