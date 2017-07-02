@@ -40,36 +40,14 @@ export default {
       this.showUsers = false;
     },
     auth: function () {
-      console.log('auth');
-      this.users = [{ 'name': 'random', 'usr_id': '1' }];
-      this.users.push({ 'name': 'random1', 'usr_id': '2' });
       const self = this;
-      // axios.post('http://0.0.0.0:2300/userauth', { "username": "nav" })
-      //   .then(function (response) {
-
-      //     //in Vue js call template which is page variable and send data from here
-
-      //     usrname = response.data;
-      //     console.log(usrname)
-      //     template.users = (usrname)
-
-      //     console.log(usrname['username'])
-
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
-      // axios.get('https://yesno.wtf/api').then((res)=>{
-      //   console.log(res);
-      //   self.users[1].name = res.data.answer;
-      //   self.users[1]['image'] = res.data.image;
-      //   self.users.$nextTick(function () {
-      //       this.$el[0]['image'] = res.data.image;
-      // });
-      //   // Vue.set(, 'image', res.data.image);
-      // }).catch((err)=>{
-      //   console.log(err);
-      // })
+      axios.get('/userauth').then((res)=>{
+        console.log(res);
+        self.users = res.data;
+      }).catch((err)=>{
+        console.log(err);
+      })
+        // this.users.push({'username': 'test', 'listlike': 'test', 'usr_id': '1', 'Auto_ac_name': 'test'});
 
     }
   },
@@ -82,3 +60,5 @@ export default {
 <style>
 
 </style>
+
+

@@ -18,20 +18,21 @@
 </head>
 
 <body>
+ 
     <div id="app">
 
         <v-app>
             <v-navigation-drawer persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer">
                 <v-list>
                     <v-list-item v-for="(item, i) in items" :key="i">
-                        <v-list-tile value="true">
+                        <dddv-list-tile value="true">
                             <v-list-tile-action>
                                 <v-icon v-html="item.icon"></v-icon>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title v-text="item.text"></v-list-tile-title>
                             </v-list-tile-content>
-                        </v-list-tile>
+                        </dddv-list-tile>
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>

@@ -32,7 +32,8 @@
         <!--<v-icon class="mr-5" dark>card_membership</v-icon>-->
         <v-spacer></v-spacer>
         <div>
-          <div>{{this.data.name}}</div>
+          <div>{{this.data.Auto_ac_name}}</div>
+          <strong>{{this.data.listlike}}</strong>
           <strong>{{this.data.usr_id}}</strong>
         </div>
       </v-card-row>

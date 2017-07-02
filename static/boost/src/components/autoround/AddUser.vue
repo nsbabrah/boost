@@ -127,6 +127,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -148,16 +150,16 @@ export default {
   },
   methods: {
     check1: function () {
-      console.log(data.Userinfo.username);
-      if (data.Userinfo.selectedPack != null && data.Userinfo.username != null || data.Userinfo.username > 1) {
+      console.log(this.Userinfo.username);
+      if (this.Userinfo.selectedPack != null && this.Userinfo.username != null || this.Userinfo.username > 1) {
         return 'mobile-tabs-4-2';
       }
     },
     check2: function () {
       let count = 0;
-      for (var k in data.Userinfo) {
-        if (!data.Userinfo.hasOwnProperty(k)) continue;
-        if (data.Userinfo[k] === null || data.Userinfo[k].length < 1) {
+      for (var k in this.Userinfo) {
+        if (!this.Userinfo.hasOwnProperty(k)) continue;
+        if (this.Userinfo[k] === null || this.Userinfo[k].length < 1) {
           count++;
         }
 
@@ -167,9 +169,9 @@ export default {
       }
     },
     paypal: function () {
-      if (this.check2() == 'mobile-tabs-4-3') {
-        console.log(data.Userinfo);
-        axios.post('https://127.0.0.1/test', data.Userinfo)
+      if (this.check2() != 'mobile-tabs-4-3') {
+        console.log(this.Userinfo);
+        axios.post('/start_paypal', this.Userinfo)
           .then(function (response) {
             console.log(response);
             window.location.href = response.data;

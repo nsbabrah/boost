@@ -15,7 +15,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.exc import MultipleResultsFound
 # import flask_sqlalchemy
 from paypalrestsdk import Payment
-#import logging
+import logging
 import json
 # import jsonify
 from paypalrestsdk import BillingPlan, BillingAgreement
@@ -55,14 +55,9 @@ app = Flask(__name__,static_url_path=d)
 login_manager.init_app(app)
 # CORS(app)
 # logging.getLogger('flask_cors').level = logging.DEBUG
-# logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 # logging.getLogger('flask_cors').level = logging.DEBUG
-my_api = paypalrestsdk.configure({
-    "mode": "live",  # sandbox or live
-    "client_id": "ARfJ7TKcE2_LI3EnqpX9gfAu5q0N_5AIetmWIvLdwQdRkSDP5nXxjLiXJsgQzuT5yLdwUbJ_WX8vNzNN",
-    "client_secret": "EDnnJIy3J41BACVB69NxZMf01sZiU0UEM31NdE9GkpGdj4Da8XbFdqwTESYrNZmevI8Uuwg6EP-s4SlR"})
 
-my_api.get_access_token()
 
 login_manager.session_protection = "strong"
 from config import *
@@ -71,8 +66,8 @@ from config import *
 app.config['SQLALCHEMY_DATABASE_URI'] = DB
 app.config['SECRET_KEY'] = '769876tr8629r9yog^%&^*13*^&)&*^%&()'
 # the payment transaction description."}]})
-
-# app.config['CONTENT_DIR'] = d
+# login_manager.anonymous_user =''
+app.config['CONTENT_DIR'] = d
 login_manager.login_view = 'signin'
 # from controllers import *
 # DB instance init
@@ -81,6 +76,8 @@ bcrypt = Bcrypt(app)
 
 SECRET_KEY = '$&^&B&*^*MN&*CDMN&*()B^&*()P^&_N*NM(P)*&D()&*^'
 
+userdatastore=None
+userisauth=None
 
 def commit(obj):
 	if type(obj) == list:
@@ -163,18 +160,25 @@ def verify_user_password():
 
         if user:
             if user.is_password_correct(password):
-                login_user(user)
-                user.authenticated = True
-                # user.is_authenticated()
 
-                flask.flash ('Logged in successfully.')
+                    login_user(user)
+                    user.authenticated = True
+                    user.is_anonymous()
+                    #
+                    flask.flash ('Logged in successfully.')
 
-                next = flask.request.args.get('next')
-                # is_safe_url should check if the url is safe for redirects.
-                # See http://flask.pocoo.org/snippets/62/ for an example.
+                    next = flask.request.args.get('next')
+                    # t=[]
+                    t=[user.username]
+                    global userdatastore
+                    userdatastore=t
+                    global  userisauth
+                    userisauth=True
+                    # is_safe_url should check if the url is safe for redirects.
+                    # See http://flask.pocoo.org/snippets/62/ for an example.
 
              
-                return flask.redirect (next or flask.url_for ('dashboard'))
+                    return flask.redirect (next or flask.url_for ('dashboard'))
             else:
                 return flask.render_template ('public/signin.html')
         else:
@@ -310,7 +314,7 @@ def paymentpaypalonetime():
                     db.session.add(userpy)
                     db.session.commit()
                     # print "payemt done"
-                    return render_template('public/test.html', i=i)
+                    return render_template('public/test1.html', i=i)
                 else:
                     return render_template('admin_boostlikes/index.html')
 
@@ -327,13 +331,13 @@ def paymentpaypalcancel():
 
 
 
-@app.route('/userauth', methods=['POST'])
+@app.route('/userauth', methods=['GET'])
 def userauth():
-    global t
-    if request.method == 'POST':
-        username = request.get_json()
-        us=username['username']
+    if request.method == 'GET':
+        # username = request.get_json()
 
+        us=userdatastore
+        # if userisauth and userdatastore is not None:
         user = db.session.query(userpackage.username,userpackage.Auto_ac_name,userpackage.Listlikepackage,userpackage.usr_id).filter(userpackage.username == us).all()
 
         t=[]
@@ -347,7 +351,8 @@ def userauth():
             temp.append(dict(zip(col,i)))
         print (temp)
         return json.dumps(temp)
-
+    else:
+        return {'auth':"false"}
 
 @app.route('/payementpaypal', methods=['POST'])
 def payementsuccess():
@@ -377,20 +382,32 @@ def payementsuccess():
                return render_template('admin_boostlikes/autoround.html')
             else:
                return render_template('admin_boostlikes/index.html')
-
-
-
-@app.route('/test', methods=['GET','POST'])
+@app.route('/test1#', methods=['GET','POST'])
 #@cross_origin()
 # @auth.verify_password
-# @login_required
+@login_required
 def dashboard():
 
     if request.method == 'GET':
+        print   userdatastore
+
         return render_template('public/test1.html')
- 
-    if request.method == 'POST':
-        parms=request.data
+
+
+my_api = paypalrestsdk.configure ({
+    "mode": "live",  # sandbox or live
+    "client_id": "ARfJ7TKcE2_LI3EnqpX9gfAu5q0N_5AIetmWIvLdwQdRkSDP5nXxjLiXJsgQzuT5yLdwUbJ_WX8vNzNN",
+    "client_secret": "EDnnJIy3J41BACVB69NxZMf01sZiU0UEM31NdE9GkpGdj4Da8XbFdqwTESYrNZmevI8Uuwg6EP-s4SlR"})
+
+my_api.get_access_token ()
+@app.route('/start_paypal', methods=['POST'])
+#@cross_origin()
+# @auth.verify_password
+# @login_required
+def startpaypal():
+     if request.method == 'POST':
+
+        # parms=request.data
         # print parms
         # # return parms
         payment = paypalrestsdk.Payment({
@@ -398,8 +415,8 @@ def dashboard():
             "payer": {
                 "payment_method": "paypal"},
             "redirect_urls": {
-                "return_url": "http://127.0.0.1:5000/Payementsuccessful",
-                "cancel_url": "http://127.0.0.1:5000/Payementcancel"},
+                "return_url": "http://0.0.0.0:2300/",
+                "cancel_url": "http://0.0.0.0:2300/test1#"},
             # "input_fields": {
             #     "no_shipping": 1,
             #     "address_override": 1
@@ -433,7 +450,7 @@ def dashboard():
 
         else:
             print(payment.error)
-            return render_template('admin_boostlikes/autoround.html')
+            return render_template('public/test1.html')
 
 def send_mail(text,resume=None):
 
@@ -469,4 +486,4 @@ def make_footer(username,password,email):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=3200,debug=True)
+    app.run(host='0.0.0.0',port=2300,debug=True)
