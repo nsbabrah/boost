@@ -1,24 +1,23 @@
 <template>
   <div id="app">
     <v-app>
-      <v-navigation-drawer persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer">
+      <v-navigation-drawer persistent :enable-resize-watcher="true" :mini-variant="miniVariant" :clipped="clipped" v-model="drawer">
         <v-list>
-          <v-list-item v-for="(item, i) in items" :key="i">
-            <v-list-tile value="true">
+          <v-list-item class="elevation-1" v-for="(item, i) in items" :key="i">
+            <v-list-tile value="true" :to="item.href">
               <v-list-tile-action>
                 <v-icon v-html="item.icon"></v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                  <router-link style="text-decoration:none" :to="item.href"> <v-list-tile-title>{{item.text}}</v-list-tile-title>
-               </router-link>
+                <v-list-tile-title>{{item.text}}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
 
-      <v-toolbar>
-        <v-toolbar-side-icon light  @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar fixed>
+        <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title class="white--text" v-text="title"></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-menu id="marriot" bottom left origin="top right">
@@ -57,12 +56,12 @@ export default {
       drawer: true,
       fixed: false,
       items: [
-        { icon: 'dashboard', text: 'Dashboard', 'href':'/' },
-        { icon: 'thumb_up', text: 'List Likes', 'href':'/listlike' },
-        { icon: 'brightness_auto', text: 'Auto Round', 'href':'/' },
-        { icon: 'favorite_border', text: 'Boost', 'href':'/' },
-        { icon: 'account_circle', text: 'Manage Account', 'href':'/' },
-        { icon: 'settings', text: 'Settings', 'href':'/' }
+        { icon: 'dashboard', text: 'Dashboard', 'href': '/#' },
+        { icon: 'thumb_up', text: 'List Likes', 'href': '/#listlike' },
+        { icon: 'brightness_auto', text: 'Auto Round', 'href': '/#' },
+        { icon: 'favorite_border', text: 'Boost', 'href': '/' },
+        { icon: 'account_circle', text: 'Manage Account', 'href': '/' },
+        { icon: 'settings', text: 'Settings', 'href': '/' }
       ],
       miniVariant: false,
       right: true,
