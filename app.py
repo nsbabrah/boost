@@ -51,7 +51,7 @@ URL = 'https://api.mailgun.net/v3/sandbox047085ca4cac4999b35d70a3e5be1c30.mailgu
 MAILGUN_API_KEY = 'key-ac15a94e886e6bc11d0886c4192d4536'
 d='/static'
 login_manager = LoginManager()
-app = Flask(__name__,static_url_path=d)
+app = Flask(__name__)
 login_manager.init_app(app)
 # CORS(app)
 # logging.getLogger('flask_cors').level = logging.DEBUG
@@ -75,7 +75,12 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 SECRET_KEY = '$&^&B&*^*MN&*CDMN&*()B^&*()P^&_N*NM(P)*&D()&*^'
+my_api = paypalrestsdk.configure ({
+    "mode": "live",  # sandbox or live
+    "client_id": "Aco9MZMq14DP2vfkP1xJRLkxtnwHRdxUobFUSeo15r3bKlDqT1K1sLGIR7t12s4DP5kmCTm5WZFoTR4O",
+    "client_secret": "EDi6nGy_SGgVgEul9uPW3WxSXhIugIwn4MYrfkowdx13TcXMh87uU3wTkb3bhRIvmWMZT8esA1VZhh7G"})
 
+my_api.get_access_token ()
 userdatastore=None
 userisauth=None
 
@@ -314,7 +319,7 @@ def paymentpaypalonetime():
                     db.session.add(userpy)
                     db.session.commit()
                     # print "payemt done"
-                    return render_template('public/test1.html', i=i)
+                    return render_template('public/test1%23#/.html', i=i)
                 else:
                     return render_template('admin_boostlikes/index.html')
 
@@ -385,7 +390,7 @@ def payementsuccess():
 @app.route('/test1#', methods=['GET','POST'])
 #@cross_origin()
 # @auth.verify_password
-@login_required
+# @login_required
 def dashboard():
 
     if request.method == 'GET':
@@ -394,12 +399,6 @@ def dashboard():
         return render_template('public/test1.html')
 
 
-my_api = paypalrestsdk.configure ({
-    "mode": "live",  # sandbox or live
-    "client_id": "ARfJ7TKcE2_LI3EnqpX9gfAu5q0N_5AIetmWIvLdwQdRkSDP5nXxjLiXJsgQzuT5yLdwUbJ_WX8vNzNN",
-    "client_secret": "EDnnJIy3J41BACVB69NxZMf01sZiU0UEM31NdE9GkpGdj4Da8XbFdqwTESYrNZmevI8Uuwg6EP-s4SlR"})
-
-my_api.get_access_token ()
 @app.route('/start_paypal', methods=['POST'])
 #@cross_origin()
 # @auth.verify_password
@@ -407,51 +406,130 @@ my_api.get_access_token ()
 def startpaypal():
      if request.method == 'POST':
 
-        # parms=request.data
-        # print parms
-        # # return parms
-        payment = paypalrestsdk.Payment({
-            "intent": "sale",
+
+
+         billing_plan = BillingPlan ({
+             "name": "Fast Speed Plan",
+             "description": "Create Plan for Regular",
+             "merchant_preferences": {
+                 "auto_bill_amount": "yes",
+                 "cancel_url": "http://www.paypal.com/cancel",
+                 "initial_fail_amount_action": "continue",
+                 "max_fail_attempts": "1",
+                 "return_url": "http://pythonapps.com:2300/test1%23#/",
+                 "setup_fee": {
+                     "currency": "USD",
+                     "value": "0.01"
+                 }
+             },
+             "payment_definitions": [
+                 {
+                     "amount": {
+                         "currency": "USD",
+                         "value": "100"
+                     },
+                     "charge_models": [
+                         {
+                             "amount": {
+                                 "currency": "USD",
+                                 "value": "0.60"
+                             },
+                             "type": "SHIPPING"
+                         },
+                         {
+                             "amount": {
+                                 "currency": "USD",
+                                 "value": "20"
+                             },
+                             "type": "TAX"
+                         }
+                     ],
+                     "cycles": "0",
+                     "frequency": "MONTH",
+                     "frequency_interval": "1",
+                     "name": "Regular 1",
+                     "type": "REGULAR"
+                 }
+             ],
+             "type": "INFINITE"
+         })
+
+         if billing_plan.create ():
+             print("Billing Plan [%s] created successfully" % billing_plan.id)
+
+             # Activate billing plan
+             if billing_plan.activate():
+                 billing_plan = BillingPlan.find (billing_plan.id)
+                 print("Billing Plan [%s] state changed to %s" % (billing_plan.id, billing_plan.state))
+
+                 return flask.render_template('public/home.html')
+                 # return render_template('public/home.html')
+                 # billing_agreement = BillingAgreement ({
+                 # billing_agreement = BillingAgreement ({
+                 #     "description": "Agreement for organization plan",
+                 #     "start_date": "2015-02-19T00:37:04Z",
+                 #     "plan": {
+                 #         "id": request.args.get ('id', '')
+                 #     },
+                 #     "payer": {
+                 #         "payment_method": "paypal"
+                 #     },
+                 #     "shipping_address": {
+                 #         "line1": "StayBr111idge Suites",
+                 #         "line2": "Cro12ok Street",
+                 #         "city": "San Jose",
+                 #         "state": "CA",
+                 #         "postal_code": "95112",
+                 #         "country_code": "US"
+                 #     }
+                 # })
+                 # if billing_agreement.create ():
+                 #     print("Billing Agreement created successfully")
+                 #     for link in billing_agreement.links:
+                 #         if link.rel == "approval_url":
+                 #             approval_url = link.href
+                 #             return redirect (approval_url)
+             else:
+                 print(billing_plan.error)
+         else:
+             print(billing_plan.error)
+
+@app.route("/subscribe", methods=['POST','GET'])
+
+def subscribe():
+    if request.method == 'GET':
+        # r=request.args.get('id')
+        render_template('public/home.html')
+    if request.method =='POST':
+        billing_agreement = BillingAgreement({
+            "description": "Agreement for organization plan",
+            "start_date": "2015-02-19T00:37:04Z",
+            "plan": {
+                "id": request.args.get('id', '')
+            },
             "payer": {
-                "payment_method": "paypal"},
-            "redirect_urls": {
-                "return_url": "http://0.0.0.0:2300/",
-                "cancel_url": "http://0.0.0.0:2300/test1#"},
-            # "input_fields": {
-            #     "no_shipping": 1,
-            #     "address_override": 1
-            # },
-            # "type": {"NOSHIPPING": "1"},
-            "transactions": [{
-                # "type": {"NOSHIPPING":"1"},
-
-                "amount": {
-                    "total": "0.01",
-                    "currency": "CAD"},
-                # "type": "no_shipping"
-                "description": "creating a payment"}]})
-        # payment.create()
-
-
-        if payment.create():
-            print("Payment created successfully")
-            for link in payment.links:
-                if link.method == "REDIRECT":
-                    redirect_url = str(link.href)
-
-                    print('Redirect for approval: {}'.format(redirect_url))
-                    url = ('{}'.format(redirect_url))
-                    # return re('Redirect for approval: {}'.format(redirect_url))direct(redirect_urls)
-                    # payer_id = request.args.get('payerId')
-                    # payment_id = request.args.get('paymentId')
-                    # token = request.args.get('token')
-                    return url
-                    # return render_template('admin_boostlikes/index.html')
-
-        else:
-            print(payment.error)
-            return render_template('public/test1.html')
-
+                "payment_method": "paypal"
+            },
+            "shipping_address": {
+                "line1": "StayBr111idge Suites",
+                "line2": "Cro12ok Street",
+                "city": "San Jose",
+                "state": "CA",
+                "postal_code": "95112",
+                "country_code": "US"
+            }
+        })
+        if billing_agreement.create():
+            print("Billing Agreement created successfully")
+            for link in billing_agreement.links:
+                if link.rel == "approval_url":
+                    approval_url = link.href
+                    return redirect(approval_url)
+                else:
+                    print(billing_agreement.error)
+        return redirect(url_for('subscriptions'))
+    else:
+        return redirect(url_for('login'))
 def send_mail(text,resume=None):
 
 
