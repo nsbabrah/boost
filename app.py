@@ -4,11 +4,12 @@ import re
 import user
 
 import flask
-from flask import Flask ,Blueprint, render_template, request, jsonify, g,make_response,redirect,url_for,session,send_from_directory
+from flask import Flask, Blueprint, render_template, request, jsonify, g, make_response, redirect, url_for, session, \
+    send_from_directory
 
 import requests
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import logout_user, login_required,UserMixin
+from flask_login import logout_user, login_required, UserMixin
 from requests import auth
 
 from sqlalchemy.orm.exc import NoResultFound
@@ -23,13 +24,13 @@ from flask_bcrypt import Bcrypt
 # import bcrypt
 # import Bcr
 # from init import botstart
-#from flask_cors import CORS, cross_origin
+# from flask_cors import CORS, cross_origin
 import paypalrestsdk
 import flask_login
-from flask_login import LoginManager, login_user,logout_user
+from flask_login import LoginManager, login_user, logout_user
 # cors = CORS(app, resources={r"/test/*": {"origins": "*"}})
-#from flask_httpauth import HTTPBasicAuth
-#auth = HTTPBasicAuth()
+# from flask_httpauth import HTTPBasicAuth
+# auth = HTTPBasicAuth()
 from OpenSSL import SSL
 
 # from boost.model import  *
@@ -49,13 +50,13 @@ from OpenSSL import SSL
 # from manage import User
 URL = 'https://api.mailgun.net/v3/sandbox047085ca4cac4999b35d70a3e5be1c30.mailgun.org'
 MAILGUN_API_KEY = 'key-ac15a94e886e6bc11d0886c4192d4536'
-d='/static'
-login_manager = LoginManager()
-app = Flask(__name__)
-login_manager.init_app(app)
+d = '/static'
+login_manager = LoginManager ()
+app = Flask (__name__)
+login_manager.init_app (app)
 # CORS(app)
 # logging.getLogger('flask_cors').level = logging.DEBUG
-logging.basicConfig(level=logging.INFO)
+
 # logging.getLogger('flask_cors').level = logging.DEBUG
 
 
@@ -71,8 +72,8 @@ app.config['CONTENT_DIR'] = d
 login_manager.login_view = 'signin'
 # from controllers import *
 # DB instance init
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
+db = SQLAlchemy (app)
+bcrypt = Bcrypt (app)
 
 SECRET_KEY = '$&^&B&*^*MN&*CDMN&*()B^&*()P^&_N*NM(P)*&D()&*^'
 my_api = paypalrestsdk.configure ({
@@ -81,20 +82,24 @@ my_api = paypalrestsdk.configure ({
     "client_secret": "EDi6nGy_SGgVgEul9uPW3WxSXhIugIwn4MYrfkowdx13TcXMh87uU3wTkb3bhRIvmWMZT8esA1VZhh7G"})
 
 my_api.get_access_token ()
-userdatastore=None
-userisauth=None
+userdatastore = None
+userisauth = None
 
+logging.basicConfig (level=logging.INFO)
 def commit(obj):
-	if type(obj) == list:
-		for i in obj:
-			db.session.add(i)
-		db.session.commit()
-	else:
-		db.session.add(obj)
-		db.session.commit()
+    if type (obj) == list:
+        for i in obj:
+            db.session.add (i)
+        db.session.commit ()
+    else:
+        db.session.add (obj)
+        db.session.commit ()
+
 
 # from controll.controller import
 from model import *
+
+
 # from controllers import *
 @login_manager.user_loader
 def load_user(user_id):
@@ -102,58 +107,54 @@ def load_user(user_id):
     :params
      user_id -> email
     '''
-    user = User.query.get(user_id)
+    user = User.query.get (user_id)
     if user:
         return user
     else:
         return None
 
-# @login_manager.user_loader
-# def load_user(user_id):
-#      user=User.query.get(user_id)
-#      return user
-#
-# admin = Blueprint('index', __name__, static_folder='/static/boost')
-#
-# # @app.route('/')
-# def index():
-#     f="/static/boost/index.html"
-#     return url_for('index')
+    # @login_manager.user_loader
+    # def load_user(user_id):
+    #      user=User.query.get(user_id)
+    #      return user
+    #
+    # admin = Blueprint('index', __name__, static_folder='/static/boost')
+    #
+    # # @app.route('/')
+    # def index():
+    #     f="/static/boost/index.html"
+    #     return url_for('index')
     # return  flask.redirect (flask.url_for ('da'))
     # return redirect(url_for ('/static/boost/', filename='index.html'))
     #   return render_template ('public/index.html')
+
+
 #     # return render_template('public/index.html')
 # @app.route('/<path:path>')
 # def static_proxy(path):
 #   # send_static_file will guess the correct MIME type
 #   return app.send_static_file(path)
-@app.route('/', methods=['POST', 'GET'])
-
-
+@app.route ('/', methods=['POST', 'GET'])
 def da():
     if request.method == 'GET':
         return render_template ('public/index.html')
         # logout_user(user)
 
 
-
-@app.route('/signin', methods=['POST', 'GET'])
-
-
+@app.route ('/signin', methods=['POST', 'GET'])
 def verify_user_password():
     if request.method == 'GET':
         # logout_user(user)
 
 
-        return render_template('public/signin.html')
+        return render_template ('public/signin.html')
 
     if request.method == 'POST':
-
 
         params = request.form
         # print params
         username = params['username']
-        password = params['password'].encode('utf-8')
+        password = params['password'].encode ('utf-8')
         remember = False
 
         if 'remember' in params:
@@ -161,41 +162,39 @@ def verify_user_password():
 
         # user = db.session.query(User).filter(User.username==username).first()
         user = User.query.filter_by (username=username)
-        user = user.first()
+        user = user.first ()
 
         if user:
-            if user.is_password_correct(password):
+            if user.is_password_correct (password):
 
-                    login_user(user)
-                    user.authenticated = True
-                    user.is_anonymous()
-                    #
-                    flask.flash ('Logged in successfully.')
+                login_user (user)
+                user.authenticated = True
+                user.is_anonymous ()
+                #
+                flask.flash ('Logged in successfully.')
 
-                    next = flask.request.args.get('next')
-                    # t=[]
-                    t=[user.username]
-                    global userdatastore
-                    userdatastore=t
-                    global  userisauth
-                    userisauth=True
-                    # is_safe_url should check if the url is safe for redirects.
-                    # See http://flask.pocoo.org/snippets/62/ for an example.
+                next = flask.request.args.get ('next')
+                # t=[]
+                t = [user.username]
+                global userdatastore
+                userdatastore = t
+                global userisauth
+                userisauth = True
+                # is_safe_url should check if the url is safe for redirects.
+                # See http://flask.pocoo.org/snippets/62/ for an example.
 
-             
-                    return flask.redirect (next or flask.url_for ('dashboard'))
+
+                return flask.redirect (next or flask.url_for ('dashboard'))
             else:
                 return flask.render_template ('public/signin.html')
         else:
-            return flask.render_template('public/signin.html')
-    
+            return flask.render_template ('public/signin.html')
 
 
-@app.route('/signup', methods=['POST', 'GET'])
+@app.route ('/signup', methods=['POST', 'GET'])
 def index2():
-
     if request.method == 'GET':
-        return render_template('public/signup.html')
+        return render_template ('public/signup.html')
 
     if request.method == 'POST':
         # login_manager.login_view = '/signup'
@@ -205,12 +204,11 @@ def index2():
         password = params['password']
         email = params['email']
         text1 = params['username']
-        user = db.session.query(User).filter(User.username == username).first ()
-        emailusr = db.session.query(User).filter(User.email == email).first ()
+        user = db.session.query (User).filter (User.username == username).first ()
+        emailusr = db.session.query (User).filter (User.email == email).first ()
         print (user)
         if user:
             return render_template ('public/signup.html')
-
 
         if emailusr:
             return render_template ('public/signup.html')
@@ -219,349 +217,343 @@ def index2():
             try:
                 password = bcrypt.generate_password_hash (password)
                 # print password
-                user = User()
+                user = User ()
                 user.username = username
                 user._password = password
                 user.email = email
 
                 db.session.add (user)
 
-                db.session.commit()
+                db.session.commit ()
 
                 text = text1 + make_footer (username, password, email)
-                send_mail (username,text)
+                send_mail (username, text)
 
                 print (user._password)
                 print (user.email)
-                return render_template('public/signin.html')
+                return render_template ('public/signin.html')
 
             except:
                 return render_template ('public/signup.html')
 
 
-
-
-
-
-@app.route('/trynow')
+@app.route ('/trynow')
 def trynow():
     if request.method == 'GET':
-        return render_template('public/trynow.html')
+        return render_template ('public/trynow.html')
         #
-@app.route("/logout")
+
+
+@app.route ("/logout")
 @login_required
 def logout():
-    logout_user()
-    return redirect(somewhere)
+    logout_user ()
+    return redirect (somewhere)
 
-@app.route('/home')
+
+@app.route ('/home')
 def indexhome():
     if request.method == 'GET':
-        return render_template('adminm/home.html')
+        return render_template ('adminm/home.html')
 
 
-
-
-@app.route('/about')
+@app.route ('/about')
 def indexabout():
     if request.method == 'GET':
-        return render_template('public/about.html')
+        return render_template ('public/about.html')
 
 
-@app.route('/Boost')
+@app.route ('/Boost')
 def index3():
     if request.method == 'GET':
-        return render_template('admin_boostlikes/Boost.html')
+        return render_template ('admin_boostlikes/Boost.html')
 
 
-@app.route('/Listlike')
+@app.route ('/Listlike')
 def index4():
     if request.method == 'GET':
-        return render_template('admin_boostlikes/Listlike.html')
+        return render_template ('admin_boostlikes/Listlike.html')
 
         #
 
 
-@app.route('/Payementsuccessful', methods=['POST', 'GET'])
+@app.route ('/Payementsuccessful', methods=['POST', 'GET'])
 def paymentpaypalonetime():
     if request.method == 'GET':
-
-        payment_id = request.args.get('paymentId', None)
-        payer_id = request.args.get('PayerID', None)
+        payment_id = request.args.get ('paymentId', None)
+        payer_id = request.args.get ('PayerID', None)
         # payer_id = request.args.get('PayerID', None)
-        payment = paypalrestsdk.Payment.find(payment_id)
+        # payment = paypalrestsdk.Payment.find(payment_id)
+        billing_agreement_response = BillingAgreement.execute (payment_token)
+        print("BillingAgreement[%s] executed successfully" % billing_agreement_response.id)
 
-        # print payer_id
-        # print payment_id
+        # # print payer_id
+        # # print payment_id
 
-        if payment.execute({"payer_id": payer_id}):
-            payment = paypalrestsdk.Payment.find(payment_id)
+        # if payment.execute({"payer_id": payer_id}):
+        #     payment = paypalrestsdk.Payment.find(payment_id)
 
-            # Get List of Payments
-            payment_history = paypalrestsdk.Payment.all({"count": 1})
-            r = payment_history.payments
-            for i in r:
-                # print i['first_name']
-                # print i['last_name']
-                # print i['int r[0]email']
+        #   payment = paypalrestsdk.Payment.find(payment_id)
 
-
-                status=i['state']
-                # print i['create_time']
-                if (status == 'approved'):
-                    userpy = Userpayment()
-                    userpy.username = status
-                    userpy.package1 = status
-                    userpy.package2 = '0'
-                    userpy.email = status
-                    userpy.status = status
-                    # print  userpy.username
-                    db.session.add(userpy)
-                    db.session.commit()
-                    # print "payemt done"
-                    return render_template('public/test1%23#/.html', i=i)
-                else:
-                    return render_template('admin_boostlikes/index.html')
-
-        else:
-            return render_template('admin_boostlikes/index.html')
+        #     # Get List of Payments
+        #     payment_history = paypalrestsdk.Payment.all({"count": 1})
+        #     r = payment_history.payments
+        #     for i in r:
+        #         # print i['first_name']
+        #         # print i['last_name']
+        #         # print i['int r[0]email']
 
 
-@app.route('/Payementcancel', methods=['POST', 'GET'])
+        #         status=i['state']
+        #         # print i['create_time']
+        #         if (status == 'approved'):
+        #             userpy = Userpayment()
+        #             userpy.username = status
+        #             userpy.package1 = status
+        #             userpy.package2 = '0'
+        #             userpy.email = status
+        #             userpy.status = status
+        #             # print  userpy.username
+        #             db.session.add(userpy)
+        #             db.session.commit()
+        #             # print "payemt done"
+        #             return render_template('public/test1%23#/.html', i=i)
+        #         else:
+        #             return render_template('admin_boostlikes/index.html')
+
+        # else:
+        #     return render_template('admin_boostlikes/index.html')
+
+
+@app.route ('/Payementcancel', methods=['POST', 'GET'])
 def paymentpaypalcancel():
     if request.method == 'GET':
+        return render_template ('admin_boostlikes/ERROR/payementcancel.html')
 
 
-        return render_template('admin_boostlikes/ERROR/payementcancel.html')
-
-
-
-@app.route('/userauth', methods=['GET'])
+@app.route ('/userauth', methods=['GET'])
 def userauth():
     if request.method == 'GET':
         # username = request.get_json()
 
-        us=userdatastore
+        us = userdatastore
         # if userisauth and userdatastore is not None:
-        user = db.session.query(userpackage.username,userpackage.Auto_ac_name,userpackage.Listlikepackage,userpackage.usr_id).filter(userpackage.username == us).all()
+        user = db.session.query (userpackage.username, userpackage.Auto_ac_name, userpackage.Listlikepackage,
+                                 userpackage.usr_id).filter (userpackage.username == us).all ()
 
-        t=[]
-        col = ["username","Auto_ac_name","listlike","usr_id"]
+        t = []
+        col = ["username", "Auto_ac_name", "listlike", "usr_id"]
 
         for i in user:
-            t.append(list(i))
+            t.append (list (i))
 
         temp = []
         for i in t:
-            temp.append(dict(zip(col,i)))
+            temp.append (dict (zip (col, i)))
         print (temp)
-        return json.dumps(temp)
+        return json.dumps (temp)
     else:
-        return {'auth':"false"}
+        return {'auth': "false"}
 
-@app.route('/payementpaypal', methods=['POST'])
+
+@app.route ('/payementpaypal', methods=['POST'])
 def payementsuccess():
     if request.method == 'GET':
-        return render_template('admin_boostlikes/index.html')
+        return render_template ('admin_boostlikes/index.html')
 
     if request.method == 'POST':
-            # params = request.form
-            # status = request.gets_json()
-            status=request.json['s']
-            package1=request.json['s']
-            # print status
-            # return render_template('admin_boostlikes/autoround.html')
+        # params = request.form
+        # status = request.gets_json()
+        status = request.json['s']
+        package1 = request.json['s']
+        # print status
+        # return render_template('admin_boostlikes/autoround.html')
 
 
-            if(status == 'approved'):
-               userpy = Userpayment()
-               userpy.username = status
-               userpy.package1 = package1
-               userpy.package2 = '0'
-               userpy.email=status
-               userpy.status=status
-               # print  userpy.username
-               db.session.add(userpy)
-               db.session.commit()
-               # print "payemt done"
-               return render_template('admin_boostlikes/autoround.html')
-            else:
-               return render_template('admin_boostlikes/index.html')
-@app.route('/test1#', methods=['GET','POST'])
-#@cross_origin()
+        if (status == 'approved'):
+            userpy = Userpayment ()
+            userpy.username = status
+            userpy.package1 = package1
+            userpy.package2 = '0'
+            userpy.email = status
+            userpy.status = status
+            # print  userpy.username
+            db.session.add (userpy)
+            db.session.commit ()
+            # print "payemt done"
+            return render_template ('admin_boostlikes/autoround.html')
+        else:
+            return render_template ('admin_boostlikes/index.html')
+
+
+@app.route ('/test1#', methods=['GET', 'POST'])
+# @cross_origin()
 # @auth.verify_password
 # @login_required
-def dashboard():
 
+def dashboard():
     if request.method == 'GET':
         print   userdatastore
 
-        return render_template('public/test1.html')
+        return render_template ('public/test1.html')
 
 
-@app.route('/start_paypal', methods=['POST'])
-#@cross_origin()
+@app.route ('/start_paypal', methods=['POST'])
+# @cross_origin()
 # @auth.verify_password
 # @login_required
 def startpaypal():
-     if request.method == 'POST':
+    if request.method == 'POST':
+
+        billing_plan = BillingPlan ({
+            "name": "navjotbabrah",
+            "description": "Create Plan for Regular",
+            "merchant_preferences": {
+                "auto_bill_amount": "yes",
+                "cancel_url": "http://www.paypal.com/cancel",
+                "initial_fail_amount_action": "continue",
+                "max_fail_attempts": "1",
+                "return_url": "http://pythonapps.com:2300/test1%23#/"
+
+            },
+            "payment_definitions": [
+                {
+                    "amount": {
+                        "currency": "CAD",
+                        "value": "0.01"
+                    },
+
+                    "cycles": "0",
+                    "frequency": "MONTH",
+                    "frequency_interval": "1",
+                    "name": "Regular 1",
+                    "type": "REGULAR"
+                }
+            ],
+            "type": "INFINITE"
+        })
+        import datetime
+        start_date =(datetime.datetime.today()+ datetime.timedelta(minutes=3)).strftime('%Y-%m-%dT%H:%M:%SZ')
+        print start_date
+        if billing_plan.create ():
+            print("Billing Plan [%s] created successfully" % billing_plan.id)
+
+            # Activate billing plan
+            if billing_plan.activate ():
+                billing_plan = BillingPlan.find (billing_plan.id)
+                print  (billing_plan.to_dict())
+                print("Billing Plan [%s] state changed to %s" % (billing_plan.id, billing_plan.state))
+                print billing_plan.start_date
+                billing_agreement = BillingAgreement ({
+                    "name": "navjotbabrah",
+                    "description": "Agreement for organization plan",
+                    "start_date":start_date,
+                    "plan": {
+                        "id": billing_plan.id
+                    },
+                    "payer": {
+                        "payment_method": "paypal"
+                    }
 
 
 
-         billing_plan = BillingPlan ({
-             "name": "Fast Speed Plan",
-             "description": "Create Plan for Regular",
-             "merchant_preferences": {
-                 "auto_bill_amount": "yes",
-                 "cancel_url": "http://www.paypal.com/cancel",
-                 "initial_fail_amount_action": "continue",
-                 "max_fail_attempts": "1",
-                 "return_url": "http://pythonapps.com:2300/test1%23#/",
-                 "setup_fee": {
-                     "currency": "USD",
-                     "value": "0.01"
-                 }
-             },
-             "payment_definitions": [
-                 {
-                     "amount": {
-                         "currency": "USD",
-                         "value": "100"
-                     },
-                     "charge_models": [
-                         {
-                             "amount": {
-                                 "currency": "USD",
-                                 "value": "0.60"
-                             },
-                             "type": "SHIPPING"
-                         },
-                         {
-                             "amount": {
-                                 "currency": "USD",
-                                 "value": "20"
-                             },
-                             "type": "TAX"
-                         }
-                     ],
-                     "cycles": "0",
-                     "frequency": "MONTH",
-                     "frequency_interval": "1",
-                     "name": "Regular 1",
-                     "type": "REGULAR"
-                 }
-             ],
-             "type": "INFINITE"
-         })
 
-         if billing_plan.create ():
-             print("Billing Plan [%s] created successfully" % billing_plan.id)
 
-             # Activate billing plan
-             if billing_plan.activate():
-                 billing_plan = BillingPlan.find (billing_plan.id)
-                 print("Billing Plan [%s] state changed to %s" % (billing_plan.id, billing_plan.state))
+                })
 
-                 return flask.render_template('public/home.html')
-                 # return render_template('public/home.html')
-                 # billing_agreement = BillingAgreement ({
-                 # billing_agreement = BillingAgreement ({
-                 #     "description": "Agreement for organization plan",
-                 #     "start_date": "2015-02-19T00:37:04Z",
-                 #     "plan": {
-                 #         "id": request.args.get ('id', '')
-                 #     },
-                 #     "payer": {
-                 #         "payment_method": "paypal"
-                 #     },
-                 #     "shipping_address": {
-                 #         "line1": "StayBr111idge Suites",
-                 #         "line2": "Cro12ok Street",
-                 #         "city": "San Jose",
-                 #         "state": "CA",
-                 #         "postal_code": "95112",
-                 #         "country_code": "US"
-                 #     }
-                 # })
-                 # if billing_agreement.create ():
-                 #     print("Billing Agreement created successfully")
-                 #     for link in billing_agreement.links:
-                 #         if link.rel == "approval_url":
-                 #             approval_url = link.href
-                 #             return redirect (approval_url)
-             else:
-                 print(billing_plan.error)
-         else:
-             print(billing_plan.error)
+                # logging.basicConfig (level=logging.INFO)
 
-@app.route("/subscribe", methods=['POST','GET'])
 
+                if billing_agreement.create():
+                    # Extract redirect url
+                    for link in billing_agreement.links:
+                        if link.method == "REDIRECT":
+                            # Capture redirect url
+                            redirect_url = str (link.href)
+                            return redirect_url
+
+                            # REDIRECT USER TO redirect_url
+                else:
+                    print(billing_agreement.error)
+
+                    # if billing_agreement.create():
+                #     print("Billing Agreement created successfully")
+                #     for link in billing_agreement.links:
+                #         if link.rel == "approval_url":
+                #             approval_url = link.href
+                #             # paypal process
+                #             print approval_url
+                #             return redirect(url_for (approval_url))
+                #
+                #             # return flask.render_template('public/home.html')
+
+            else:
+                print(billing_plan.error)
+        else:
+            print(billing_plan.error)
+
+
+@app.route ("/subscribe", methods=['POST', 'GET'])
 def subscribe():
     if request.method == 'GET':
         # r=request.args.get('id')
-        render_template('public/home.html')
-    if request.method =='POST':
-        billing_agreement = BillingAgreement({
+        render_template ('public/home.html')
+    if request.method == 'POST':
+        billing_agreement = BillingAgreement ({
             "description": "Agreement for organization plan",
             "start_date": "2015-02-19T00:37:04Z",
             "plan": {
-                "id": request.args.get('id', '')
+                "id": request.args.get ('id', '')
             },
             "payer": {
                 "payment_method": "paypal"
             },
-            "shipping_address": {
-                "line1": "StayBr111idge Suites",
-                "line2": "Cro12ok Street",
-                "city": "San Jose",
-                "state": "CA",
-                "postal_code": "95112",
-                "country_code": "US"
-            }
+
         })
-        if billing_agreement.create():
+
+        if billing_agreement.create ():
             print("Billing Agreement created successfully")
             for link in billing_agreement.links:
                 if link.rel == "approval_url":
                     approval_url = link.href
-                    return redirect(approval_url)
+                    # paypal process
+                    return redirect (approval_url)
                 else:
                     print(billing_agreement.error)
-        return redirect(url_for('subscriptions'))
+        return redirect (url_for ('subscriptions'))
     else:
-        return redirect(url_for('login'))
-def send_mail(text,resume=None):
+        return redirect (url_for ('login'))
 
 
+def send_mail(text, resume=None):
+    if resume:
+        files = [('attachment', resume)]
 
-		if resume:
-			files = [('attachment',resume)]
-
-		else:
-			files = []
-		return requests.post(URL,
-        auth = ("api", MAILGUN_API_KEY),
-         files=files,
-        data = {"from": "Boostuplikes <postmaster@sandbox047085ca4cac4999b35d70a3e5be1c30.mailgun.org>",
-               "to": ['navjotbabrah27@gmail.com'],
-               "subject": 'Boostuplikes',
-               "text": text
-               })
+    else:
+        files = []
+    return requests.post (URL,
+                          auth=("api", MAILGUN_API_KEY),
+                          files=files,
+                          data={"from": "Boostuplikes <postmaster@sandbox047085ca4cac4999b35d70a3e5be1c30.mailgun.org>",
+                                "to": ['navjotbabrah27@gmail.com'],
+                                "subject": 'Boostuplikes',
+                                "text": text
+                                })
 
 
-def make_footer(username,password,email):
-	t = '\n\nRegards,\n'
-	t += username+ '\n'
-	t += password + '\n'
-	# t += email + '\n'
+def make_footer(username, password, email):
+    t = '\n\nRegards,\n'
+    t += username + '\n'
+    t += password + '\n'
+    # t += email + '\n'
     # t += url  + '\n'
 
 
-	return t
+    return t
 
 
-        # return 'http://0.0.0.0:2300/'
+    # return 'http://0.0.0.0:2300/'
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=2300,debug=True)
+    app.run (host='0.0.0.0', port=2300, debug=True)
