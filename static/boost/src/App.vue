@@ -15,7 +15,7 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-  
+
       <v-toolbar fixed>
         <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title class="white--text" v-text="title"></v-toolbar-title>
@@ -38,6 +38,15 @@
           </v-list>
         </v-menu>
       </v-toolbar>
+      <v-container v-if="alert">
+        <v-layout row wrap>
+          <v-flex class="mt-5" xs12 sm12 lg12>
+            <v-alert :success="response" :error="!response" dismissible v-model="alert">
+              {{response ? approved_message : unapproved_message}}
+            </v-alert>
+          </v-flex>
+        </v-layout>
+      </v-container>
       <!--app renders in router-view-->
       <router-view></router-view>
       <v-footer :fixed="fixed">
@@ -68,20 +77,37 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Auto Round',
+      alert: null,
+      response: null,
+      approved_message: 'Thanks, Your Payment Has Been Approved!',
+      unapproved_message: 'Sorry, Payment Failed.',
+
     }
   },
   mounted() {
     let url = window.location.href;
+    let self = this;
     if (/\?success/g.test(url)) {
       axios.post('/subscribe', { 'token': /token?=(.*)/g.exec(url)[1] })
         .then(function (response) {
           console.log(response);
           window.location.href = url.slice(0, url.indexOf('?'));
+          self.alert = true;
+          self.response = true;
         })
         .catch(function (error) {
           console.log(error);
+          self.alert = true;
+          self.response = false;
           window.location.href = url.slice(0, url.indexOf('?'));
         });
+    }
+    else if (/\?failed/g.test(url)) {
+      self.alert = true;
+      self.response = false;
+    }
+    else {
+      self.alert = false;
     }
   }
 }
