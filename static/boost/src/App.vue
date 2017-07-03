@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'app',
   data() {
@@ -67,6 +68,20 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Auto Round',
+    }
+  },
+  mounted() {
+    let url = window.location.href;
+    if (/\?success/g.test(url)) {
+      axios.post('/subscribe', { 'token': /token?=(.*)/g.exec(url)[1] })
+        .then(function (response) {
+          console.log(response);
+          window.location.href = url.slice(0, url.indexOf('?'));
+        })
+        .catch(function (error) {
+          console.log(error);
+          window.location.href = url.slice(0, url.indexOf('?'));
+        });
     }
   }
 }
