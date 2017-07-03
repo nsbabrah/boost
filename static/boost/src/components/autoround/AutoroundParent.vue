@@ -2,6 +2,14 @@
   <main>
     <v-container fluid>
       <!--<ppdialog></ppdialog>-->
+
+        <v-layout row wrap  v-if="alert">
+          <v-flex xs12 sm12 lg12>
+            <v-alert :success="response" :error="!response" dismissible v-model="alert">
+              {{response ? approved_message : unapproved_message}}
+            </v-alert>
+          </v-flex>
+        </v-layout>
       <v-layout row-sm wrap column v-if="showUsers">
         <v-flex xs12 sm12 lg1>
           <v-btn floating large @click.native="add_user" class="blue text-xs-right ma-1">
@@ -32,7 +40,11 @@ export default {
   data() {
     return {
       showUsers: true,
-      users: null
+      users: null,
+      alert: null,
+      response: null,
+      approved_message: 'Thanks, Your Payment Has Been Approved!',
+      unapproved_message: 'Sorry, Payment Failed.',
     }
   },
   methods: {
@@ -52,6 +64,33 @@ export default {
   },
   created: function () {
     this.auth();
+  },
+    mounted() {
+    let url = window.location.href;
+    let self = this;
+    if (/\?success/g.test(url)) {
+      axios.post('/subscribe', { 'token': /token?=(.*)/g.exec(url)[1] })
+        .then(function (response) {
+          console.log(response);
+          window.location.href = url.slice(0, url.indexOf('?'));
+          self.alert = true;
+          self.response = true;
+        })
+        .catch(function (error) {
+          console.log(error);
+          self.alert = true;
+          self.response = false;
+          window.location.href = url.slice(0, url.indexOf('?'));
+        });
+    }
+    else if (/\?failed/g.test(url)) {
+      self.alert = true;
+      self.response = false;
+    }
+    else {
+      self.alert = false;
+      self.response = false;
+    }
   }
 }
 </script>
