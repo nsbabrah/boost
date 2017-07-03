@@ -14,7 +14,12 @@ export default new Router({
       component: Autoround
     },
     {
-      path: '/listlike',
+      path: '/Autoround',
+      name: 'Autoround',
+      component: Autoround
+    },
+    {
+      path: '/Listlike',
       name: 'ListLike',
       component: ListLike
     }

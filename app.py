@@ -251,30 +251,7 @@ def logout():
     return redirect (somewhere)
 
 
-@app.route ('/home')
-def indexhome():
-    if request.method == 'GET':
-        return render_template ('adminm/home.html')
 
-
-@app.route ('/about')
-def indexabout():
-    if request.method == 'GET':
-        return render_template ('public/about.html')
-
-
-@app.route ('/Boost')
-def index3():
-    if request.method == 'GET':
-        return render_template ('admin_boostlikes/Boost.html')
-
-
-@app.route ('/Listlike')
-def index4():
-    if request.method == 'GET':
-        return render_template ('admin_boostlikes/Listlike.html')
-
-        #
 
 
 @app.route ('/Payementsuccessful', methods=['POST', 'GET'])
@@ -284,8 +261,8 @@ def paymentpaypalonetime():
         payer_id = request.args.get ('PayerID', None)
         # payer_id = request.args.get('PayerID', None)
         # payment = paypalrestsdk.Payment.find(payment_id)
-        billing_agreement_response = BillingAgreement.execute (payment_token)
-        print("BillingAgreement[%s] executed successfully" % billing_agreement_response.id)
+        # billing_agreement_response = BillingAgreement.execute (payment_token)
+        # print("BillingAgreement[%s] executed successfully" % billing_agreement_response.id)
 
         # # print payer_id
         # # print payment_id
@@ -386,10 +363,10 @@ def payementsuccess():
             return render_template ('admin_boostlikes/index.html')
 
 
-@app.route ('/test1#', methods=['GET', 'POST'])
+@app.route ('/home', methods=['GET', 'POST'])
 # @cross_origin()
 # @auth.verify_password
-# @login_required
+@login_required
 
 def dashboard():
     if request.method == 'GET':
@@ -410,10 +387,10 @@ def startpaypal():
             "description": "Create Plan for Regular",
             "merchant_preferences": {
                 "auto_bill_amount": "yes",
-                "cancel_url": "http://www.paypal.com/cancel",
+                "cancel_url": "http://pythonapps.com:2300/home#/Autoroun?failed",
                 "initial_fail_amount_action": "continue",
                 "max_fail_attempts": "1",
-                "return_url": "http://pythonapps.com:2300/test1%23#/"
+                "return_url": "http://pythonapps.com:2300/home#/Autoround?success"
 
             },
             "payment_definitions": [
@@ -422,6 +399,7 @@ def startpaypal():
                         "currency": "CAD",
                         "value": "0.01"
                     },
+
 
                     "cycles": "0",
                     "frequency": "MONTH",
@@ -433,7 +411,7 @@ def startpaypal():
             "type": "INFINITE"
         })
         import datetime
-        start_date =(datetime.datetime.today()+ datetime.timedelta(minutes=3)).strftime('%Y-%m-%dT%H:%M:%SZ')
+        start_date =(datetime.datetime.utcnow()+ datetime.timedelta(minutes=3)).strftime('%Y-%m-%dT%H:%M:%SZ')
         print start_date
         if billing_plan.create ():
             print("Billing Plan [%s] created successfully" % billing_plan.id)
@@ -453,6 +431,14 @@ def startpaypal():
                     },
                     "payer": {
                         "payment_method": "paypal"
+                    },
+                    "shipping_address": {
+                        "line1": "StayBr111idge Suites",
+                        "line2": "Cro12ok Street",
+                        "city": "San Jose",
+                        "state": "CA",
+                        "postal_code": "95112",
+                        "country_code": "US"
                     }
 
 
@@ -470,7 +456,7 @@ def startpaypal():
                         if link.method == "REDIRECT":
                             # Capture redirect url
                             redirect_url = str (link.href)
-                            return redirect_url
+                            return redirect_url 
 
                             # REDIRECT USER TO redirect_url
                 else:
@@ -493,36 +479,16 @@ def startpaypal():
             print(billing_plan.error)
 
 
-@app.route ("/subscribe", methods=['POST', 'GET'])
+@app.route ("/subscribed", methods=['POST', 'GET'])
 def subscribe():
-    if request.method == 'GET':
-        # r=request.args.get('id')
-        render_template ('public/home.html')
     if request.method == 'POST':
-        billing_agreement = BillingAgreement ({
-            "description": "Agreement for organization plan",
-            "start_date": "2015-02-19T00:37:04Z",
-            "plan": {
-                "id": request.args.get ('id', '')
-            },
-            "payer": {
-                "payment_method": "paypal"
-            },
+        payment_token=request.json['token']
 
-        })
+        billing_agreement_response = BillingAgreement.execute(payment_token)
 
-        if billing_agreement.create ():
-            print("Billing Agreement created successfully")
-            for link in billing_agreement.links:
-                if link.rel == "approval_url":
-                    approval_url = link.href
-                    # paypal process
-                    return redirect (approval_url)
-                else:
-                    print(billing_agreement.error)
-        return redirect (url_for ('subscriptions'))
-    else:
-        return redirect (url_for ('login'))
+        print("BillingAgreement[%s] executed successfully" % billing_agreement_response.id)
+
+        return render_template ('public/home.html')
 
 
 def send_mail(text, resume=None):

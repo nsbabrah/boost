@@ -15,7 +15,7 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-
+  
       <v-toolbar fixed>
         <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title class="white--text" v-text="title"></v-toolbar-title>
@@ -57,12 +57,12 @@ export default {
       drawer: true,
       fixed: false,
       items: [
-        { icon: 'dashboard', text: 'Dashboard', 'href': '/#' },
-        { icon: 'thumb_up', text: 'List Likes', 'href': '/#listlike' },
-        { icon: 'brightness_auto', text: 'Auto Round', 'href': '/#' },
-        { icon: 'favorite_border', text: 'Boost', 'href': '/' },
-        { icon: 'account_circle', text: 'Manage Account', 'href': '/' },
-        { icon: 'settings', text: 'Settings', 'href': '/' }
+        { icon: 'dashboard', text: 'Dashboard', 'href': '#/Autoround' },
+        { icon: 'thumb_up', text: 'List Likes', 'href': '#/Listlike' },
+        { icon: 'brightness_auto', text: 'Auto Round', 'href': '#/Autoround' },
+        { icon: 'favorite_border', text: 'Boost', 'href': '#/' },
+        { icon: 'account_circle', text: 'Manage Account', 'href': '#/' },
+        { icon: 'settings', text: 'Settings', 'href': '#/' }
       ],
       miniVariant: false,
       right: true,
