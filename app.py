@@ -1,3 +1,5 @@
+
+
 # import SQLAlchemy as SQLAlchemy
 import os
 import re
@@ -6,7 +8,7 @@ import user
 import flask
 from flask import Flask, Blueprint, render_template, request, jsonify, g, make_response, redirect, url_for, session, \
     send_from_directory
-
+from paypalrestsdk import Payment
 import requests
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import logout_user, login_required, UserMixin
@@ -60,7 +62,7 @@ login_manager.init_app (app)
 # logging.getLogger('flask_cors').level = logging.DEBUG
 
 
-login_manager.session_protection = "strong"
+# login_manager.session_protection = "strong"
 from config import *
 
 # from paymnts import *
@@ -84,6 +86,7 @@ my_api = paypalrestsdk.configure ({
 my_api.get_access_token ()
 userdatastore = None
 userisauth = None
+billing_id = None
 
 logging.basicConfig (level=logging.INFO)
 def commit(obj):
@@ -254,58 +257,112 @@ def logout():
 
 
 
-@app.route ('/Payementsuccessful', methods=['POST', 'GET'])
+@app.route ('/Usernamechanged', methods=['POST', 'GET'])
 def paymentpaypalonetime():
     if request.method == 'GET':
         payment_id = request.args.get ('paymentId', None)
         payer_id = request.args.get ('PayerID', None)
         # payer_id = request.args.get('PayerID', None)
-        # payment = paypalrestsdk.Payment.find(payment_id)
+        payment = paypalrestsdk.Payment.find(payment_id)
         # billing_agreement_response = BillingAgreement.execute (payment_token)
         # print("BillingAgreement[%s] executed successfully" % billing_agreement_response.id)
 
         # # print payer_id
         # # print payment_id
 
-        # if payment.execute({"payer_id": payer_id}):
-        #     payment = paypalrestsdk.Payment.find(payment_id)
+        if payment.execute({"payer_id": payer_id}):
+            payment = paypalrestsdk.Payment.find(payment_id)
 
-        #   payment = paypalrestsdk.Payment.find(payment_id)
-
-        #     # Get List of Payments
-        #     payment_history = paypalrestsdk.Payment.all({"count": 1})
-        #     r = payment_history.payments
-        #     for i in r:
-        #         # print i['first_name']
-        #         # print i['last_name']
-        #         # print i['int r[0]email']
+            payment_history = paypalrestsdk.Payment.all({"count": 1})
+            r = payment_history.payments
+            for i in r:
+                # print i['first_name']
+                # print i['last_name']
+                # print i['int r[0]email']
 
 
-        #         status=i['state']
-        #         # print i['create_time']
-        #         if (status == 'approved'):
-        #             userpy = Userpayment()
-        #             userpy.username = status
-        #             userpy.package1 = status
-        #             userpy.package2 = '0'
-        #             userpy.email = status
-        #             userpy.status = status
-        #             # print  userpy.username
-        #             db.session.add(userpy)
-        #             db.session.commit()
-        #             # print "payemt done"
-        #             return render_template('public/test1%23#/.html', i=i)
-        #         else:
-        #             return render_template('admin_boostlikes/index.html')
+                status=i['state']
+                # print i['create_time']
+                if (status == 'approved'):
+                    userpy = Userpayment()
+                    userpy.username = status
+                    userpy.package1 = status
+                    userpy.package2 = '0'
+                    userpy.email = status
+                    userpy.status = status
+                    # print  userpy.username
+                    db.session.add(userpy)
+                    db.session.commit()
+                    # print "payemt done"
+                    return render_template('public/test1%23#/.html', i=i)
+                else:
+                    return render_template('admin_boostlikes/index.html')
 
         # else:
         #     return render_template('admin_boostlikes/index.html')
 
 
-@app.route ('/Payementcancel', methods=['POST', 'GET'])
+
+
+@app.route ('/changeUser', methods=['POST', 'GET'])
 def paymentpaypalcancel():
-    if request.method == 'GET':
-        return render_template ('admin_boostlikes/ERROR/payementcancel.html')
+    if request.method == 'POST':
+        payment = Payment ({
+            "intent": "sale",
+
+            # Payer
+            # A resource representing a Payer that funds a payment
+            # Payment Method as 'paypal'
+            "payer": {
+                "payment_method": "paypal"},
+
+            # Redirect URLs
+            "redirect_urls": {
+                "return_url": "http://0.0.0.0:2300/Usernamechanged",
+                "cancel_url": "http://localhost:3000/"},
+
+            # Transaction
+            # A transaction defines the contract of a
+            # payment - what is the payment for and who
+            # is fulfilling it.
+            "transactions": [{
+
+                # ItemList
+                "item_list": {
+                    "items": [{
+                        "name": "item",
+                        "sku": "item",
+                        "price": "0.01",
+                        "currency": "CAD",
+                        "quantity": 1}]},
+
+                # Amount
+                # Let's you specify a payment amount.
+                "amount": {
+                    "total": "0.01",
+                    "currency": "CAD"},
+                "description": "This is the payment transaction description."}]})
+
+        # Create Payment and return status
+        if payment.create():
+            print("Payment[%s] created successfully" % (payment.id))
+            # Redirect the user to given approval url
+            for link in payment.links:
+                if link.rel == "approval_url":
+                    # Convert to str to avoid google appengine unicode issue
+                    # https://github.com/paypal/rest-api-sdk-python/pull/58
+                    approval_url = str (link.href)
+
+                    print("Redirect for approval: %s" % (approval_url))
+
+                    return approval_url
+                    
+        else:
+            print("Error while creating payment:")
+            print(payment.error)
+        # print request.data
+        # print request.json
+        # return 'to get '
 
 
 @app.route ('/userauth', methods=['GET'])
@@ -333,37 +390,97 @@ def userauth():
         return {'auth': "false"}
 
 
-@app.route ('/payementpaypal', methods=['POST'])
+@app.route ('/change_accountname', methods=['POST'])
 def payementsuccess():
     if request.method == 'GET':
         return render_template ('admin_boostlikes/index.html')
 
     if request.method == 'POST':
-        # params = request.form
-        # status = request.gets_json()
-        status = request.json['s']
-        package1 = request.json['s']
-        # print status
-        # return render_template('admin_boostlikes/autoround.html')
+        return True
+        # payment = Payment ({
+        #     "intent": "sale",
+        #
+        #     # Payer
+        #     # A resource representing a Payer that funds a payment
+        #     # Payment Method as 'paypal'
+        #     "payer": {
+        #         "payment_method": "paypal"},
+        #
+        #     # Redirect URLs
+        #     "redirect_urls": {
+        #         "return_url": "http://0.0.0.0:2300/",
+        #         "cancel_url": "http://localhost:3000/"},
+        #
+        #     # Transaction
+        #     # A transaction defines the contract of a
+        #     # payment - what is the payment for and who
+        #     # is fulfilling it.
+        #     "transactions": [{
+        #
+        #         # ItemList
+        #         "item_list": {
+        #             "items": [{ss
+        #                 "name": "item",
+        #                 "sku": "item",
+        #                 "price": "0.01",
+        #                 "currency": "CAD",
+        #                 "quantity": 1}]},
+        #
+        #         # Amount
+        #         # Let's you specify a payment amount.
+        #         "amount": {
+        #             "total": "0.01",
+        #             "currency": "CAD"},
+        #         "description": "This is the payment transaction description."}]})
+
+        # Create Payment and return status
+        # if payment.create ():
+        #     print("Payment[%s] created successfully" % (payment.id))
+        #     # Redirect the user to given approval url
+        #     for link in payment.links:
+        #         if link.rel == "approval_url":
+        #             # Convert to str to avoid google appengine unicode issue
+        #             # https://github.com/paypal/rest-api-sdk-python/pull/58
+        #             approval_url = str (link.href)
+        #             return approval_url
+        #             print("Redirect for approval: %s" % (approval_url))
+        # else:
+        #     print("Error while creating payment:")
+        #     print(payment.error)
+        # # params = request.form
+        # # status = request.gets_json()
+        # status = request.json['s']
+        # package1 = request.json['s']
+        # # print status
+        # # return render_template('admin_boostlikes/autoround.html')
+        #
+        #
+        # if (status == 'approved'):
+        #     userpy = Userpayment ()
+        #     userpy.username = status
+        #     userpy.package1 = package1
+        #     userpy.package2 = '0'
+        #     userpy.email = status
+        #     userpy.status = status
+        #     # print  userpy.username
+        #     db.session.add (userpy)
+        #     db.session.commit ()
+        #     # print "payemt done"
+        #     return render_template ('admin_boostlikes/autoround.html')
+        # else:
+        #     return render_template ('admin_boostlikes/index.html')
 
 
-        if (status == 'approved'):
-            userpy = Userpayment ()
-            userpy.username = status
-            userpy.package1 = package1
-            userpy.package2 = '0'
-            userpy.email = status
-            userpy.status = status
-            # print  userpy.username
-            db.session.add (userpy)
-            db.session.commit ()
-            # print "payemt done"
-            return render_template ('admin_boostlikes/autoround.html')
-        else:
-            return render_template ('admin_boostlikes/index.html')
 
 
-@app.route ('/home', methods=['GET', 'POST'])
+
+
+
+
+
+
+
+@app.route ('/home#', methods=['GET', 'POST'])
 # @cross_origin()
 # @auth.verify_password
 @login_required
@@ -373,6 +490,9 @@ def dashboard():
         print   userdatastore
 
         return render_template ('public/test1.html')
+    else:
+        return render_template ('public/signin.html')
+
 
 
 @app.route ('/start_paypal', methods=['POST'])
@@ -382,15 +502,17 @@ def dashboard():
 def startpaypal():
     if request.method == 'POST':
 
+        username  = request.json['username']
+
         billing_plan = BillingPlan ({
             "name": "navjotbabrah",
             "description": "Create Plan for Regular",
             "merchant_preferences": {
                 "auto_bill_amount": "yes",
-                "cancel_url": "http://pythonapps.com:2300/home#/Autoroun?failed",
+                "cancel_url": "http://pythonapps.com:2300/home%23#/Autoround?failed",
                 "initial_fail_amount_action": "continue",
-                "max_fail_attempts": "1",
-                "return_url": "http://pythonapps.com:2300/home#/Autoround?success"
+                "max_fail_attempts": "0",
+                "return_url": "http://pythonapps.com:2300/home%23#/Autoround?success"
 
             },
             "payment_definitions": [
@@ -415,15 +537,17 @@ def startpaypal():
         print start_date
         if billing_plan.create ():
             print("Billing Plan [%s] created successfully" % billing_plan.id)
+            global billing_id
 
+            # billing_id = billing_plan.id
             # Activate billing plan
             if billing_plan.activate ():
                 billing_plan = BillingPlan.find (billing_plan.id)
-                print  (billing_plan.to_dict())
+                # print  (billing_plan.to_dict())
                 print("Billing Plan [%s] state changed to %s" % (billing_plan.id, billing_plan.state))
-                print billing_plan.start_date
+                print billing_plan
                 billing_agreement = BillingAgreement ({
-                    "name": "navjotbabrah",
+                    "name": "dj",
                     "description": "Agreement for organization plan",
                     "start_date":start_date,
                     "plan": {
@@ -440,11 +564,6 @@ def startpaypal():
                         "postal_code": "95112",
                         "country_code": "US"
                     }
-
-
-
-
-
                 })
 
                 # logging.basicConfig (level=logging.INFO)
@@ -456,6 +575,7 @@ def startpaypal():
                         if link.method == "REDIRECT":
                             # Capture redirect url
                             redirect_url = str (link.href)
+                            print redirect_url
                             return redirect_url 
 
                             # REDIRECT USER TO redirect_url
@@ -479,16 +599,60 @@ def startpaypal():
             print(billing_plan.error)
 
 
-@app.route ("/subscribed", methods=['POST', 'GET'])
+@app.route ("/subscribe", methods=['POST', 'GET'])
 def subscribe():
     if request.method == 'POST':
         payment_token=request.json['token']
+        o=request.args.get('paymentId')
+        global userdatastore
+        print userdatastore
+        userdatastore = 'dj'
+        print userdatastore
+        # payment_id = billing_id
 
-        billing_agreement_response = BillingAgreement.execute(payment_token)
 
-        print("BillingAgreement[%s] executed successfully" % billing_agreement_response.id)
+        billing_agreement_response  = BillingAgreement.execute(payment_token)
+        print billing_agreement_response
+        start_date, end_date = "2017-07-03", "2017-07-20"
 
-        return render_template ('public/home.html')
+        billing_agreement = BillingAgreement.find (billing_agreement_response.id)
+        # print billing_agreement.final_payment_date
+        # transactions = billing_agreement.search_transactions(start_date, end_date)
+        # print transactions
+        print("Got Billing Agreement Details for Billing Agreement[%s]" % (billing_agreement.id))
+
+
+
+        # bill_id = billing_agreement_response.id
+        # billing_agreement =  BillingAgreement.find(bill_id)
+        # planstart_date= billing_agreement_response.start_date
+        # print planstart_date
+
+        # payment = paypalrestsdk.Payment.find(billing_agreement.id)
+
+        # print payment
+        # Get List of Payments
+        # payment_history = paypalrestsdk.Payment.all ({"count": 1})
+        # print payment_history
+
+        # Get List of Payments
+
+        # print billing_agreement
+
+        userpy = userpackage()
+        userpy.username = userdatastore
+        userpy.Auto_ac_name = 'new'
+        userpy.email = 'nav'
+        userpy.Listlikepackage = 'nav'
+        userpy.usr_email = "asdsad"
+
+        # print  userpy.username
+        db.session.add (userpy)
+        db.session.commit()
+
+        # print("BillingAgreement[%s] executed successfully" % billing_agreement_response.id)
+
+        return 'sussesc'
 
 
 def send_mail(text, resume=None):

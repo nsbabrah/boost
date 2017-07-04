@@ -93,7 +93,7 @@ PROXY2 = "127.0.0.1:34003" # IP:PORT or HOST:PORT
 
 paid_user=['jeffrr111111','jonathananthan','davidryan0']
 password=['jeff1234','tigerisback','therockiscooking']
-proxy=['64.202.115.145:80']
+proxy=['216.10.7.197:3199:boostlikes-8wawl:nLXfMKzV6h']
 
 # target=['manpreetsingh8750','bennuttan','samra1850','pavitar_chhina_','deep3214']
 target=['gagan_babrah_7860',

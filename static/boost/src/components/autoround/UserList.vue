@@ -23,7 +23,7 @@
             </v-list>
           </v-menu>
         </div>
-
+  
       </v-card-title>
     </v-card-row>
     <v-card-text>
@@ -38,7 +38,26 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-card-row actions class="mt-0">
-      <v-btn flat class="green--text darken-1">Contact Info</v-btn>
+      <!--<v-layout row justify-center>-->
+      <v-dialog v-model="dialog">
+        <v-btn flat class="green--text darken-1" slot="activator">Contact Info</v-btn>
+  
+        <v-card>
+          <v-card-row>
+            <v-card-title>User Profile</v-card-title>
+          </v-card-row>
+          <v-card-row>
+            <v-card-text>
+              <v-text-field v-model="newuser" label="New username" required></v-text-field>
+            </v-card-text>
+          </v-card-row>
+          <v-card-row actions>
+            <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Close</v-btn>
+            <v-btn class="blue--text darken-1" flat @click.native="changename">Save</v-btn>
+          </v-card-row>
+        </v-card>
+      </v-dialog>
+      <!--</v-layout> -->
       <v-spacer></v-spacer>
       <v-btn medium floating primary @click.native="play_pause" class="ml-2">
         <v-icon v-show="!play" light>play_arrow</v-icon>
@@ -49,17 +68,35 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   props: ['data'],
   data() {
     return {
       play: false,
+      dialog: false,
+      newuser : ''
     }
   },
   methods: {
     play_pause() {
       this.play = !this.play;
+    },
+    changename() {
+      console.log('change');
+      this.dialog = false;
+      let self = this;
+      axios.post('/changeUser', { 'old': self.data.Auto_ac_name, 'new': self.newuser })
+        .then(function (response) {
+          console.log(response);
+          // location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
     }
+
   }
 }
 </script>
