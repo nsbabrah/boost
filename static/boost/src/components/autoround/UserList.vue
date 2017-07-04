@@ -29,12 +29,10 @@
     <v-card-text>
       <v-card-row height="75px">
         <img :src="this.data.image" width="100px" height="100px">
-        <!--<v-icon class="mr-5" dark>card_membership</v-icon>-->
         <v-spacer></v-spacer>
         <div>
-          <div>{{this.data.Auto_ac_name}}</div>
-          <strong>{{this.data.listlike}}</strong>
-          <strong>{{this.data.usr_id}}</strong>
+          <strong>{{this.data.Auto_ac_name}}</strong>
+          <!--<div>{{this.data.usr_id}}</div>-->
         </div>
       </v-card-row>
     </v-card-text>
@@ -42,22 +40,27 @@
     <v-card-row actions class="mt-0">
       <v-btn flat class="green--text darken-1">Contact Info</v-btn>
       <v-spacer></v-spacer>
-      <v-btn small floating primary class="ml-2">
-        <v-icon light>play_arrow</v-icon>
+      <v-btn medium floating primary @click.native="play_pause" class="ml-2">
+        <v-icon v-show="!play" light>play_arrow</v-icon>
+        <v-icon v-show="play" light>pause_circle_filled</v-icon>
       </v-btn>
-      <v-spacer></v-spacer>
-
-      <v-btn small floating primary class="ml-2">
-        <v-icon light>pause_circle_filled</v-icon>
-      </v-btn>
-
     </v-card-row>
   </v-card>
 </template>
 
 <script>
 export default {
-  props: ['data']
+  props: ['data'],
+  data() {
+    return {
+      play: false,
+    }
+  },
+  methods: {
+    play_pause() {
+      this.play = !this.play;
+    }
+  }
 }
 </script>
 

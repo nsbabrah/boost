@@ -75,6 +75,7 @@ export default {
           window.location.href = url.slice(0, url.indexOf('?'));
           self.alert = true;
           self.response = true;
+          self.auth();
         })
         .catch(function (error) {
           console.log(error);
