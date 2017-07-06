@@ -307,7 +307,7 @@ def paymentpaypalonetime():
 @app.route ('/changeUser', methods=['POST', 'GET'])
 def paymentpaypalcancel():
     if request.method == 'POST':
-        payment = Payment ({
+        payment = paypalrestsdk.Payment ({
             "intent": "sale",
 
             # Payer
@@ -356,7 +356,7 @@ def paymentpaypalcancel():
                     print("Redirect for approval: %s" % (approval_url))
 
                     return approval_url
-                    
+
         else:
             print("Error while creating payment:")
             print(payment.error)
@@ -576,7 +576,7 @@ def startpaypal():
                             # Capture redirect url
                             redirect_url = str (link.href)
                             print redirect_url
-                            return redirect_url 
+                            return redirect_url
 
                             # REDIRECT USER TO redirect_url
                 else:
@@ -686,4 +686,4 @@ def make_footer(username, password, email):
 
 
 if __name__ == '__main__':
-    app.run (host='0.0.0.0', port=2300, debug=True)
+    app.run (host='0.0.0.0',port=23000)

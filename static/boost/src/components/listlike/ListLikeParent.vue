@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-layout row-sm wrap column>
         <v-flex xs12 sm12 lg1>
-          <v-btn floating primary large class="text-xs-right ma-1">
+          <v-btn @click.native="add_user" floating primary large class="text-xs-right ma-1">
             <v-icon light>add</v-icon>
           </v-btn>
         </v-flex>

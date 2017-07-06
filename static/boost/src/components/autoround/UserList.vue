@@ -91,6 +91,7 @@ export default {
           console.log(response);
           // location.reload();
         })
+        
         .catch(function (error) {
           console.log(error);
         });
