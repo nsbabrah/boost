@@ -18,7 +18,7 @@
         </v-flex>
         <div v-for="(item,index) in users" :key="index">
           <v-flex xs12>
-            <cards :key="users" v-on:remove="users.splice(index, 1)" :data="item" class="ma-1"></cards>
+            <cards :key="users" v-on:help="showhelp=true" :data="item" class="ma-1"></cards>
           </v-flex>
         </div>
       </v-layout>
@@ -26,6 +26,21 @@
         <tabs v-on:goback="showUsers = true"> </tabs>
       </v-layout>
     </v-container>
+      <v-layout row justify-center>
+    <v-dialog v-model="showhelp"  width="700px" scrollable height="100px">
+      <!--<v-btn primary dark slot="activator">Open Dialog</v-btn>-->
+      <v-card>
+        <v-card-title>
+          <span class="headline">Use Google's location service?</span>
+        </v-card-title>
+        <v-card-text>Lan tyaLorem ipsum dolor sit amet,</v-card-text>
+        <!--<v-card-actions>-->
+          <v-btn class="green--text darken-1" flat="flat" @click.native="showhelp = false">Disagree</v-btn>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="showhelp = false">Agree</v-btn>
+        <!--</v-card-actions>-->
+      </v-card>
+    </v-dialog>
+  </v-layout>
   </main>
 </template>
 
@@ -40,6 +55,7 @@ export default {
   data() {
     return {
       showUsers: true,
+      showhelp:false,
       users: null,
       alert: null,
       response: null,

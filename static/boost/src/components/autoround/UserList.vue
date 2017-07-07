@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-row class="green darken-1">
+    <v-card-row class="green darken-1" height="10px">
       <v-card-title>
         <span class="white--text">User</span>
         <v-spacer></v-spacer>
@@ -12,7 +12,7 @@
             <v-list>
               <v-list-item>
                 <v-list-tile>
-                  <v-list-tile-title @click="$emit('remove')">Remove</v-list-tile-title>
+                  <v-list-tile-title @click="$emit('help')">Help</v-list-tile-title>
                 </v-list-tile>
               </v-list-item>
               <v-list-item>
@@ -40,7 +40,7 @@
     <v-card-row actions class="mt-0">
       <!--<v-layout row justify-center>-->
       <v-dialog v-model="dialog">
-        <v-btn flat class="green--text darken-1" slot="activator">Contact Info</v-btn>
+        <v-btn flat class="green--text darken-1" slot="activator">Change Name</v-btn>
   
         <v-card>
           <v-card-row>
