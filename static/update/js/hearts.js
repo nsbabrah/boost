@@ -1,7 +1,7 @@
             var HeartsBackground = {
                 // text:30px,
                 heartHeight: 60,
-                heartWidth: 64,
+                heartWidth: 40,
                 hearts: [],
                 heartImage: '../../static/update/images/heart.png',
                 maxHearts: 30,
@@ -12,7 +12,7 @@
                     this.setCanvasSize();
                     this.ctx.clearRect(0, 0, this.w, this.h);
 
-                    this.ctx.fill()
+                    this.ctx.fill();
                     for (var i = 0; i < this.hearts.length; i++) {
                         var heart = this.hearts[i];
                         heart.image = new Image();
