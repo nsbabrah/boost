@@ -81,6 +81,21 @@ export default {
   methods: {
     play_pause() {
       this.play = !this.play;
+      console.log(this.play);
+      if (this.play == true){
+        let self = this;
+      axios.post('/changeUser', { 'old': self.data.Auto_ac_name, 'new': self.newuser })
+        .then(function (response) {
+          console.log(response);
+          // location.reload();
+        })
+        
+        .catch(function (error) {
+          console.log(error);
+        });
+
+        
+      }
     },
     changename() {
       console.log('change');

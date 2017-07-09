@@ -61,7 +61,7 @@ export default {
         { icon: 'brightness_auto', text: 'Auto Round', 'href': '#/Autoround' },
         { icon: 'favorite_border', text: 'Boost', 'href': '#/' },
         { icon: 'account_circle', text: 'Manage Account', 'href': '#/' },
-        { icon: 'settings', text: 'Settings', 'href': '#/' }
+        { icon: 'settings', text: 'Ebook Guide', 'href': '#/' }
       ],
       miniVariant: false,
       right: true,
