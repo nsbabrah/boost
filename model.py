@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import request, redirect, url_for, render_template
 from config import *
-from app import db,bcrypt,UserMixin,auth
+from app import db,bcrypt,UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 #from flask.ext.security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 #

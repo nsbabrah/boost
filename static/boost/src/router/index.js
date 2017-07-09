@@ -17,6 +17,10 @@ export default new Router({
       path: '/Autoround',
       name: 'Autoround',
       component: Autoround
+    },{
+      path: '/ManageAccount',
+      name: 'ManageAccount',
+      component: Autoround
     },
     {
       path: '/Listlike',
