@@ -1,8 +1,6 @@
 <template>
   <main>
     <v-container fluid>
-      <!--<ppdialog></ppdialog>-->
-
         <v-layout row wrap  v-if="alert">
           <v-flex xs12 sm12 lg12>
             <v-alert :success="response" :error="!response" dismissible v-model="alert">

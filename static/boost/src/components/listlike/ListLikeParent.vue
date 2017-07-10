@@ -28,11 +28,11 @@
       </v-layout>
       <v-divider class="mt-3"></v-divider>
 
-      <v-layout row>
+      <!--<v-layout row>
         <v-flex xs12 sm12 lg12>
           <notifications :data="notify"></notifications>
         </v-flex>
-      </v-layout>
+      </v-layout>-->
     </v-container>
     <v-container fluid v-if="add_user">
       <v-layout row-sm wrap column>

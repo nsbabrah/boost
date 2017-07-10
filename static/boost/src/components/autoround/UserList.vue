@@ -15,11 +15,11 @@
                   <v-list-tile-title @click="$emit('help')">Help</v-list-tile-title>
                 </v-list-tile>
               </v-list-item>
-             
+
             </v-list>
           </v-menu>
         </div>
-  
+
       </v-card-title>
     </v-card-row>
     <v-card-text>
@@ -37,10 +37,11 @@
       <!--<v-layout row justify-center>-->
       <v-dialog v-model="dialog">
         <v-btn flat class="green--text darken-1" slot="activator">Change Name</v-btn>
-  
+
         <v-card>
           <v-card-row>
-            <v-card-title>User Profile</v-card-title>
+            <v-card-title>$1 will be charged for this action Continue ?
+            </v-card-title>
           </v-card-row>
           <v-card-row>
             <v-card-text>
@@ -48,8 +49,8 @@
             </v-card-text>
           </v-card-row>
           <v-card-row actions>
-            <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Close</v-btn>
-            <v-btn class="blue--text darken-1" flat @click.native="changename">Save</v-btn>
+            <v-btn class="blue--text darken-1" flat @click.native="dialog = false">No</v-btn>
+            <v-btn class="blue--text darken-1" flat @click.native="changename">Yes</v-btn>
           </v-card-row>
         </v-card>
       </v-dialog>
@@ -76,25 +77,8 @@ export default {
   },
   methods: {
     play_pause() {
-      this.play==!this.play
-
-      // this.play = !this.play; this if user presssed play
-      // this.play = this.play; this if user presssed pause
+      this.play = !this.play;
       console.log(this.play);
-      if (this.play == true){
-        let self = this;
-      axios.post('/changeUser', { 'old': self.data.Auto_ac_name, 'new': self.newuser })
-        .then(function (response) {
-          console.log(response);
-          // location.reload();
-        })
-        
-        .catch(function (error) {
-          console.log(error);
-        });
-
-        
-      }
     },
     changename() {
       console.log('change');
@@ -105,7 +89,6 @@ export default {
           console.log(response);
           // location.reload();
         })
-        
         .catch(function (error) {
           console.log(error);
         });
