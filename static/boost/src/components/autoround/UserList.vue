@@ -15,11 +15,7 @@
                   <v-list-tile-title @click="$emit('help')">Help</v-list-tile-title>
                 </v-list-tile>
               </v-list-item>
-              <v-list-item>
-                <v-list-tile>
-                  <v-list-tile-title>Send Feedback</v-list-tile-title>
-                </v-list-tile>
-              </v-list-item>
+             
             </v-list>
           </v-menu>
         </div>
@@ -80,7 +76,10 @@ export default {
   },
   methods: {
     play_pause() {
-      this.play = !this.play;
+      this.play==!this.play
+
+      // this.play = !this.play; this if user presssed play
+      // this.play = this.play; this if user presssed pause
       console.log(this.play);
       if (this.play == true){
         let self = this;

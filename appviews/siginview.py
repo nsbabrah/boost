@@ -1,6 +1,7 @@
 
 import flask
 import sys
+from flask import render_template, request
 from flask import Blueprint
 from flask_login import login_required,login_user
 # from flask import  render_template, g
@@ -9,42 +10,35 @@ from flask_login import logout_user, login_required, UserMixin
 import flask_login
 from controller import controller
 from controller.controller import gen
-# from app import *
-from flask import render_template, request
-# print controller.gen()
-# login_manager.session_protection = "strong"
-from config import *
+#login_manager.session_protection = "strong"
 
 
 signin = Blueprint('signin', __name__)
-from model import *
+from models.Usermodel import *
+from approutes import my_view
+from siginview import userpackage
+from controller.Sigin import usersignin
 
 
-@signin.route ('/signin', methods=['POST', 'GET'])
+@my_view.route ('/signin', methods=['POST', 'GET'])
 def verify_user_password():
     if request.method == 'GET':
         # logout_user(user)
         return render_template ('public/signin.html')
 
     if request.method == 'POST':
-
         params = request.form
         # print params
         username = params['username']
         password = params['password'].encode ('utf-8')
         remember = False
-
-        if 'remember' in params:
-            remember = True
-
-        # user = db.session.query(User).filter(User.username==username).first()
         user = User.query.filter_by (username=username)
         user = user.first ()
 
         if user:
             if user.is_password_correct (password):
 
-                login_user(user)
+                login_user (user)
                 user.authenticated = True
                 user.is_anonymous ()
                 #
@@ -57,6 +51,7 @@ def verify_user_password():
                 userdatastore = t
                 global userisauth
                 userisauth = True
+
                 # is_safe_url should check if the url is safe for redirects.
                 # See http://flask.pocoo.org/snippets/62/ for an example.
 
@@ -66,4 +61,6 @@ def verify_user_password():
                 return flask.render_template ('public/signin.html')
         else:
             return flask.render_template ('public/signin.html')
+
+
 

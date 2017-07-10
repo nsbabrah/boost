@@ -11,10 +11,9 @@ from flask import Flask, Blueprint, render_template, request, jsonify, g, make_r
 from paypalrestsdk import Payment
 import requests
 
-from appviews.approutes import my_view
-from appviews.siginview import signin
-from appviews.signup import signup
-from appviews.dashboard import dashboard
+
+
+
 # from appviews.siginview import my_view
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import logout_user, login_required, UserMixin,LoginManager
@@ -53,6 +52,7 @@ app.config['SECRET_KEY'] = '769876tr8629r9yog^%&^*13*^&)&*^%&()'
 # login_manager.anonymous_user =''
 app.config['CONTENT_DIR'] = d
 login_manager.login_view = 'signin'
+login_manager.session_protection = "strong"
 # from controllers import *
 # DB instance init
 db = SQLAlchemy (app)
@@ -66,9 +66,19 @@ my_api = paypalrestsdk.configure ({
 my_api.get_access_token ()
 logging.basicConfig (level=logging.INFO)
     # return 'http://0.0.0.0:2300/'
-app.register_blueprint(signup)
-app.register_blueprint(my_view,url_prefix='/')
-app.register_blueprint(signin)
+from appviews.approutes import my_view
+from appviews.siginview import signin
+from appviews.signup import signup
+
+from appviews.dashboard import dashboard
+from controller.Sigin import usersignin
+
+from appviews.paypalAutoround import startpaypal,subscribe
+from appviews.userauth import userauth
+
+from models.Usermodel import *
+app.register_blueprint(my_view)
+
 # app.register_blueprint(dashboard)
 # from paymnts import *
 def commit(obj):
@@ -82,8 +92,7 @@ def commit(obj):
 
 
 
-from model import *
-
+from models import *
 @login_manager.user_loader
 def load_user(user_id):
     '''User Loader for flask-login

@@ -4,20 +4,20 @@ from flask import  render_template, g
 from flask_login import logout_user, login_required, UserMixin
 import flask_login
 from controller import controller
+
 from controller.controller import gen
-# from app import *
 from flask import render_template, request
 print controller.gen()
 # login_manager.session_protection = "strong"
 from config import *
 
-
 signup = Blueprint('signup', __name__)
-
-
-
-@signup.route ('/signup', methods=['POST', 'GET'])
+from models.Usermodel import *
+from approutes import my_view
+from app import db
+@my_view.route ('/signup', methods=['POST', 'GET'])
 def index2():
+
     if request.method == 'GET':
         return render_template ('public/signup.html')
 
@@ -28,7 +28,7 @@ def index2():
         username = params['username']
         password = params['password']
         email = params['email']
-        text1 = params['username']
+
         user = db.session.query (User).filter (User.username == username).first ()
         emailusr = db.session.query (User).filter (User.email == email).first ()
         print (user)
@@ -47,9 +47,9 @@ def index2():
                 user._password = password
                 user.email = email
 
-                # db.session.add (user)
-                #
-                # db.session.commit ()
+                db.session.add (user)
+
+                db.session.commit()
 
                 # text = text1 + make_footer (username, password, email)
                 # send_mail (username, text)

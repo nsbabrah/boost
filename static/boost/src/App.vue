@@ -56,7 +56,7 @@ export default {
       drawer: true,
       fixed: false,
       items: [
-        { icon: 'dashboard', text: 'Dashboard', 'href': '#/Autoround' },
+        { icon: 'dashboard', text: 'Dashboard', 'href': '#/' },
         { icon: 'thumb_up', text: 'List Likes', 'href': '#/Listlike' },
         { icon: 'brightness_auto', text: 'Auto Round', 'href': '#/Autoround' },
         { icon: 'favorite_border', text: 'Boost', 'href': '#/' },

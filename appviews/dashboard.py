@@ -10,22 +10,13 @@ from flask import render_template, request
 print controller.gen()
 # login_manager.session_protection = "strong"
 from config import *
+from approutes import my_view
+d = Blueprint('d', __name__)
 
 
-dashboard = Blueprint('dashboard', __name__)
-
-
-@dashboard.route ('/home#', methods=['GET', 'POST'])
-# @cross_origin()
-# @auth.verify_password
+@my_view.route ('/dashboard', methods=['POST', 'GET'])
 @login_required
-
 def dashboard():
     if request.method == 'GET':
-
-
-        return render_template ('public/test1.html')
-    else:
-        return render_template ('public/signin.html')
-
-
+        return render_template('public/test1.html')
+        # logout_user(user)
