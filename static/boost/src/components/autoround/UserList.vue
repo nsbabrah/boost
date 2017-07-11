@@ -57,8 +57,8 @@
       <!--</v-layout> -->
       <v-spacer></v-spacer>
       <v-btn medium floating primary @click.native="play_pause" class="ml-2">
-        <v-icon v-show="!play" light>play_arrow</v-icon>
-        <v-icon v-show="play" light>pause_circle_filled</v-icon>
+        <v-icon v-show="!this.data.play" light>play_arrow</v-icon>
+        <v-icon v-show="this.data.play" light>pause_circle_filled</v-icon>
       </v-btn>
     </v-card-row>
   </v-card>
@@ -69,15 +69,26 @@
     props: ['data'],
     data() {
       return {
-        play: false,
         dialog: false,
         newuser: ''
       }
     },
     methods: {
       play_pause() {
-        this.play = !this.play;
+        this.data.play = !this.data.play;
         console.log(this.play);
+         let self = this;
+        this.axios.post('/changeState', {
+            'name': self.data.Auto_ac_name,
+            'state': self.data.play
+          })
+          .then(function(response) {
+            console.log(response);
+            // location.reload();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
       },
       changename() {
         console.log('change');

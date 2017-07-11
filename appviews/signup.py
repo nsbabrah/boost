@@ -12,7 +12,7 @@ print controller.gen()
 from config import *
 
 signup = Blueprint('signup', __name__)
-from models.Usermodel import *
+
 from approutes import my_view
 from app import db
 @my_view.route ('/signup', methods=['POST', 'GET'])

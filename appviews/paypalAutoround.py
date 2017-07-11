@@ -35,7 +35,7 @@ from config import *
 from OpenSSL import SSL
 
 from approutes import my_view
-from models.Usermodel import *
+
 @my_view.route ('/start_paypal', methods=['POST'])
 # @cross_origin()
 # @auth.verify_password

@@ -12,14 +12,13 @@ from controller import controller
 from controller.controller import gen
 #login_manager.session_protection = "strong"
 
+import models
 
-signin = Blueprint('signin', __name__)
-from models.Usermodel import *
+signin = Blueprint('signin',__name__)
 from approutes import my_view
-from siginview import userpackage
-from controller.Sigin import usersignin
-
-
+# from model import db
+# from model import *
+# from models.Usermodel import User
 @my_view.route ('/signin', methods=['POST', 'GET'])
 def verify_user_password():
     if request.method == 'GET':
@@ -32,7 +31,7 @@ def verify_user_password():
         username = params['username']
         password = params['password'].encode ('utf-8')
         remember = False
-        user = User.query.filter_by (username=username)
+        user =models.Usermodel.User.query.filter_by (username=username)
         user = user.first ()
 
         if user:

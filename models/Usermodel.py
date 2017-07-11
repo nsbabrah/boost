@@ -7,38 +7,6 @@ from sqlalchemy.ext.hybrid import hybrid_property
 #from flask.ext.security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 #
 #
-# app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://boostlikes@localhost/Boostlikes'
-# app.config['SECRET_KEY'] = 'super-secret'
-# app.config['SECURITY_REGISTERABLE'] = True
-#
-# app.debug = True
-# db = SQLAlchemy(app)
-
-# engine = sqlalchemy.create_engine('mysql+mysqldb://boostlikes:boostlikes@localhost/STUDENT')
-# Session =  scoped_session(sessionmaker(bind=engine))
-
-# s = Session()
-# result = s.execute('SELECT * FROM STUDENT;')
-# print result
-
-class User1(db.Model):
-    __tablename__ = "user-assigned"
-    id = db.Column('user_id',db.Integer , primary_key=True)
-    username = db.Column('username', db.String(20), unique=True , index=True)
-    password = db.Column('password' , db.String(10))
-    # email = db.Column('email',db.String(50),unique=True , index=True)
-    # registered_on = db.Column('registered_on' , db.DateTime)
-
-    def __init__(self , username ,password , email):
-        self.username = username
-        self.password = password
-    def add(self , username ,password , email):
-        self.username = username
-        self.password = password
-
-        # add=
-
 
 class User(db.Model,UserMixin):
     # __bind_key__ = 'local'
@@ -148,6 +116,11 @@ class userpackage(db.Model):
     usr_email = db.Column(db.String(255), unique=True)
     Auto_ac_name = db.Column (db.String (255))
     Listlikepackage = db.Column (db.String (255))
+    Auto_round_state = db.Column (db.String (200))
+
+
+
+
 
     def get_id(self):
         return unicode(self.username)

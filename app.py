@@ -11,7 +11,7 @@ from flask import Flask, Blueprint, render_template, request, jsonify, g, make_r
 from paypalrestsdk import Payment
 import requests
 
-
+from sqlalchemy import update
 
 
 # from appviews.siginview import my_view
@@ -71,11 +71,15 @@ from appviews.siginview import signin
 from appviews.signup import signup
 
 from appviews.dashboard import dashboard
-from controller.Sigin import usersignin
+
+userdatastore = None
+userisauth = None
+billing_id = None
+
 
 from appviews.paypalAutoround import startpaypal,subscribe
 from appviews.userauth import userauth
-
+# from model import *
 from models.Usermodel import *
 app.register_blueprint(my_view)
 
@@ -92,7 +96,7 @@ def commit(obj):
 
 
 
-from models import *
+
 @login_manager.user_loader
 def load_user(user_id):
     '''User Loader for flask-login
@@ -105,5 +109,6 @@ def load_user(user_id):
     else:
         return None
 
+
 if __name__ == '__main__':
-    app.run (host='0.0.0.0',port=1300)
+    app.run (host='0.0.0.0',debug=True,port=1300)

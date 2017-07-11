@@ -14,12 +14,8 @@ from config import *
 
 my_view = Blueprint('my_view', __name__ ,template_folder='templates',
                     static_folder='static')
-
 # from models.Usermodel import *
-userdatastore = None
-userisauth = None
-billing_id = None
-
+# from models.Usermodel import *
 
 #
 
