@@ -65,38 +65,40 @@
 </template>
 
 <script>
-import axios from 'axios';
-export default {
-  props: ['data'],
-  data() {
-    return {
-      play: false,
-      dialog: false,
-      newuser : ''
-    }
-  },
-  methods: {
-    play_pause() {
-      this.play = !this.play;
-      console.log(this.play);
+  export default {
+    props: ['data'],
+    data() {
+      return {
+        play: false,
+        dialog: false,
+        newuser: ''
+      }
     },
-    changename() {
-      console.log('change');
-      this.dialog = false;
-      let self = this;
-      axios.post('/changeUser', { 'old': self.data.Auto_ac_name, 'new': self.newuser })
-        .then(function (response) {
-          console.log(response);
-          // location.reload();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    methods: {
+      play_pause() {
+        this.play = !this.play;
+        console.log(this.play);
+      },
+      changename() {
+        console.log('change');
+        this.dialog = false;
+        let self = this;
+        this.axios.post('/changeUser', {
+            'old': self.data.Auto_ac_name,
+            'new': self.newuser
+          })
+          .then(function(response) {
+            console.log(response);
+            // location.reload();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+
+      }
 
     }
-
   }
-}
 </script>
 
 <style>

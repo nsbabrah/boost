@@ -1,6 +1,6 @@
-<template >
+<template>
   <main>
-    <v-container fluid  v-if="!add_user">
+    <v-container fluid v-if="!add_user">
       <v-layout row-sm wrap colum>
         <v-flex xs12 sm12 lg1>
           <v-btn @click.native="add_user = true" floating primary large class="text-xs-right ma-1">
@@ -29,52 +29,69 @@
       <v-divider class="mt-3"></v-divider>
 
       <!--<v-layout row>
-        <v-flex xs12 sm12 lg12>
-          <notifications :data="notify"></notifications>
-        </v-flex>
-      </v-layout>-->
+          <v-flex xs12 sm12 lg12>
+            <notifications :data="notify"></notifications>
+          </v-flex>
+        </v-layout>-->
     </v-container>
     <v-container fluid v-if="add_user">
       <v-layout row-sm wrap column>
         <v-flex xs12 sm12 lg1>
           <listliketabs v-on:goback="add_user = false"></listliketabs>
         </v-flex>
-      </v-layout></v-container>
+      </v-layout>
+    </v-container>
   </main>
 </template>
+
 <script>
-import users from './UserTable';
-import notifications from './NotificationArea';
-import listliketabs from './AddUser';
-export default {
-  components: {
-    users, notifications,listliketabs
-  },
-  data() {
-    return {
-      user_input: null,
-      add_user:false,
-      users: [
-        { title: '@Test' },
-      ],
-      notify: [
-
-        { title: 'Test title', subtitle: "Test — test subtitle" },
-        { title: 'Test title', subtitle: "Test — test subtitle" },
-        { title: 'Test title', subtitle: "Test — test subtitle" },
-        { title: 'Test title', subtitle: "Test — test subtitle" },
-      ]
-    }
-  },
-  methods: {
-    startLiking: function () {
-      this.users = this.users.concat(this.user_input.replace(/\s+|,+/g, " ").split(/[\s,]/).map((el) => {
-        return { 'title': el };
-      }));
+  import users from './UserTable';
+  import notifications from './NotificationArea';
+  import listliketabs from './AddUser';
+  export default {
+    components: {
+      users,
+      notifications,
+      listliketabs
     },
-  },
-}
+    data() {
+      return {
+        user_input: null,
+        add_user: false,
+        users: [{
+          title: '@Test'
+        }, ],
+        notify: [
 
+          {
+            title: 'Test title',
+            subtitle: "Test — test subtitle"
+          },
+          {
+            title: 'Test title',
+            subtitle: "Test — test subtitle"
+          },
+          {
+            title: 'Test title',
+            subtitle: "Test — test subtitle"
+          },
+          {
+            title: 'Test title',
+            subtitle: "Test — test subtitle"
+          },
+        ]
+      }
+    },
+    methods: {
+      startLiking: function() {
+        this.users = this.users.concat(this.user_input.replace(/\s+|,+/g, " ").split(/[\s,]/).map((el) => {
+          return {
+            'title': el
+          };
+        }));
+      },
+    },
+  }
 </script>
 
 

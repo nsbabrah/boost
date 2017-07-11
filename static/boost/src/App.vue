@@ -48,31 +48,54 @@
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data() {
-    return {
-      clipped: true,
-      drawer: true,
-      fixed: false,
-      items: [
-        { icon: 'dashboard', text: 'Dashboard', 'href': '#/' },
-        { icon: 'thumb_up', text: 'List Likes', 'href': '#/Listlike' },
-        { icon: 'brightness_auto', text: 'Auto Round', 'href': '#/Autoround' },
-        { icon: 'favorite_border', text: 'Boost', 'href': '#/' },
-        { icon: 'account_circle', text: 'Manage Account', 'href': '#/ManageAccount' },
-        { icon: 'settings', text: 'Ebook Guide', 'href': '#/' }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Auto Round',
-    }
-  },
-}
+  export default {
+    name: 'app',
+    data() {
+      return {
+        clipped: true,
+        drawer: true,
+        fixed: false,
+        items: [{
+            icon: 'dashboard',
+            text: 'Dashboard',
+            'href': '#/Dashboard'
+          },
+          {
+            icon: 'thumb_up',
+            text: 'List Likes',
+            'href': '#/Listlike'
+          },
+          {
+            icon: 'brightness_auto',
+            text: 'Auto Round',
+            'href': '#/Autoround'
+          },
+          {
+            icon: 'favorite_border',
+            text: 'Boost',
+            'href': '#/'
+          },
+          {
+            icon: 'account_circle',
+            text: 'Manage Account',
+            'href': '#/ManageAccount'
+          },
+          {
+            icon: 'settings',
+            text: 'Ebook Guide',
+            'href': '#/'
+          }
+        ],
+        miniVariant: false,
+        right: true,
+        rightDrawer: false,
+        title: 'Auto Round',
+      }
+    },
+  }
 </script>
 
 <style>
-@import '../static/css/vuetify_fonts.css';
-@import '../node_modules/vuetify/dist/vuetify.min.css';
+  @import '../static/css/vuetify_fonts.css';
+  @import '../node_modules/vuetify/dist/vuetify.min.css';
 </style>
