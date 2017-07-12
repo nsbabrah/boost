@@ -77,7 +77,7 @@
       play_pause() {
         this.data.play = !this.data.play;
         console.log(this.play);
-         let self = this;
+        let self = this;
         this.axios.post('/changeState', {
             'name': self.data.Auto_ac_name,
             'state': self.data.play
@@ -100,7 +100,7 @@
           })
           .then(function(response) {
             console.log(response);
-            // location.reload();
+            window.location.href=response.data;
           })
           .catch(function(error) {
             console.log(error);

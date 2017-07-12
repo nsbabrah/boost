@@ -36,14 +36,14 @@
               </v-flex>
             </v-layout>
             <template v-for="(user,index) in Userinfo.username">
-                <v-layout row>
-                  <v-flex xs4>
-                    <v-subheader>Enter User Name</v-subheader>
-                  </v-flex>
-                  <v-flex xs8>
-                    <v-text-field required label="Name" :error="Userinfo.username[index] ? false : true" v-model="Userinfo.username[index]"></v-text-field>
-                  </v-flex>
-                </v-layout>
+                    <v-layout row>
+                      <v-flex xs4>
+                        <v-subheader>Enter User Name</v-subheader>
+                      </v-flex>
+                      <v-flex xs8>
+                        <v-text-field required label="Name" :error="Userinfo.username[index] ? false : true" v-model="Userinfo.username[index]"></v-text-field>
+                      </v-flex>
+                    </v-layout>
 </template>
             <v-layout row>
               <v-flex xs3 offset-xs8>
