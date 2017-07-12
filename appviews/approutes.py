@@ -44,50 +44,6 @@ def dashmain():
 #
 #
 #
-# @app.route ('/Usernamechanged', methods=['POST', 'GET'])
-# def paymentpaypalonetime():
-#     if request.method == 'GET':
-#         payment_id = request.args.get ('paymentId', None)
-#         payer_id = request.args.get ('PayerID', None)
-#         # payer_id = request.args.get('PayerID', None)
-#         payment = paypalrestsdk.Payment.find(payment_id)
-#         # billing_agreement_response = BillingAgreement.execute (payment_token)
-#         # print("BillingAgreement[%s] executed successfully" % billing_agreement_response.id)
-#
-#         # # print payer_id
-#         # # print payment_id
-#
-#         if payment.execute({"payer_id": payer_id}):
-#             payment = paypalrestsdk.Payment.find(payment_id)
-#
-#             payment_history = paypalrestsdk.Payment.all({"count": 1})
-#             r = payment_history.payments
-#             for i in r:
-#                 # print i['first_name']
-#                 # print i['last_name']
-#                 # print i['int r[0]email']
-#
-#
-#                 status=i['state']
-#                 # print i['create_time']
-#                 if (status == 'approved'):
-#                     userpy = Userpayment()
-#                     userpy.username = status
-#                     userpy.package1 = status
-#                     userpy.package2 = '0'
-#                     userpy.email = status
-#                     userpy.status = status
-#                     # print  userpy.username
-#                     db.session.add(userpy)
-#                     db.session.commit()
-#                     # print "payemt done"
-#                     return render_template('public/test1%23#/.html', i=i)
-#                 else:
-#                     return render_template('admin_boostlikes/index.html')
-#
-#         # else:
-#         #     return render_template('admin_boostlikes/index.html')
-#
 #
 #
 #

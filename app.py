@@ -31,6 +31,7 @@ from flask_bcrypt import Bcrypt
 import paypalrestsdk
 import flask_login
 
+
 from config import *
 from OpenSSL import SSL
 
@@ -71,12 +72,12 @@ from appviews.siginview import signin
 from appviews.signup import signup
 
 from appviews.dashboard import dashboard
-
+from appviews.signup import index2
 userdatastore = None
 userisauth = None
 billing_id = None
 
-
+from appviews.changeAccountname import changeAccountname
 from appviews.paypalAutoround import startpaypal,subscribe
 from appviews.userauth import userauth
 # from model import *

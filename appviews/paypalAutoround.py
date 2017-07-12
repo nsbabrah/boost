@@ -25,7 +25,7 @@ from paypalrestsdk import Payment
 import logging
 
 from paypalrestsdk import BillingPlan, BillingAgreement
-
+import models
 from app import db
 
 import paypalrestsdk
@@ -33,7 +33,10 @@ import flask_login
 
 from config import *
 from OpenSSL import SSL
-
+import siginview
+from siginview import getusername
+# print getusername()
+from siginview import getusername
 from approutes import my_view
 
 @my_view.route ('/start_paypal', methods=['POST'])
@@ -135,10 +138,10 @@ def subscribe():
     if request.method == 'POST':
         payment_token=request.json['token']
         o=request.args.get('paymentId')
-        global userdatastore
-        print userdatastore
-        userdatastore = 'dj'
-        print userdatastore
+        # global userdatastore
+        # print userdatastore
+        # userdatastore = 'dj'
+        # print userdatastore
         # payment_id = billing_id
 
 
@@ -151,11 +154,12 @@ def subscribe():
         # transactions = billing_agreement.search_transactions(start_date, end_date)
         # print transactions
         print("Got Billing Agreement Details for Billing Agreement[%s]" % (billing_agreement.id))
+        # print userdatastore
 
 
+        userpy = models.Usermodel.userpackage()
+        userpy.username = siginview.getusername()
 
-        userpy = userpackage()
-        userpy.username = userdatastore
         userpy.Auto_ac_name = 'new'
         userpy.email = 'nav'
         userpy.Listlikepackage = 'nav'

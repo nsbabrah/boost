@@ -116,7 +116,7 @@ class userpackage(db.Model):
     usr_email = db.Column(db.String(255), unique=True)
     Auto_ac_name = db.Column (db.String (255))
     Listlikepackage = db.Column (db.String (255))
-    Auto_round_state = db.Column (db.String (200))
+    Auto_round_state = db.Column (db.BOOLEAN (200))
 
 
 

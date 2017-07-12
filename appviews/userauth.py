@@ -8,12 +8,17 @@ from flask import render_template, request
 from sqlalchemy import update
 import models
 
+import siginview
+
+# User = models.Usermodel.userpackage
+
 @my_view.route ('/userauth', methods=['GET'])
 def userauth():
     if request.method == 'GET':
         # username = request.get_json()
 
-        us = 'nav'
+        us = siginview.getusername()
+        print us
         # if userisauth and userdatastore is not None:
         user = db.session.query (models.Usermodel.userpackage.username, models.Usermodel.userpackage.Auto_ac_name,models.Usermodel.userpackage.Listlikepackage,
                                  models.Usermodel.userpackage.usr_id,models.Usermodel.userpackage.Auto_round_state).filter (models.Usermodel.userpackage.username == us).all ()
@@ -46,8 +51,10 @@ def changeaccountstate():
         name = params['name']
         # if userisauth and userdatastore is not None:
 
-        rows_changed = update(models.Usermodel.userpackage).where(models.Usermodel.userpackage.Auto_ac_name == name).values(Auto_round_state = state )
+        # update(models.Usermodel.userpackage).where(models.Usermodel.userpackage.Auto_ac_name == name).values(Auto_round_state = state )
         # rows_changed.Auto_round_state = state
-
+        user = models.Usermodel.userpackage.query.filter_by(Auto_ac_name=name).first()
+        user.Auto_round_state = state
+        db.session.add(user)
         db.session.commit()
         return "BNPBArdhan"

@@ -33,7 +33,7 @@ import flask_login
 
 from config import *
 from OpenSSL import SSL
-
+import models
 from approutes import my_view
 
 @my_view.route ('/start_paypal', methods=['POST'])
@@ -154,7 +154,7 @@ def subscribe():
 
 
 
-        userpy = userpackage()
+        userpy = models.Usermodel.userpackage()
         userpy.username = userdatastore
         userpy.Auto_ac_name = 'new'
         userpy.email = 'nav'

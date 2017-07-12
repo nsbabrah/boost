@@ -48,7 +48,12 @@ def verify_user_password():
                 t = [user.username]
                 global userdatastore
                 userdatastore = t
+                print userdatastore
+
                 global userisauth
+
+
+
                 userisauth = True
 
                 # is_safe_url should check if the url is safe for redirects.
@@ -63,3 +68,5 @@ def verify_user_password():
 
 
 
+def getusername():
+    return userdatastore
