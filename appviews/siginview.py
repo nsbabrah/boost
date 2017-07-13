@@ -69,4 +69,5 @@ def verify_user_password():
 
 
 def getusername():
+    global userdatastore
     return userdatastore
