@@ -16,15 +16,45 @@ my_view = Blueprint('my_view', __name__ ,template_folder='templates',
                     static_folder='static')
 # from models.Usermodel import *
 # from models.Usermodel import *
-
-#
+import models
+from app import db,bcrypt
 
 @my_view.route ('/', methods=['POST', 'GET'])
 def dashmain():
     if request.method == 'GET':
         return render_template('public/index.html')
         # logout_user(user)
+    if request.method == 'POST':
+        params = request.form
+        username = params['username']
+        password = params['password']
+        email = params['email']
 
+        user = models.Usermodel.User.query.filter (models.Usermodel.User.username == username).first ()
+        email = models.Usermodel.User.query.filter (models.Usermodel.User.email == email).first ()
+        print user
+        if user != None:
+            return render_template ('public/signup.html')
+        if email != None:
+            return render_template ('public/signup.html')
+
+        if user == None:
+            if email == None:
+                password = bcrypt.generate_password_hash (password)
+                # print password
+                user = models.Usermodel.User ()
+                user.username = username
+                user._password = password
+                user.email = email
+
+                db.session.add (user)
+
+                db.session.commit ()
+
+                # text = text1 + make_footer (username, password, email)
+                # send_mail (username, text)
+
+                return render_template ('public/signin.html')
 
 
 # @my_view.route ('/trynow')

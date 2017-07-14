@@ -4,17 +4,19 @@ from flask import  render_template, g
 from flask_login import logout_user, login_required, UserMixin
 import flask_login
 from controller import controller
-import bcrypt
+# import bcrypt
 from controller.controller import gen
 from flask import render_template, request
 print controller.gen()
 # login_manager.session_protection = "strong"
 from config import *
 import models
+from app import bcrypt
 signup = Blueprint('signup', __name__)
 
 from approutes import my_view
 from app import db
+# from models.Usermodel import
 
 @my_view.route ('/signup', methods=['POST', 'GET'])
 def index2():
@@ -30,18 +32,17 @@ def index2():
         password = params['password']
         email = params['email']
 
-        user = db.session.query (models.Usermodel.User).filter(models.Usermodel.User.username == username).first ()
-        emailusr = db.session.query (models.Usermodel.User).filter(models.Usermodel.User.email == email).first ()
-        print (user)
-        if user:
+        user = models.Usermodel.User.query.filter(models.Usermodel.User.username == username).first ()
+        email = models.Usermodel.User.query.filter(models.Usermodel.User.email == email).first ()
+        print user
+        if user!=None:
             return render_template ('public/signup.html')
-        if emailusr:
+        if email!= None:
             return render_template ('public/signup.html')
 
-
-        else:
-            try:
-                password = bcrypt.generate_password_hash (password)
+        if user == None:
+            if email == None:
+                password = bcrypt.generate_password_hash(password)
                 # print password
                 user = models.Usermodel.User()
                 user.username = username
@@ -57,5 +58,3 @@ def index2():
 
                 return render_template ('public/signin.html')
 
-            except:
-                return render_template ('public/signup.html')

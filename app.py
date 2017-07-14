@@ -73,6 +73,8 @@ from appviews.signup import signup
 
 from appviews.dashboard import dashboard
 from appviews.signup import index2
+from appviews.trynow import trynow
+from appviews.ManageAccount import manage
 userdatastore = None
 userisauth = None
 billing_id = None
@@ -112,4 +114,4 @@ def load_user(user_id):
 
 
 if __name__ == '__main__':
-    app.run (host='0.0.0.0',debug=True,port=1300)
+    app.run (host='0.0.0.0',debug=True,port=5300)

@@ -26,13 +26,14 @@ import logging
 
 
 from app import db
-
+import models
 import paypalrestsdk
 import flask_login
 
 from config import *
 from OpenSSL import SSL
 
+userold=None
 from approutes import my_view
 
 from models.Usermodel import *
@@ -46,6 +47,8 @@ def changeAccountname():
         print request.json
         # useraccname=request.json['name']
         useraccname = request.json['new']
+        global userold
+        userold=request.json['old']
 
 
         payment = paypalrestsdk.Payment ({
@@ -59,8 +62,8 @@ def changeAccountname():
 
             # Redirect URLs
             "redirect_urls": {
-                "return_url": "http://0.0.0.0:1300/Usernamechanged",
-                "cancel_url": "http://localhost:3000/"},
+                "return_url": "http://pythonapps.com:1300/dashboard#/Autoround?success",
+                "cancel_url": "http://pythonapps.com:1300/dashboard#/Autoround?failed"},
 
             # Transaction
             # A transaction defines the contract of a
@@ -107,7 +110,7 @@ def changeAccountname():
 
 @my_view.route ('/Usernamechanged', methods=['POST', 'GET'])
 def paymentpaypalonetime():
-    if request.method == 'GET':
+    if request.method == 'POST':
         payment_id = request.args.get ('paymentId', None)
         payer_id = request.args.get ('PayerID', None)
         # payer_id = request.args.get('PayerID', None)
@@ -117,12 +120,14 @@ def paymentpaypalonetime():
 
         # # print payer_id
         # # print payment_id
+        print userold
 
         if payment.execute({"payer_id": payer_id}):
             payment = paypalrestsdk.Payment.find(payment_id)
 
             payment_history = paypalrestsdk.Payment.all({"count": 1})
             r = payment_history.payments
+            print r
             for i in r:
                 # print i['first_name']
                 # print i['last_name']
@@ -132,23 +137,21 @@ def paymentpaypalonetime():
                 status=i['state']
                 # print i['create_time']
                 if (status == 'approved'):
-                    # userpy = Userpayment()
-                    # userpy.username = status
-                    # userpy.package1 = status
-                    # userpy.package2 = '0'
-                    # userpy.email = status
-                    # userpy.status = status
-                    # # print  userpy.username
-                    # db.session.add(userpy)
-                    # db.session.commit()
-                    # print "payemt done"
 
-                    return render_template('public/test1.html', i=i)
+                    user = models.Usermodel.User.query.filter_by (username=userchangevalue).first ()
+                    user.username = userold
+
+
+                    db.session.add(user)
+                    db.session.commit()
+                    print "payemt done"
+
+                    return True
                 else:
-                    return render_template('admin_boostlikes/index.html')
+                    return render_template('public/test1.html')
 
-        # else:
-        #     return render_template('admin_boostlikes/index.html')
+        else:
+            return render_template('public/test1.html')
 
 
 

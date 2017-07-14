@@ -13,6 +13,7 @@ from controller.controller import gen
 #login_manager.session_protection = "strong"
 
 import models
+userdatastore=None
 
 signin = Blueprint('signin',__name__)
 from approutes import my_view

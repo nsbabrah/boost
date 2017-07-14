@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import request, redirect, url_for, render_template
 from config import *
 from app import db,bcrypt,UserMixin
+
 from sqlalchemy.ext.hybrid import hybrid_property
 #from flask.ext.security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 #
@@ -78,8 +79,8 @@ class User(db.Model,UserMixin):
     def get_id(self):
         return unicode(self.user_id)
 
-    def is_authenticated(self):
-        return self.authenticated
+    # def is_authenticated(self):
+    #     return self.authenticated
 
     def is_anonymous(self):
         return False

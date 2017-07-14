@@ -10,6 +10,7 @@ import models
 
 import siginview
 
+storename = None
 # User = models.Usermodel.userpackage
 
 @my_view.route ('/userauth', methods=['GET'])
@@ -18,13 +19,15 @@ def userauth():
         # username = request.get_json()
 
         us = siginview.getusername()
-        print us
+        storename = us
+        # username=models.Usermodel.User.query.filter_by (username=storename).first()
+        # print json.dump(username[0])
         # if userisauth and userdatastore is not None:
-        user = db.session.query (models.Usermodel.userpackage.username, models.Usermodel.userpackage.Auto_ac_name,models.Usermodel.userpackage.Listlikepackage,
-                                 models.Usermodel.userpackage.usr_id,models.Usermodel.userpackage.Auto_round_state).filter (models.Usermodel.userpackage.username == us).all ()
+        user = db.session.query(models.Usermodel.userpackage.username, models.Usermodel.userpackage.Auto_ac_name,models.Usermodel.userpackage.Listlikepackage,
+                                 models.Usermodel.userpackage.usr_id,models.Usermodel.userpackage.Auto_round_state).filter (models.Usermodel.userpackage.username == storename).all()
 
         t = []
-        col = ["username", "Auto_ac_name", "listlike", "usr_id","play"]
+        col = ["username", "Auto_ac_name", "listlike", "usr_id","play","Auto_round_state"]
 
         for i in user:
             t.append (list (i))
@@ -49,12 +52,10 @@ def changeaccountstate():
         print params
         state = params['state']
         name = params['name']
-        # if userisauth and userdatastore is not None:
 
-        # update(models.Usermodel.userpackage).where(models.Usermodel.userpackage.Auto_ac_name == name).values(Auto_round_state = state )
-        # rows_changed.Auto_round_state = state
         user = models.Usermodel.userpackage.query.filter_by(Auto_ac_name=name).first()
         user.Auto_round_state = state
         db.session.add(user)
         db.session.commit()
-        return "BNPBArdhan"
+
+        return True
