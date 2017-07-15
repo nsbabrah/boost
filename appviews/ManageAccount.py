@@ -1,6 +1,6 @@
 
 
-from app import db
+from app import db,bcrypt
 
 import paypalrestsdk
 import flask_login
@@ -53,9 +53,8 @@ def manage():
                 db.session.commit()
                 print 'email'
         elif(changewhat=='Password'):
-
                 user = models.Usermodel.User.query.filter_by (username=useraccname).first ()
-                user._password = userchangevalue
+                user._password = bcrypt.generate_password_hash(userchangevalue)
                 db.session.add(user)
                 db.session.commit()
                 print 'Pass'

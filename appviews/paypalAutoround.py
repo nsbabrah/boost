@@ -148,28 +148,27 @@ def subscribe():
 
         billing_agreement_response  = BillingAgreement.execute(payment_token)
         print billing_agreement_response
-        start_date, end_date = "2017-07-03", "2017-07-20"
-
         billing_agreement = BillingAgreement.find (billing_agreement_response.id)
-        # print billing_agreement.final_payment_date
+        print billing_agreement.final_payment_date
         # transactions = billing_agreement.search_transactions(start_date, end_date)
         # print transactions
         print("Got Billing Agreement Details for Billing Agreement[%s]" % (billing_agreement.id))
-        # print userdatastore
+        #paypal lislike and autoround payment differentiate below
 
+        #listlike
+        #Autoround
+        user = models.Usermodel.User.query.filter (models.Usermodel.User.username == userchangevalue).first ()
 
-        userpy = models.Usermodel.userpackage()
-        userpy.username = siginview.getusername()
-
-        userpy.Auto_ac_name = 'new'
-        userpy.email = 'nav'
-        userpy.Listlikepackage = 'nav'
-        userpy.usr_email = "asdsad"
-
-        # print  userpy.username
-        db.session.add (userpy)
-        db.session.commit()
-
-        # print("BillingAgreement[%s] executed successfully" % billing_agreement_response.id)
-
-        return 'sussesc'
+        print user
+        if user != None:
+            return "False User Already Register"
+        if user == None:
+            userpy = models.Usermodel.userpackage()
+            userpy.username ='name of user'
+            userpy.Auto_ac_name = 'new'
+            userpy.email = 'nav'
+            userpy.Listlikepackage = 'nav'
+            userpy.usr_email = "asdsad"
+            db.session.add(userpy)
+            db.session.commit()
+            return 'sussesc'

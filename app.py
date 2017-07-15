@@ -68,7 +68,7 @@ my_api.get_access_token ()
 logging.basicConfig (level=logging.INFO)
     # return 'http://0.0.0.0:2300/'
 from appviews.approutes import my_view
-from appviews.siginview import signin
+# from appviews.siginview import signin
 from appviews.signup import signup
 
 from appviews.dashboard import dashboard
@@ -113,5 +113,6 @@ def load_user(user_id):
         return None
 
 
+
 if __name__ == '__main__':
-    app.run (host='0.0.0.0',debug=True,port=5300)
+    app.run (host='0.0.0.0',debug=True,port=1300)

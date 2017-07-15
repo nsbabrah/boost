@@ -31,7 +31,15 @@
           <v-card-title>
             <span class="headline">Use Google's location service?</span>
           </v-card-title>
-          <v-card-text>Lan tyaLorem ipsum dolor sit amet,</v-card-text>
+          <v-card-text>1) Default active your three autoround accounts
+           timings:
+           1) 8 PM
+           2)11 PM
+           2)3AM
+           Second
+           1)You can gain likes in Autoround depend on traffic 
+           2)Get likes from real user in  pool ready for liking your images
+           </v-card-text>
           <!--<v-card-actions>-->
           <v-btn class="green--text darken-1" flat="flat" @click.native="showhelp = false">Disagree</v-btn>
           <v-btn class="green--text darken-1" flat="flat" @click.native="showhelp = false">Agree</v-btn>

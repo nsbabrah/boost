@@ -72,7 +72,7 @@ def verify_user_password():
 def before_request():
      import datetime
      flask.session.permanent = True
-     my_view.permanent_session_lifetime = datetime.timedelta(seconds=30)
+     my_view.permanent_session_lifetime = datetime.timedelta(seconds=2330)
      flask.session.modified = True
 
 def getusername():
