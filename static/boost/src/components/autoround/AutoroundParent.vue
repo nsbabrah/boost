@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main v-if="loader">
     <v-container fluid>
       <v-layout row wrap v-if="alert">
         <v-flex xs12 sm12 lg12>
@@ -40,6 +40,15 @@
       </v-dialog>
     </v-layout>
   </main>
+  <main v-else>
+    <v-container fluid>
+      <v-layout row wrap>
+        <v-flex xs12 sm12 lg12>
+                         <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </main>
 </template>
 
 <script>
@@ -54,6 +63,7 @@ export default {
     return {
       showUsers: true,
       showhelp: false,
+      loader:false,
       users: null,
       alert: null,
       response: null,
@@ -81,6 +91,7 @@ export default {
       }];
     },
     paypal_addUser: function (url) {
+      this.loader = true;
       let self = this;
       this.axios.post('/subscribe', {
         'token': /token?=(.*)/g.exec(url)[1]
@@ -101,6 +112,7 @@ export default {
     },
     paypal_changeUser: function (url) {
       let self = this;
+      this.loader = true;
       let paypal_res = /(?:.+paymentid=)(.+?)(?:&.+payerid=)(.+)/ig.exec(url)
       console.log(paypal_res);
       this.axios.post('/Usernamechanged', {
