@@ -1,5 +1,5 @@
 <template>
-  <main v-if="loader">
+  <main v-if="!loader">
     <v-container fluid>
       <v-layout row wrap v-if="alert">
         <v-flex xs12 sm12 lg12>
