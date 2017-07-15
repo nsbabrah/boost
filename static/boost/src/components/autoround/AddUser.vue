@@ -36,19 +36,19 @@
                 <v-subheader>How Many Users</v-subheader>
               </v-flex>
               <v-flex xs8>
-                <v-select v-model="Userinfo.selectedPack" :error="Userinfo.selectedPack ? false : true" v-bind:items="packages" label="Select" class="input-group--focused" dark item-value="text"></v-select>
+                <v-select required v-model="Userinfo.selectedPack" :error="Userinfo.selectedPack ? false : true" v-bind:items="packages" label="Select" class="input-group--focused" dark item-value="text"></v-select>
               </v-flex>
             </v-layout>
             <template v-for="(user,index) in Userinfo.username">
-                  <v-layout row>
-                    <v-flex xs4>
-                      <v-subheader>Enter User Name</v-subheader>
-                    </v-flex>
-                    <v-flex xs8>
-                      <v-text-field required label="Name" :error="Userinfo.username[index] ? false : true" v-model="Userinfo.username[index]"></v-text-field>
-                    </v-flex>
-                  </v-layout>
-</template>
+              <v-layout row>
+                <v-flex xs4>
+                  <v-subheader>Enter User Name</v-subheader>
+                </v-flex>
+                <v-flex xs8>
+                  <v-text-field required label="Name" :error="Userinfo.username[index] ? false : true" v-model="Userinfo.username[index]"></v-text-field>
+                </v-flex>
+              </v-layout>
+            </template>
             <v-layout row>
               <v-flex xs3 offset-xs8>
                 <div v-on:click="activeTab = check1() || 'mobile-tabs-4-1'">
@@ -75,10 +75,10 @@
             </v-layout>
             <v-layout row>
               <v-flex xs4>
-                <v-subheader>Enter Purchase Order</v-subheader>
+                <v-subheader>Choose Subscription</v-subheader>
               </v-flex>
               <v-flex xs8>
-                <v-text-field required label="Purchase Order" :error="Userinfo.purchaseOrder ? false : true" v-model="Userinfo.purchaseOrder"></v-text-field>
+                <v-select required v-model="chosen_subscription" :error="chosen_subscription ? false : true" v-bind:items="subscription" label="Select" class="input-group--focused" dark item-value="text"></v-select>
               </v-flex>
             </v-layout>
             <v-layout row>
@@ -115,10 +115,13 @@
               </v-flex>
             </v-layout>
             <v-layout row>
-              <v-flex xs3 offset-xs7>
+              <v-flex xs3 offset-xs7 v-if="!loader">
                 <a type="link" style="cursor:pointer" v-on:click="paypal">
                   <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif">
                 </a>
+              </v-flex>
+              <v-flex xs12 v-else>
+                <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
               </v-flex>
             </v-layout>
           </v-container>
@@ -129,78 +132,90 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        activeTab: null,
-        packages: ['1', '2', '3', '4', '5'],
-        Userinfo: {
-          selectedPack: null,
-          username: [''],
-          email: null,
-          purchaseOrder: null,
-        },
-        reviewNames: {
-          'selectedPack': 'Selected pack',
-          'username': 'Usernames',
-          'email': 'Email',
-          'purchaseOrder': 'Purchase Order'
+export default {
+  data() {
+    return {
+      activeTab: null,
+      loader: false,
+      packages: ['1', '2', '3', '4', '5'],
+      subscription: ['3 months', '6 months', '12 months'],
+      subscription_cost: {
+        '3 months': 10, '6 months': 60, '12 months': 120
+      },
+      chosen_subscription: null,
+      Userinfo: {
+        selectedPack: null,
+        username: [''],
+        email: null,
+        purchaseOrder: null,
+      },
+      reviewNames: {
+        'selectedPack': 'Selected pack',
+        'username': 'Usernames',
+        'email': 'Email',
+        'purchaseOrder': 'Purchase Order'
+      }
+    }
+  },
+  watch: {
+    'Userinfo.selectedPack': function () {
+      if (this.Userinfo.selectedPack > this.Userinfo.username.length) {
+        while (this.Userinfo.selectedPack != this.Userinfo.username.length) {
+          this.Userinfo.username.push('');
+        }
+      } else if (this.Userinfo.selectedPack < this.Userinfo.username.length) {
+        while (this.Userinfo.selectedPack != this.Userinfo.username.length) {
+          this.Userinfo.username.splice(this.Userinfo.username.length - 1, 1);
         }
       }
+
     },
-    watch: {
-      'Userinfo.selectedPack': function() {
-        if (this.Userinfo.selectedPack > this.Userinfo.username.length) {
-          while (this.Userinfo.selectedPack != this.Userinfo.username.length) {
-            this.Userinfo.username.push('');
-          }
-        } else if (this.Userinfo.selectedPack < this.Userinfo.username.length) {
-          while (this.Userinfo.selectedPack != this.Userinfo.username.length) {
-            this.Userinfo.username.splice(this.Userinfo.username.length - 1, 1);
-          }
+    chosen_subscription: function () {
+      this.Userinfo.purchaseOrder = '$' + this.subscription_cost[this.chosen_subscription]
+    }
+  },
+  methods: {
+    check1: function () {
+      console.log(this.Userinfo.username);
+      if (this.Userinfo.selectedPack != null && this.Userinfo.username != null || this.Userinfo.username > 1) {
+        return 'mobile-tabs-4-2';
+      }
+    },
+    check2: function () {
+      let count = 0;
+      for (var k in this.Userinfo) {
+        if (!this.Userinfo.hasOwnProperty(k)) continue;
+        if (this.Userinfo[k] === null || this.Userinfo[k].length < 1) {
+          count++;
         }
 
       }
+      if (count == 0 && this.chosen_subscription !== null) {
+        return 'mobile-tabs-4-3';
+      }
     },
-    methods: {
-      check1: function() {
-        console.log(this.Userinfo.username);
-        if (this.Userinfo.selectedPack != null && this.Userinfo.username != null || this.Userinfo.username > 1) {
-          return 'mobile-tabs-4-2';
-        }
-      },
-      check2: function() {
-        let count = 0;
-        for (var k in this.Userinfo) {
-          if (!this.Userinfo.hasOwnProperty(k)) continue;
-          if (this.Userinfo[k] === null || this.Userinfo[k].length < 1) {
-            count++;
-          }
+    paypal: function () {
+      if (this.check2() === 'mobile-tabs-4-3') {
+        console.log(this.Userinfo);
+        this.loader = true;
+        let self = this;
+        this.axios.post('/start_paypal', this.Userinfo)
+          .then(function (response) {
+            console.log(response);
+            window.location.href = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+            self.loader = false;
+          });
 
-        }
-        if (count == 0) {
-          return 'mobile-tabs-4-3';
-        }
-      },
-      paypal: function() {
-        if (this.check2() === 'mobile-tabs-4-3') {
-          console.log(this.Userinfo);
-          this.axios.post('/start_paypal', this.Userinfo)
-            .then(function(response) {
-              console.log(response);
-              window.location.href = response.data;
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
+      } else {
+        alert('All input fields are required.');
 
-        } else {
-          alert('You must fill all the inputs.');
-
-        }
       }
     }
   }
+}
 </script>
 
 <style>
