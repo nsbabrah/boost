@@ -47,8 +47,16 @@ def changeAccountname():
         print request.json
         # useraccname=request.json['name']
         useraccname = request.json['new']
+        print useraccname
         global userold
         userold=request.json['old']
+        user = models.Usermodel.userpackage.query.filter(models.Usermodel.userpackage.Auto_ac_name == useraccname).first ()
+
+        print user
+        if user != None:
+            return "False User Already Register"
+        # this if statement should be done when payment is recived
+
 
 
         payment = paypalrestsdk.Payment ({
@@ -137,16 +145,17 @@ def paymentpaypalonetime():
                 status=i['state']
                 # print i['create_time']
                 if (status == 'approved'):
+                    if user == None:
+                        print userold
+                        userdata = models.Usermodel.userpackage.query.filter_by (Auto_ac_name=userold).first ()
+                        userdata.Auto_ac_name = useraccname
+                        db.session.add (userdata)
+                        db.session.commit ()
+                        print "payemt done"
 
-                    user = models.Usermodel.User.query.filter_by (username=userchangevalue).first ()
-                    user.username = userold
 
 
-                    db.session.add(user)
-                    db.session.commit()
-                    print "payemt done"
-
-                    return True
+                        return True
                 else:
                     return render_template('public/test1.html')
 

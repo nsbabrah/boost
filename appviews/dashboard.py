@@ -11,6 +11,7 @@ print controller.gen()
 # login_manager.session_protection = "strong"
 from config import *
 from approutes import my_view
+from siginview import getusername
 d = Blueprint('d', __name__)
 
 
@@ -20,3 +21,8 @@ def dashboard():
     if request.method == 'GET':
         return render_template('public/test1.html')
         # logout_user(user)
+    else:
+        user=getusername()
+        logout_user(user)
+        return render_template ('public/test1.html')
+

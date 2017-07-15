@@ -66,7 +66,7 @@ def startpaypal():
 
                     "cycles": "0",
                     "frequency": "MONTH",
-                    "frequency_interval": "1",
+                    "frequency_interval": "3",
                     "name": "Regular 1",
                     "type": "REGULAR"
                 }
@@ -89,7 +89,7 @@ def startpaypal():
                 print billing_plan
                 billing_agreement = BillingAgreement ({
                     "name": "dj",
-                    "description": "Agreement for organization plan",
+                    "description": "Agreement for Autorounds",
                     "start_date":start_date,
                     "plan": {
                         "id": billing_plan.id
@@ -97,14 +97,9 @@ def startpaypal():
                     "payer": {
                         "payment_method": "paypal"
                     },
-                    "shipping_address": {
-                        "line1": "StayBr111idge Suites",
-                        "line2": "Cro12ok Street",
-                        "city": "San Jose",
-                        "state": "CA",
-                        "postal_code": "95112",
-                        "country_code": "US"
-                    }
+                    "shipping_address": "NO_SHIPPING"
+
+
                 })
 
                 # logging.basicConfig (level=logging.INFO)

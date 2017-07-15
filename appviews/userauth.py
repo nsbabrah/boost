@@ -20,11 +20,13 @@ def userauth():
 
         us = siginview.getusername()
         storename = us
+
+        print storename
         # username=models.Usermodel.User.query.filter_by (username=storename).first()
         # print json.dump(username[0])
         # if userisauth and userdatastore is not None:
         user = db.session.query(models.Usermodel.userpackage.username, models.Usermodel.userpackage.Auto_ac_name,models.Usermodel.userpackage.Listlikepackage,
-                                 models.Usermodel.userpackage.usr_id,models.Usermodel.userpackage.Auto_round_state).filter (models.Usermodel.userpackage.username == storename).all()
+                                 models.Usermodel.userpackage.usr_id,models.Usermodel.userpackage.Auto_round_state).filter(models.Usermodel.userpackage.username == storename).all()
 
         t = []
         col = ["username", "Auto_ac_name", "listlike", "usr_id","play","Auto_round_state"]

@@ -7,9 +7,9 @@ import flask_login
 
 from config import *
 from OpenSSL import SSL
-from flask import request
+from flask import request,render_template,redirect,url_for
 from approutes import my_view
-
+# from flask import render_template,request
 import models
 
 useraccname=0
@@ -29,30 +29,37 @@ def manage():
         print userchangevalue,changewhat
 
         if(changewhat=='Username'):
-            user = models.Usermodel.User.query.filter_by (username= useraccname).first ()
-            user.username = userchangevalue
-            db.session.add (user)
-            db.session.commit()
-            user = models.Usermodel.userpackage.query.filter_by (username=useraccname).first ()
-            user.username = userchangevalue
-            db.session.add (user)
-            db.session.commit ()
 
-            print 'username'
+            user = models.Usermodel.User.query.filter(models.Usermodel.User.username == userchangevalue).first ()
+
+            print user
+            if user != None:
+                return "False User Already Register"
+            if user == None:
+                    user = models.Usermodel.User.query.filter_by (username=useraccname).first()
+                    user.username = userchangevalue
+                    db.session.add (user)
+                    db.session.commit ()
+                    return 'True'
 
         elif(changewhat=='Email'):
-            user = models.Usermodel.User.query.filter_by (username=userchangevalue).first ()
-            user.username = userchangevalue
-            db.session.add(user)
-            db.session.commit()
-            print 'email'
+            email = models.Usermodel.User.query.filter(models.Usermodel.User.email == userchangevalue).first ()
+            if email != None:
+              return 'email already register'
+            elif email == None:
+                user = models.Usermodel.User.query.filter_by (username=useraccname).first ()
+                user.email = userchangevalue
+                db.session.add(user)
+                db.session.commit()
+                print 'email'
         elif(changewhat=='Password'):
-            user = models.Usermodel.User.query.filter_by (username=userchangevalue).first ()
-            user.username = userchangevalue
-            db.session.add(user)
-            db.session.commit()
-            print 'Pass'
 
-        return True
+                user = models.Usermodel.User.query.filter_by (username=useraccname).first ()
+                user._password = userchangevalue
+                db.session.add(user)
+                db.session.commit()
+                print 'Pass'
+
+                return 'True'
 
 

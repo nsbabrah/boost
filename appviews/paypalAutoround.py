@@ -47,6 +47,7 @@ def startpaypal():
     if request.method == 'POST':
 
         username  = request.json['username']
+        print username
 
         billing_plan = BillingPlan ({
             "name": "navjotbabrah",

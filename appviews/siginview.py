@@ -15,7 +15,7 @@ from controller.controller import gen
 import models
 userdatastore=None
 
-signin = Blueprint('signin',__name__)
+# signin = Blueprint('signin',__name__)
 from approutes import my_view
 # from model import db
 # from model import *
