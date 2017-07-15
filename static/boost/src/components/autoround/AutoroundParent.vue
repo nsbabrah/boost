@@ -43,76 +43,114 @@
 </template>
 
 <script>
-  import cards from './UserList.vue';
-  import tabs from './AddUser.vue';
-  export default {
-    components: {
-      cards,
-      tabs
+import cards from './UserList.vue';
+import tabs from './AddUser.vue';
+export default {
+  components: {
+    cards,
+    tabs
+  },
+  data() {
+    return {
+      showUsers: true,
+      showhelp: false,
+      users: null,
+      alert: null,
+      response: null,
+      approved_message: 'Thanks, Your Payment Has Been Approved!',
+      unapproved_message: 'Sorry, Payment Failed.',
+    }
+  },
+  methods: {
+    add_user: function () {
+      this.showUsers = false;
     },
-    data() {
-      return {
-        showUsers: true,
-        showhelp: false,
-        users: null,
-        alert: null,
-        response: null,
-        approved_message: 'Thanks, Your Payment Has Been Approved!',
-        unapproved_message: 'Sorry, Payment Failed.',
-      }
+    auth: function () {
+      const self = this;
+      this.axios.get('/userauth').then((res) => {
+        console.log(res);
+        self.users = res.data;
+      }).catch((err) => {
+        console.log(err);
+      })
+      this.users = [{
+        'username': 'test',
+        'listlike': 'test',
+        'usr_id': '1',
+        'Auto_ac_name': 'test'
+      }];
     },
-    methods: {
-      add_user: function() {
-        this.showUsers = false;
-      },
-      auth: function() {
-        const self = this;
-        this.axios.get('/userauth').then((res) => {
-          console.log(res);
-          self.users = res.data;
-        }).catch((err) => {
-          console.log(err);
-        })
-        this.users = [{
-          'username': 'test',
-          'listlike': 'test',
-          'usr_id': '1',
-          'Auto_ac_name': 'test'
-        }];
-      }
-    },
-    created: function() {
-      this.auth();
-    },
-    mounted() {
-      let url = window.location.href;
+    paypal_addUser: function (url) {
       let self = this;
-      if (/\?success/g.test(url)) {
-        this.axios.post('/subscribe', {
-            'token': /token?=(.*)/g.exec(url)[1]
-          })
-          .then(function(response) {
-            console.log(response);
-            window.location.href = url.slice(0, url.indexOf('?'));
-            self.alert = true;
-            self.response = true;
-            self.auth();
-          })
-          .catch(function(error) {
-            console.log(error);
-            self.alert = true;
-            self.response = false;
-            window.location.href = url.slice(0, url.indexOf('?'));
-          });
-      } else if (/\?failed/g.test(url)) {
-        self.alert = true;
-        self.response = false;
-      } else {
-        self.alert = false;
-        self.response = false;
-      }
+      this.axios.post('/subscribe', {
+        'token': /token?=(.*)/g.exec(url)[1]
+      })
+        .then(function (response) {
+          console.log(response);
+          window.location.href = url.slice(0, url.indexOf('?'));
+          self.alert = true;
+          self.response = true;
+          self.auth();
+        })
+        .catch(function (error) {
+          console.log(error);
+          self.alert = true;
+          self.response = false;
+          window.location.href = url.slice(0, url.indexOf('?'));
+        });
+    },
+    paypal_changeUser: function (url) {
+      let self = this;
+      let paypal_res = /(?:.+paymentid=)(.+?)(?:&.+payerid=)(.+)/ig.exec(url)
+      console.log(paypal_res);
+      this.axios.post('/Usernamechanged', {
+        'paymentid': paypal_res[1],
+        'payerid': paypal_res[2]
+      })
+        .then(function (response) {
+          console.log(response);
+          window.location.href = url.slice(0, url.indexOf('?'));
+          self.alert = true;
+          self.response = true;
+          self.auth();
+        })
+        .catch(function (error) {
+          console.log(error);
+          self.alert = true;
+          self.response = false;
+          window.location.href = url.slice(0, url.indexOf('?'));
+        });
+    },
+    paypal_failed() {
+      this.alert = true;
+      this.response = false;
+    }
+  },
+  created: function () {
+    this.auth();
+  },
+  mounted() {
+    let url = window.location.href;
+    switch (true) {
+      case /\?success_user/g.test(url):
+        this.paypal_addUser(url);
+        break;
+      case /\?failed_user/g.test(url):
+        this.paypal_failed();
+        break;
+      case /\?success_onetime/g.test(url):
+        this.paypal_changeUser(url);
+        break;
+      case /\?failed_onetime/g.test(url):
+        this.paypal_failed();
+        break;
+      default:
+        this.alert = false;
+        this.response = false;
+        break;
     }
   }
+}
 </script>
 
 <style>
