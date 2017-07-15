@@ -97,7 +97,7 @@
       <v-card class="elevation-0">
         <v-card-text>
           <v-container fluid>
-            <v-layout row>
+            <v-layout  v-if="!loader" row>
               <v-flex xs12>
                 <v-list subheader>
                   <v-subheader>Review</v-subheader>
@@ -202,10 +202,10 @@ export default {
         let self = this;
         this.axios.post('/start_paypal', this.Userinfo)
           .then(function (response) {
-            console.log(response);
             sessionStorage.removeItem('paypal_data');
-            sessionStorage.setItem('paypal_data', JSON.stringify(this.Userinfo));
+            sessionStorage.setItem('paypal_data', JSON.stringify(self.Userinfo));
             localStorage.removeItem("LoggedOnUser");
+            console.log(response);
             window.location.href = response.data;
           })
           .catch(function (error) {

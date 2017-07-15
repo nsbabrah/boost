@@ -184,7 +184,7 @@ export default {
           .then(function (response) {
             console.log(response);
             sessionStorage.removeItem('paypal_data');
-            sessionStorage.setItem('paypal_data', JSON.stringify(this.Userinfo));
+            sessionStorage.setItem('paypal_data', JSON.stringify(self.Userinfo));
             localStorage.removeItem("LoggedOnUser");
             window.location.href = response.data;
           })
