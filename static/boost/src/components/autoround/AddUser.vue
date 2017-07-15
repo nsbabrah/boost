@@ -202,15 +202,16 @@ export default {
         let self = this;
         this.axios.post('/start_paypal', this.Userinfo)
           .then(function (response) {
+            console.log(response);
             sessionStorage.removeItem('paypal_data');
             sessionStorage.setItem('paypal_data', JSON.stringify(this.Userinfo));
             localStorage.removeItem("LoggedOnUser");
             window.location.href = response.data;
           })
           .catch(function (error) {
-            sessionStorage.removeItem('paypal_data');
-            localStorage.removeItem("LoggedOnUser");
             self.loader = false;
+            delete self.Userinfo['payment_for'];
+            delete self.Userinfo['LoggedOnUser'];
           });
 
       } else {

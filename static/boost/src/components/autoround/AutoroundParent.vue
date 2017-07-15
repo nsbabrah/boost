@@ -37,7 +37,7 @@
            2)11 PM
            2)3AM
            Second
-           1)You can gain likes in Autoround depend on traffic 
+           1)You can gain likes in Autoround depend on traffic
            2)Get likes from real user in  pool ready for liking your images
            </v-card-text>
           <!--<v-card-actions>-->
@@ -143,6 +143,9 @@ export default {
           self.loader = false;
           sessionStorage.removeItem('paypal_data');
           localStorage.removeItem("LoggedOnUser");
+          let a = document.createElement("a");
+          a.href="#/Listlike";
+          a.click();
         })
         .catch(function (error) {
           console.log(error);
@@ -152,6 +155,9 @@ export default {
           self.loader = false;
           sessionStorage.removeItem('paypal_data');
           localStorage.removeItem("LoggedOnUser");
+          let a = document.createElement("a");
+          a.href="#/Listlike";
+          a.click();
         });
     },
     paypal_failed() {
