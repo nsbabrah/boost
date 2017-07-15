@@ -176,16 +176,20 @@ export default {
       if (this.check2() === 'mobile-tabs-4-3') {
         this.loader = true;
         this.Userinfo['password'] = this.insta_password;
+        this.Userinfo['payment_for'] = "listlike";
+        this.Userinfo['LoggedOnUser'] = localStorage.getItem("LoggedOnUser");
         console.log(this.Userinfo);
         let self = this;
         this.axios.post('/start_paypal', this.Userinfo)
           .then(function (response) {
-            console.log(response);
+            sessionStorage.removeItem('paypal_data');
+            sessionStorage.setItem('paypal_data', JSON.stringify(this.Userinfo));
+            localStorage.removeItem("LoggedOnUser");
             window.location.href = response.data;
           })
           .catch(function (error) {
-            console.log(error);
-            delete self.Userinfo['password'];
+            sessionStorage.removeItem('paypal_data');
+            localStorage.removeItem("LoggedOnUser");
             self.loader = false;
           });
 

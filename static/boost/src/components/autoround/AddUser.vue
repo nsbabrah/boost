@@ -196,16 +196,20 @@ export default {
     },
     paypal: function () {
       if (this.check2() === 'mobile-tabs-4-3') {
-        console.log(this.Userinfo);
         this.loader = true;
+        this.Userinfo['payment_for'] = "autoround";
+        this.Userinfo['LoggedOnUser'] = localStorage.getItem("LoggedOnUser");
         let self = this;
         this.axios.post('/start_paypal', this.Userinfo)
           .then(function (response) {
-            console.log(response);
+            sessionStorage.removeItem('paypal_data');
+            sessionStorage.setItem('paypal_data', JSON.stringify(this.Userinfo));
+            localStorage.removeItem("LoggedOnUser");
             window.location.href = response.data;
           })
           .catch(function (error) {
-            console.log(error);
+            sessionStorage.removeItem('paypal_data');
+            localStorage.removeItem("LoggedOnUser");
             self.loader = false;
           });
 

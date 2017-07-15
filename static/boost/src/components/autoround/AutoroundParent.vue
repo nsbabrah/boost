@@ -44,7 +44,7 @@
     <v-container fluid>
       <v-layout row wrap>
         <v-flex xs12 sm12 lg12>
-                         <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
+          <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
         </v-flex>
       </v-layout>
     </v-container>
@@ -63,7 +63,7 @@ export default {
     return {
       showUsers: true,
       showhelp: false,
-      loader:false,
+      loader: false,
       users: null,
       alert: null,
       response: null,
@@ -80,6 +80,7 @@ export default {
       this.axios.get('/userauth').then((res) => {
         console.log(res);
         self.users = res.data;
+        localStorage.setItem("LoggedOnUser", this.users[0]['username']);
       }).catch((err) => {
         console.log(err);
       })
@@ -94,20 +95,26 @@ export default {
       this.loader = true;
       let self = this;
       this.axios.post('/subscribe', {
-        'token': /token?=(.*)/g.exec(url)[1]
+        'token': /token?=(.*)/g.exec(url)[1],
+        'userdata': sessionStorage.getItem('paypal_data')
       })
         .then(function (response) {
-          console.log(response);
+          sessionStorage.removeItem('paypal_data');
+          localStorage.removeItem("LoggedOnUser");
           window.location.href = url.slice(0, url.indexOf('?'));
           self.alert = true;
           self.response = true;
+
           self.auth();
+          self.loader = false;
         })
         .catch(function (error) {
-          console.log(error);
+          sessionStorage.removeItem('paypal_data');
+          localStorage.removeItem("LoggedOnUser");
           self.alert = true;
           self.response = false;
           window.location.href = url.slice(0, url.indexOf('?'));
+          self.loader = false;
         });
     },
     paypal_changeUser: function (url) {
@@ -125,17 +132,24 @@ export default {
           self.alert = true;
           self.response = true;
           self.auth();
+          self.loader = false;
+          sessionStorage.removeItem('paypal_data');
+          localStorage.removeItem("LoggedOnUser");
         })
         .catch(function (error) {
           console.log(error);
           self.alert = true;
           self.response = false;
           window.location.href = url.slice(0, url.indexOf('?'));
+          self.loader = false;
+          sessionStorage.removeItem('paypal_data');
+          localStorage.removeItem("LoggedOnUser");
         });
     },
     paypal_failed() {
       this.alert = true;
       this.response = false;
+      self.loader = false;
     }
   },
   created: function () {
