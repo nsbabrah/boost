@@ -146,29 +146,53 @@ def subscribe():
         # payment_id = billing_id
 
 
-        billing_agreement_response  = BillingAgreement.execute(payment_token)
-        print billing_agreement_response
-        billing_agreement = BillingAgreement.find (billing_agreement_response.id)
-        print billing_agreement.final_payment_date
-        # transactions = billing_agreement.search_transactions(start_date, end_date)
-        # print transactions
-        print("Got Billing Agreement Details for Billing Agreement[%s]" % (billing_agreement.id))
-        #paypal lislike and autoround payment differentiate below
-
-        #listlike
+        # billing_agreement_response  = BillingAgreement.execute(payment_token)
+        # print billing_agreement_response
+        # billing_agreement = BillingAgreement.find (billing_agreement_response.id)
+        # print billing_agreement.final_payment_date
+        # # transactions = billing_agreement.search_transactions(start_date, end_date)
+        # # print transactions
+        # print("Got Billing Agreement Details for Billing Agreement[%s]" % (billing_agreement.id))
+        # #paypal lislike and autoround payment differentiate below
+        #
+        # #listlike
         #Autoround
-        user = models.Usermodel.User.query.filter (models.Usermodel.User.username == userchangevalue).first ()
+        print request.json
+        # auto_round_name = request.json['username']
+        # LoggedOnUser = request.json['LoggedOnUser']
+        print request.json['userdata']
+        r=request.json['userdata']
+        print r['username']
+        payment_for = request.json['payment_for']
+        password = request.json['']
+        email = request.json['email']
+        selectedPack = request.json['purchaseOrder']
 
-        print user
-        if user != None:
-            return "False User Already Register"
-        if user == None:
-            userpy = models.Usermodel.userpackage()
-            userpy.username ='name of user'
-            userpy.Auto_ac_name = 'new'
-            userpy.email = 'nav'
-            userpy.Listlikepackage = 'nav'
-            userpy.usr_email = "asdsad"
-            db.session.add(userpy)
+        user = models.Usermodel.User.query.filter (models.Usermodel.User.username == LoggedOnUser).first ()
+
+        if payment_for == 'autoround':
+
+            user=models.Usermodel.userpackage.query.filter (models.Usermodel.userpackage.username == LoggedOnUser).first()
+            if user != None:
+                return "False User Already Register"
+            if user == None:
+                userpy = models.Usermodel.userpackage ()
+                userpy.username = LoggedOnUser
+                userpy.Auto_ac_name = auto_round_name
+                userpy.email = email
+                db.session.add (userpy)
+                db.session.commit ()
+                return 'sussesc'
+        elif payment_for == 'listlike':
+            userdata=models.Usermodel.userpackage()
+            userdata.username = LoggedOnUser
+            userdata.Listlikepackage = 'True'
+            db.session.add(userdata)
             db.session.commit()
-            return 'sussesc'
+            return 'listlike'
+
+
+
+
+
+
