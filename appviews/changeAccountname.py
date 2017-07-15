@@ -70,8 +70,8 @@ def changeAccountname():
 
             # Redirect URLs
             "redirect_urls": {
-                "return_url": "http://pythonapps.com:1300/dashboard#/Autoround?success",
-                "cancel_url": "http://pythonapps.com:1300/dashboard#/Autoround?failed"},
+                "return_url": "http://pythonapps.com:1300/dashboard#/Autoround?success_onetime",
+                "cancel_url": "http://pythonapps.com:1300/dashboard#/Autoround?failed_onetime"},
 
             # Transaction
             # A transaction defines the contract of a
@@ -119,8 +119,8 @@ def changeAccountname():
 @my_view.route ('/Usernamechanged', methods=['POST', 'GET'])
 def paymentpaypalonetime():
     if request.method == 'POST':
-        payment_id = request.args.get ('paymentId', None)
-        payer_id = request.args.get ('PayerID', None)
+        payment_id = request.json['paymentid']
+        payer_id = request.json['payerid']
         # payer_id = request.args.get('PayerID', None)
         payment = paypalrestsdk.Payment.find(payment_id)
         # billing_agreement_response = BillingAgreement.execute (payment_token)
@@ -145,6 +145,8 @@ def paymentpaypalonetime():
                 status=i['state']
                 # print i['create_time']
                 if (status == 'approved'):
+                    user = models.Usermodel.userpackage.query.filter(models.Usermodel.userpackage.Auto_ac_name == useraccname).first ()
+                    print user
                     if user == None:
                         print userold
                         userdata = models.Usermodel.userpackage.query.filter_by (Auto_ac_name=userold).first ()
@@ -155,12 +157,12 @@ def paymentpaypalonetime():
 
 
 
-                        return True
+                        return 'True'
                 else:
-                    return render_template('public/test1.html')
+                    return 'False'
 
         else:
-            return render_template('public/test1.html')
+            return 'False'
 
 
 

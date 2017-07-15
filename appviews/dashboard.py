@@ -24,5 +24,5 @@ def dashboard():
     else:
         user=getusername()
         logout_user(user)
-        return render_template ('public/test1.html')
+        return render_template ('public/signin.html')
 

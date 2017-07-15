@@ -11,7 +11,7 @@ import flask_login
 from controller import controller
 from controller.controller import gen
 #login_manager.session_protection = "strong"
-
+from app import db
 import models
 userdatastore=None
 
@@ -49,6 +49,7 @@ def verify_user_password():
                 t = [user.username]
                 global userdatastore
                 userdatastore = t
+                db.session.permanent = True
                 print userdatastore
 
                 global userisauth
@@ -67,7 +68,12 @@ def verify_user_password():
         else:
             return flask.render_template ('public/signin.html')
 
-
+@my_view.before_request
+def before_request():
+     import datetime
+     flask.session.permanent = True
+     my_view.permanent_session_lifetime = datetime.timedelta(seconds=30)
+     flask.session.modified = True
 
 def getusername():
     global userdatastore
