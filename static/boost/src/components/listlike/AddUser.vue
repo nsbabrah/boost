@@ -97,7 +97,7 @@
           <v-container fluid>
             <v-layout row>
               <v-flex xs12>
-                <v-list subheader>
+                <v-list subheader v-if="!loader">
                   <v-subheader>Review</v-subheader>
                   <v-list-item v-for="(value,key) in Userinfo" v-bind:key="key">
                     <v-list-tile avatar>
@@ -185,7 +185,8 @@ export default {
           })
           .catch(function (error) {
             console.log(error);
-             self.loader = false;
+            delete self.Userinfo['password'];
+            self.loader = false;
           });
 
       } else {
