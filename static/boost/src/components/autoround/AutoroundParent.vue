@@ -108,7 +108,6 @@ export default {
       })
         .then(function (response) {
           sessionStorage.removeItem('paypal_data');
-          localStorage.removeItem("LoggedOnUser");
           window.location.href = url.slice(0, url.indexOf('?'));
           self.alert = true;
           self.response = true;
@@ -118,7 +117,6 @@ export default {
         })
         .catch(function (error) {
           sessionStorage.removeItem('paypal_data');
-          localStorage.removeItem("LoggedOnUser");
           self.alert = true;
           self.response = false;
           window.location.href = url.slice(0, url.indexOf('?'));
@@ -142,7 +140,6 @@ export default {
           self.auth();
           self.loader = false;
           sessionStorage.removeItem('paypal_data');
-          localStorage.removeItem("LoggedOnUser");
           let a = document.createElement("a");
           a.href="#/Listlike";
           a.click();
@@ -154,7 +151,6 @@ export default {
           window.location.href = url.slice(0, url.indexOf('?'));
           self.loader = false;
           sessionStorage.removeItem('paypal_data');
-          localStorage.removeItem("LoggedOnUser");
           let a = document.createElement("a");
           a.href="#/Listlike";
           a.click();

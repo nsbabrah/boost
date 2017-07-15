@@ -110,7 +110,6 @@ export default {
         'new': self.newuser
       })
         .then(function (response) {
-          self.loader = false;
           window.location.href = response.data;
         })
         .catch(function (error) {

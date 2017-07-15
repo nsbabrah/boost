@@ -83,7 +83,7 @@
           {
             icon: 'settings',
             text: 'Ebook Guide',
-            'href': '#/'
+            'href': '#/Ebook'
           }
         ],
         miniVariant: false,
