@@ -54,10 +54,10 @@ def startpaypal():
             "description": "Create Plan for Regular",
             "merchant_preferences": {
                 "auto_bill_amount": "yes",
-                "cancel_url": "http://pythonapps.com:1300/dashboard#/Autoround?failed",
+                "cancel_url": "http://pythonapps.com:1300/dashboard#/Autoround?failed_user",
                 "initial_fail_amount_action": "continue",
                 "max_fail_attempts": "0",
-                "return_url": "http://pythonapps.com:1300/dashboard#/Autoround?success"
+                "return_url": "http://pythonapps.com:1300/dashboard#/Autoround?success_user"
 
             },
             "payment_definitions": [
