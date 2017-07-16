@@ -4,6 +4,7 @@ import Autoround from '@/components/autoround/AutoroundParent'
 import ListLike from '@/components/listlike/ListLikeParent'
 import Manage from '@/components/manage/ManageParent'
 import Dashboard from '@/components/dashboard/DashboardParent'
+import Boost from '@/components/boost/BoostParent'
 import Ebook from '@/components/ebook/Ebook'
 
 Vue.use(Router)
@@ -39,6 +40,11 @@ export default new Router({
       path: '/Ebook',
       name: 'Ebook',
       component: Ebook
+    },
+    {
+      path: '/Boost',
+      name: 'Boost',
+      component: Boost
     }
   ]
 })
