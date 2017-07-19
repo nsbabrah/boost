@@ -79,6 +79,7 @@ userdatastore = None
 userisauth = None
 billing_id = None
 
+from appviews.ebook import ebook
 from appviews.changeAccountname import changeAccountname
 from appviews.paypalAutoround import startpaypal,subscribe
 from appviews.userauth import userauth

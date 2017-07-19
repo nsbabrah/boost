@@ -29,7 +29,7 @@
         <!--<v-btn primary dark slot="activator">Open Dialog</v-btn>-->
         <v-card>
           <v-card-title>
-            <span class="headline">Use Google's location service?</span>
+            <span class="headline">Help</span>
           </v-card-title>
           <v-card-text>1) Default active your three autoround accounts
            timings:
