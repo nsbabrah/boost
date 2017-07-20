@@ -68,7 +68,7 @@ my_api.get_access_token ()
 logging.basicConfig (level=logging.INFO)
     # return 'http://0.0.0.0:2300/'
 from appviews.approutes import my_view
-# from appviews.siginview import signin
+from appviews.siginview import before_request
 from appviews.signup import signup
 
 from appviews.dashboard import dashboard
@@ -79,6 +79,8 @@ userdatastore = None
 userisauth = None
 billing_id = None
 
+from appviews.paypalListlike import startpaypal_listlike,subscribe_listlike
+from appviews.logout import logout
 from appviews.ebook import ebook
 from appviews.changeAccountname import changeAccountname
 from appviews.paypalAutoround import startpaypal,subscribe

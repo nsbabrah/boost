@@ -39,19 +39,18 @@ from siginview import getusername
 from siginview import getusername
 from approutes import my_view
 
-@my_view.route ('/start_paypal', methods=['POST'])
+@my_view.route ('/start_paypal_listlike', methods=['POST'])
 # @cross_origin()
 # @auth.verify_password
 # @login_required
-def startpaypal():
+def startpaypal_listlike():
     if request.method == 'POST':
 
         username  = request.json['username']
-
-        print str(username[0]).encode("utf-8")
+        print username
 
         billing_plan = BillingPlan ({
-            "name": str(username),
+            "name": "navjotbabrah",
             "description": "Create Plan for Regular",
             "merchant_preferences": {
                 "auto_bill_amount": "yes",
@@ -135,8 +134,8 @@ def startpaypal():
             print(billing_plan.error)
 
 
-@my_view.route ("/subscribe", methods=['POST', 'GET'])
-def subscribe():
+@my_view.route ("/subscribe_listlike", methods=['POST', 'GET'])
+def subscribe_listlike():
     if request.method == 'POST':
         payment_token=request.json['token']
         o=request.args.get('paymentId')

@@ -36,7 +36,7 @@ def verify_user_password():
         user = user.first ()
 
         if user:
-            if user.is_password_correct (password):
+            if user.is_password_correct(password):
 
                 login_user (user)
                 user.authenticated = True
