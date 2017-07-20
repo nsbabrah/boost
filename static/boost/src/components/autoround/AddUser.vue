@@ -33,22 +33,30 @@
           <v-container fluid>
             <v-layout row>
               <v-flex xs4>
-                <v-subheader>How Many Users</v-subheader>
+                <v-subheader>How Many Accounts</v-subheader>
               </v-flex>
               <v-flex xs8>
                 <v-select required v-model="Userinfo.selectedPack" :error="Userinfo.selectedPack ? false : true" v-bind:items="packages" label="Select" class="input-group--focused" dark item-value="text"></v-select>
               </v-flex>
             </v-layout>
-            <template v-for="(user,index) in Userinfo.username">
-              <v-layout row>
-                <v-flex xs4>
-                  <v-subheader>Enter User Name</v-subheader>
-                </v-flex>
-                <v-flex xs8>
-                  <v-text-field required label="Name" :error="Userinfo.username[index] ? false : true" v-model="Userinfo.username[index]"></v-text-field>
-                </v-flex>
-              </v-layout>
-            </template>
+            <v-layout row>
+              <v-flex xs4>
+                <v-subheader>Subscription Packs</v-subheader>
+              </v-flex>
+              <v-flex xs8>
+                <v-btn v-for="(item, index) in subscription" :key="index" @click.native="chosen_subscription=item" :outline="chosen_subscription==item" :class="chosen_subscription==item ? 'primary primary--text' : 'primary white--text'">
+                  {{item}}
+                </v-btn>
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs4>
+                <v-subheader>Total</v-subheader>
+              </v-flex>
+              <v-flex xs8>
+                <v-subheader>{{Userinfo.purchaseOrder}}</v-subheader>
+              </v-flex>
+            </v-layout>
             <v-layout row>
               <v-flex xs3 offset-xs8>
                 <div v-on:click="activeTab = check1() || 'mobile-tabs-4-1'">
@@ -73,12 +81,13 @@
                 <v-text-field type="email" required label="Email" :error="Userinfo.email ? false : true" v-model="Userinfo.email"></v-text-field>
               </v-flex>
             </v-layout>
-            <v-layout row>
+
+            <v-layout row v-for="(user,index) in Userinfo.username" :key="index">
               <v-flex xs4>
-                <v-subheader>Choose Subscription</v-subheader>
+                <v-subheader>Enter User Name</v-subheader>
               </v-flex>
               <v-flex xs8>
-                <v-select required v-model="chosen_subscription" :error="chosen_subscription ? false : true" v-bind:items="subscription" label="Select" class="input-group--focused" dark item-value="text"></v-select>
+                <v-text-field required label="Name" :error="Userinfo.username[index] ? false : true" v-model="Userinfo.username[index]"></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row>
@@ -97,7 +106,7 @@
       <v-card class="elevation-0">
         <v-card-text>
           <v-container fluid>
-            <v-layout  v-if="!loader" row>
+            <v-layout v-if="!loader" row>
               <v-flex xs12>
                 <v-list subheader>
                   <v-subheader>Review</v-subheader>
@@ -147,7 +156,7 @@ export default {
         selectedPack: null,
         username: [''],
         email: null,
-        purchaseOrder: null,
+        purchaseOrder: '$ 0',
       },
       reviewNames: {
         'selectedPack': 'Selected pack',
@@ -177,7 +186,7 @@ export default {
   methods: {
     check1: function () {
       console.log(this.Userinfo.username);
-      if (this.Userinfo.selectedPack != null && this.Userinfo.username != null || this.Userinfo.username > 1) {
+      if (this.chosen_subscription !== null && this.Userinfo.selectedPack != null) {
         return 'mobile-tabs-4-2';
       }
     },
@@ -190,7 +199,7 @@ export default {
         }
 
       }
-      if (count == 0 && this.chosen_subscription !== null) {
+      if (count == 0 && this.Userinfo.username.length >= 1) {
         return 'mobile-tabs-4-3';
       }
     },

@@ -8,16 +8,12 @@
           </v-alert>
         </v-flex>
       </v-layout>
-      <v-layout row-sm wrap column v-if="showUsers">
-        <v-flex xs12 sm12 lg1>
-          <v-btn floating large @click.native="add_user" class="blue text-xs-right ma-1">
-            <v-icon light>add</v-icon>
-          </v-btn>
-        </v-flex>
+      <v-btn v-if="showUsers" floating large @click.native="add_user" class="blue text-xs-right ma-1">
+        <v-icon light>add</v-icon>
+      </v-btn>
+      <v-layout row wrap align-start v-if="showUsers">
         <div v-for="(item,index) in users" :key="index">
-          <v-flex xs12>
-            <cards :key="users" v-on:help="showhelp=true" :data="item" class="ma-1"></cards>
-          </v-flex>
+          <cards v-on:help="showhelp=!showhelp" :postData="item" class="ma-1"></cards>
         </div>
       </v-layout>
       <v-layout row-lg wrap column v-else>
@@ -31,18 +27,10 @@
           <v-card-title>
             <span class="headline">Help</span>
           </v-card-title>
-          <v-card-text>1) Default active your three autoround accounts
-           timings:
-           1) 8 PM
-           2)11 PM
-           2)3AM
-           Second
-           1)You can gain likes in Autoround depend on traffic
-           2)Get likes from real user in  pool ready for liking your images
-           </v-card-text>
+          <v-card-text>1) Default active your three autoround accounts timings: 1) 8 PM 2)11 PM 2)3AM Second 1)You can gain likes in Autoround depend on traffic 2)Get likes from real user in pool ready for liking your images
+          </v-card-text>
           <!--<v-card-actions>-->
-          <v-btn class="green--text darken-1" flat="flat" @click.native="showhelp = false">Disagree</v-btn>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="showhelp = false">Agree</v-btn>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="showhelp = !showhelp">Okay</v-btn>
           <!--</v-card-actions>-->
         </v-card>
       </v-dialog>
@@ -96,7 +84,8 @@ export default {
         'username': 'test',
         'listlike': 'test',
         'usr_id': '1',
-        'Auto_ac_name': 'test'
+        'Auto_ac_name': 'test',
+        'play': true
       }];
     },
     paypal_addUser: function (url) {
@@ -141,7 +130,7 @@ export default {
           self.loader = false;
           sessionStorage.removeItem('paypal_data');
           let a = document.createElement("a");
-          a.href="#/Listlike";
+          a.href = "#/Listlike";
           a.click();
         })
         .catch(function (error) {
@@ -152,7 +141,7 @@ export default {
           self.loader = false;
           sessionStorage.removeItem('paypal_data');
           let a = document.createElement("a");
-          a.href="#/Listlike";
+          a.href = "#/Listlike";
           a.click();
         });
     },

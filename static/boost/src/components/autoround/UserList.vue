@@ -1,8 +1,8 @@
 <template>
-  <v-card>
+  <v-card raised>
     <v-card-row class="green darken-1" height="10px">
       <v-card-title>
-        <span class="white--text">User</span>
+        <span class="white--text">{{'@'+postData.Auto_ac_name}}</span>
         <v-spacer></v-spacer>
         <div>
           <v-menu id="marriot" bottom left origin="top right">
@@ -12,7 +12,12 @@
             <v-list>
               <v-list-item>
                 <v-list-tile>
-                  <v-list-tile-title @click="$emit('help')">Help</v-list-tile-title>
+                  <v-list-tile-title @click="$emit('help')"> Help </v-list-tile-title>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile>
+                  <v-list-tile-title @click.prevent="dialog = !dialog"> Change Name </v-list-tile-title>
                 </v-list-tile>
               </v-list-item>
 
@@ -24,18 +29,12 @@
     </v-card-row>
     <v-card-text>
       <v-card-row height="75px">
-        <img :src="this.data.image" width="100px" height="100px">
-        <v-spacer></v-spacer>
-        <div>
-          <strong>{{this.data.Auto_ac_name}}</strong>
-        </div>
+        <img :src="postData.image" width="100px" height="100px">
       </v-card-row>
     </v-card-text>
     <v-divider></v-divider>
     <v-card-row actions class="mt-0">
       <v-dialog v-model="dialog">
-        <v-btn flat class="green--text darken-1" slot="activator">Change Name</v-btn>
-
         <v-card v-if="!loader">
           <v-card-row>
             <v-card-title>$1 will be charged for this action Continue ?
@@ -65,9 +64,9 @@
         </v-card>
       </v-dialog>
       <v-spacer></v-spacer>
-      <v-btn medium floating primary @click.native="play_pause" class="ml-2">
-        <v-icon v-show="!this.data.play" light>play_arrow</v-icon>
-        <v-icon v-show="this.data.play" light>pause_circle_filled</v-icon>
+      <v-btn small floating primary @click.native="play_pause" class="ml-2">
+        <v-icon v-if="!postData.play" light>play_arrow</v-icon>
+        <v-icon v-else light>pause_circle_filled</v-icon>
       </v-btn>
     </v-card-row>
   </v-card>
@@ -75,22 +74,21 @@
 
 <script>
 export default {
-  props: ['data'],
+  props: ['postData'],
   data() {
     return {
       dialog: false,
       newuser: '',
-      loader: false
+      loader: false,
     }
   },
   methods: {
     play_pause() {
-      this.data.play = !this.data.play;
-      console.log(this.play);
+      this.postData.play = !this.postData.play;
       let self = this;
       this.axios.post('/changeState', {
-        'name': self.data.Auto_ac_name,
-        'state': self.data.play
+        'name': self.postData.Auto_ac_name,
+        'state': self.postData.play
       })
         .then(function (response) {
           console.log(response);
@@ -106,7 +104,7 @@ export default {
       this.loader = true;
       let self = this;
       this.axios.post('/changeUser', {
-        'old': self.data.Auto_ac_name,
+        'old': self.postData.Auto_ac_name,
         'new': self.newuser
       })
         .then(function (response) {

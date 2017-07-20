@@ -3,7 +3,7 @@
     <v-app>
       <v-navigation-drawer persistent :enable-resize-watcher="true" :mini-variant="miniVariant" :clipped="clipped" v-model="drawer">
         <v-list>
-          <v-list-item class="elevation-1" v-for="(item, i) in items" :key="i">
+          <v-list-item class="elevation-1" v-for="(item, i) in items" :key="i" @click="title=item.text">
             <v-list-tile value="true" :to="item.href">
               <v-list-tile-action>
                 <v-icon v-html="item.icon"></v-icon>
@@ -18,7 +18,7 @@
 
       <v-toolbar fixed>
         <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title class="white--text" v-text="title"></v-toolbar-title>
+        <v-toolbar-title class="white--text">{{title}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-menu id="marriot" bottom left origin="top right">
           <v-btn icon="icon" slot="activator" class="white--text">
@@ -89,7 +89,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Auto Round',
+      title: 'Auto Round'
     }
   },
   methods: {
