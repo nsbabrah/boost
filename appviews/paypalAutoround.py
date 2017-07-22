@@ -38,7 +38,7 @@ from siginview import getusername
 # print getusername()
 from siginview import getusername
 from approutes import my_view
-
+from userauth import storename
 @my_view.route ('/start_paypal', methods=['POST'])
 # @cross_origin()
 # @auth.verify_password
@@ -51,7 +51,7 @@ def startpaypal():
         print str(username[0]).encode("utf-8")
 
         billing_plan = BillingPlan ({
-            "name": str(username),
+            "name": str(username[0]).encode("utf-8"),
             "description": "Create Plan for Regular",
             "merchant_preferences": {
                 "auto_bill_amount": "yes",
@@ -102,14 +102,9 @@ def startpaypal():
                     "payer": {
                         "payment_method": "paypal"
                     },
-                    "shipping_address": {
-                        "line1": "StayBr111idge Suites",
-                        "line2": "Cro12ok Street",
-                        "city": "San Jose",
-                        "state": "CA",
-                        "postal_code": "95112",
-                        "country_code": "US"
-                    }
+
+
+
                 })
 
                 # logging.basicConfig (level=logging.INFO)
@@ -138,15 +133,15 @@ def startpaypal():
 @my_view.route ("/subscribe", methods=['POST', 'GET'])
 def subscribe():
     if request.method == 'POST':
-        payment_token=request.json['token']
-        o=request.args.get('paymentId')
+        # payment_token=request.json['token']
+        # o=request.args.get('paymentId')
         # global userdatastore
         # print userdatastore
         # userdatastore = 'dj'
         # print userdatastore
         # payment_id = billing_id
 
-
+        #
         # billing_agreement_response  = BillingAgreement.execute(payment_token)
         # print billing_agreement_response
         # billing_agreement = BillingAgreement.find (billing_agreement_response.id)
@@ -158,39 +153,41 @@ def subscribe():
         #
         # #listlike
         #Autoround
-        print request.json
+        print request.data
+        print request.data[0]
+        return 'success'
         # auto_round_name = request.json['username']
         # LoggedOnUser = request.json['LoggedOnUser']
-        print request.json['userdata']
-        r=request.json['userdata']
-        print r['username']
-        payment_for = request.json['payment_for']
-        password = request.json['']
-        email = request.json['email']
-        selectedPack = request.json['purchaseOrder']
+        # print request.json['userdata']
+        # r=request.json['userdata']
+        # print r['username']
+        # payment_for = request.json['payment_for']
+        # password = request.json['']
+        # email = request.json['email']
+        # selectedPack = request.json['purchaseOrder']
 
-        user = models.Usermodel.User.query.filter (models.Usermodel.User.username == LoggedOnUser).first ()
-
-        if payment_for == 'autoround':
-
-            user=models.Usermodel.userpackage.query.filter (models.Usermodel.userpackage.username == LoggedOnUser).first()
-            if user != None:
-                return "False User Already Register"
-            if user == None:
-                userpy = models.Usermodel.userpackage ()
-                userpy.username = LoggedOnUser
-                userpy.Auto_ac_name = auto_round_name
-                userpy.email = email
-                db.session.add (userpy)
-                db.session.commit ()
-                return 'sussesc'
-        elif payment_for == 'listlike':
-            userdata=models.Usermodel.userpackage()
-            userdata.username = LoggedOnUser
-            userdata.Listlikepackage = 'True'
-            db.session.add(userdata)
-            db.session.commit()
-            return 'listlike'
+        # user = models.Usermodel.User.query.filter (models.Usermodel.User.username == LoggedOnUser).first ()
+        #
+        # if payment_for == 'autoround':
+        #
+        #     user=models.Usermodel.userpackage.query.filter (models.Usermodel.userpackage.username == LoggedOnUser).first()
+        #     if user != None:
+        #         return "False User Already Register"
+        #     if user == None:
+        #         userpy = models.Usermodel.userpackage ()
+        #         userpy.username = LoggedOnUser
+        #         userpy.Auto_ac_name = auto_round_name
+        #         userpy.email = email
+        #         db.session.add (userpy)
+        #         db.session.commit ()
+        #         return 'sussesc'
+        # elif payment_for == 'listlike':
+        #     userdata=models.Usermodel.userpackage()
+        #     userdata.username = LoggedOnUser
+        #     userdata.Listlikepackage = 'True'
+        #     db.session.add(userdata)
+        #     db.session.commit()
+        #     return 'listlike'
 
 
 

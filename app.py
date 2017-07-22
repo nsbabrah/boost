@@ -83,7 +83,7 @@ from appviews.paypalListlike import startpaypal_listlike,subscribe_listlike
 from appviews.logout import logout
 from appviews.ebook import ebook
 from appviews.changeAccountname import changeAccountname
-from appviews.paypalAutoround import startpaypal,subscribe
+from appviews.paypalAutoround import startpaypal
 from appviews.userauth import userauth
 # from model import *
 from models.Usermodel import *

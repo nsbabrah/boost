@@ -51,7 +51,7 @@ def changeaccountstate():
 
 
         params = request.json
-        print params
+        # print params
         state = params['state']
         name = params['name']
 
