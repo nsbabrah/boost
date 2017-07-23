@@ -1,7 +1,7 @@
 <template>
   <main>
     <v-container fluid>
-      <v-layout justify-center wrap v-if="pay_view">
+      <v-layout justify-center wrap v-if="!pay_view">
         <a @click.stop="dialog = true">
           <img src="http://1.bp.blogspot.com/-DFZSo3Mj6sc/T5ajpLJFRVI/AAAAAAAAAJ8/AuIB_Tfhlmk/s1600/locked-pdf.jpg" />
         </a>
@@ -50,7 +50,7 @@
             <v-icon>keyboard_arrow_right</v-icon>
           </v-btn>
           <v-progress-linear v-if="loadedRatio > 0 && loadedRatio < 1" :value="Math.floor(loadedRatio * 100)" height="5"></v-progress-linear>
-          <pdf :page="page" src="./static/ebook.pdf" :rotate="rotate" @progress="loadedRatio = $event" @numPages="numPages = $event"></pdf>
+          <pdf :page="page" src="./static/static_vuejs/pdf/ebook.pdf" :rotate="rotate" @progress="loadedRatio = $event" @numPages="numPages = $event"></pdf>
         </v-flex>
       </v-layout>
     </v-container>
