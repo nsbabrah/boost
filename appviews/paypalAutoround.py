@@ -46,9 +46,9 @@ from userauth import storename
 def startpaypal():
     if request.method == 'POST':
 
-        username  = request.json['username']
+        username  = request.json['LoggedOnUser']
 
-        print str(username[0]).encode("utf-8")
+        # print str(username[0]).encode("utf-8")
 
         billing_plan = BillingPlan ({
             "name": str(username[0]).encode("utf-8"),
@@ -154,6 +154,52 @@ def subscribe():
         # #listlike
         #Autoround
         print request.data
+        print request.json
+
+        import json
+
+        username  = (request.json['userdata'])
+        t=json.loads(username)
+
+        print t['LoggedOnUser']
+        if (t['payment_for'] == 'autoround'):
+            user = models.Usermodel.userpackage.query.filter(models.Usermodel.userpackage.username == t['LoggedOnUser']).first ()
+            if user == None:
+                return "False User Already Register"
+            elif user!= None:
+                    userpy =models.Usermodel.userpackage()
+                    userpy.username = t['LoggedOnUser']
+                    userpy.Auto_ac_name = t['username']
+                    userpy.usr_email = t['email']
+                    userpy.Listlikepackage='0'
+                    userpy.Auto_round_state = '0'
+                    db.session.add (userpy)
+                    db.session.commit()
+                    return 'sussesc'
+        elif (t['payment_for'] == 'listlike'):
+            user = models.Autoroundmodel.userpackage_autoround.query.filter(models.Usermodel.userpackage_autoround.username == t['LoggedOnUser']).first ()
+            if user == None:
+                return "False User Already Register"
+            elif user!= None:
+                    userpy = models.Autoroundmodel.userpackage_autoround()
+                    userpy.username = t['LoggedOnUser']
+                    userpy.Auto_ac_name = t['username']
+                    userpy.usr_email = t['email']
+                    userpy.Listlikepackage='0'
+                    userpy.Auto_round_state = '0'
+                    db.session.add (userpy)
+                    db.session.commit()
+                    return 'sussesc'
+
+
+
+
+
+
+
+
+
+        print username.encode("utf-8")
         print request.data[0]
         return 'success'
         # auto_round_name = request.json['username']

@@ -9,7 +9,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 #
 #
 
-class userpackage_autoround(db.Model):
+class userpackage_listlike(db.Model):
     # __bind_key__ = 'local'
     __tablename__ = "userpackage"
 

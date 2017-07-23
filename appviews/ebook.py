@@ -165,5 +165,7 @@ def ebookbuy():
             return 'False'
 
 
-
-
+@my_view.route('/hasPaid_ebook',methods=['POST'])
+def ebookstatus():
+    if request.method == 'POST':
+        return 'true'
