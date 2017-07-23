@@ -145,9 +145,9 @@ export default {
       activeTab: null,
       loader: false,
       packages: ['1', '2', '3', '4', '5'],
-      subscription: ['3 months', '6 months', '12 months'],
+      subscription: ['1 month','3 months', '6 months', '12 months'],
       subscription_cost: {
-        '3 months': 10, '6 months': 60, '12 months': 120
+        '1 month':5,'3 months': 10, '6 months': 60, '12 months': 120
       },
       chosen_subscription: null,
       Userinfo: {

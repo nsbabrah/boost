@@ -8,6 +8,9 @@
 <title>SignUp</title>
 
 <!-- Bootstrap -->
+<script src="../../static/update/js/jquery.min.js"></script>
+<script src="../../static/update/js/bootstrap.min.js"></script>
+<!-- Bootstrap -->
 <link href="../../static/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
 <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -18,194 +21,194 @@
 
 <!-- Custom Theme Style -->
 <link href="../../static/custom.css" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.common.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.css">
+
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
 <style>
-body{
-padding-top: 100px;
-}
-form{
-padding: 20px;
-	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 15px 0 rgba(0,0,0,0.12) !important;
-}
-h4{
-text-align: center;
-}
-.btn{
-border-radius: 0px;
-}
-.form-control{
-border-radius: 0px;
-margin-bottom: 10px;
-}
-p{
-margin-bottom: 10px;
-margin-top: 10px;
-text-align: center;
-}
-.blue{
-color: #337ab7;
-}
-.fa{
-color: #337ab7;
-}
-.fa-facebook-f{
-padding: 10px 12px 10px 12px;
-border: 1px solid #337ab7;
-border-radius: 50%;
-}
-.fa-google-plus{
-padding: 10px 8px 10px 8px;
-border: 1px solid #337ab7;
-border-radius: 50%;
-}
-.fa-twitter{
-padding: 10px 8px 10px 8px;
-border: 1px solid #337ab7;
-border-radius: 50%;
-}
-i{
-margin-left: 5px;
-margin-right: 5px;
-}
+	body {
+		padding-top: 100px;
+	}
+
+	form {
+		padding: 20px;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 15px 0 rgba(0, 0, 0, 0.12) !important;
+	}
+
+	h4 {
+		text-align: center;
+	}
+
+	.btn {
+		border-radius: 0px;
+	}
+
+	.form-control {
+		border-radius: 0px;
+		margin-bottom: 10px;
+	}
+
+	p {
+		margin-bottom: 10px;
+		margin-top: 10px;
+		text-align: center;
+	}
+
+	.blue {
+		color: #337ab7;
+	}
+
+	.fa {
+		color: #337ab7;
+	}
+
+	.fa-facebook-f {
+		padding: 10px 12px 10px 12px;
+		border: 1px solid #337ab7;
+		border-radius: 50%;
+	}
+
+	.fa-google-plus {
+		padding: 10px 8px 10px 8px;
+		border: 1px solid #337ab7;
+		border-radius: 50%;
+	}
+
+	.fa-twitter {
+		padding: 10px 8px 10px 8px;
+		border: 1px solid #337ab7;
+		border-radius: 50%;
+	}
+
+	i {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
 
 
 
 
-.flip {
--webkit-perspective: 800;
-perspective: 800;
+	.flip {
+		-webkit-perspective: 800;
+		perspective: 800;
 
-position: relative;
-}
-.flip .card.flipped {
--webkit-transform: rotatey(-180deg);
-transform: rotatey(-180deg);
-}
-.flip .card {
+		position: relative;
+	}
 
-height: 100%;
--webkit-transform-style: preserve-3d;
--webkit-transition: 0.5s;
-transform-style: preserve-3d;
-transition: 0.5s;
-}
-.flip .card .face {
+	.flip .card.flipped {
+		-webkit-transform: rotatey(-180deg);
+		transform: rotatey(-180deg);
+	}
 
--webkit-backface-visibility: hidden ;
-backface-visibility: hidden ;
-z-index: 2;
+	.flip .card {
 
-}
-.flip .card .front {
-position: absolute;
-width: 100%;
-z-index: 1;
+		height: 100%;
+		-webkit-transform-style: preserve-3d;
+		-webkit-transition: 0.5s;
+		transform-style: preserve-3d;
+		transition: 0.5s;
+	}
 
-}
-.flip .card .back {
--webkit-transform: rotatey(-180deg);
-transform: rotatey(-180deg);
-}
-.inner{margin:0px !important;}
+	.flip .card .face {
+
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		z-index: 2;
+	}
+
+	.flip .card .front {
+		position: absolute;
+		width: 100%;
+		z-index: 1;
+	}
+
+	.flip .card .back {
+		-webkit-transform: rotatey(-180deg);
+		transform: rotatey(-180deg);
+	}
+
+	.inner {
+		margin: 0px !important;
+	}
 </style>
 <script>
-$('.fliper-btn').click(function(){
-$('.flip').find('.card').toggleClass('flipped');
+	$(document).ready(function () {
 
-});
-</script></head>
+		$('.fliper-btn').click(function () {
+			$('.flip').find('.card').toggleClass('flipped');
 
-
-  <body  >
-		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"  rel="stylesheet">
-				<div class="container">
-
-					<div class="row">
-
-						<div class="col-md-4"></div>
-						<div class="col-md-4">
-							<!-- <h4>Click "Create new account?"</h4>
-
-
-						 	 <div class="flip">
-						  <div class="card">
-						 	 <div class="face front">
- -->
-
-
-						 		 <!-- <div class="panel panel-default">
-
-						 			 <form class="form-horizontal">
-
-						 				 <br>
-
-						 				 <h1 class="text-center">LOGO</h1>
-
-						 				 <br>
-
-						 				 <input class="form-control" placeholder="Username"/>
-						 				 <input class="form-control" placeholder="Password"/>
-						 				 <p class="text-right"><a href="">Forgot Password</a></p>
-						 				 <button class="btn btn-primary btn-block">LOG IN</button>
-						 				 <hr>
-						 				 <p class="blue">Sign in with</p>
-
-						 				 <p><i class="fa fa-facebook-f fa-lg"></i><i class="fa fa-twitter fa-lg"></i></p>
-
-						 				 <hr>
-						 				 <p class="text-center">
-						 					 <a href="signup" class="fliper-btn">Create new account?</a>
-						 				 </p>
-						 			 </form>
-
-						 		 </div>
+		});
+		$("form").submit(function (e) {
+			var form = $(this);
+			$.ajax({
+				url: form.attr('action'),
+				type: form.attr('method'),
+				data: form.serialize(), // data to be submitted
+				fail: function (response) {
+					swal('Oops...', 'Something went wrong!', response);
+				}
+			});
+			return false;
+		});
+	});
+</script>
+</head>
 
 
-						 	 </div> -->
+<body>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+	<div class="container">
 
-		<div class="face back">
+		<div class="row">
 
-
- 			 <div class="panel panel-default">
-
- 			 <form class="form-horizontal" action="/signup" method="post" >
-
- 				 <br>
-
- 				 <h1 class="text-center">Sign Up</h1>
-
- 				 <br>
- 				 <label>User Information</label>
- 				 <input class="form-control" name="username" placeholder="Username"/>
- 				 <input class="form-control"name="email" placeholder="Email"/>
-
- 				 <input class="form-control" name="password"  password="password"  placeholder="Password"/>
- 				 <!-- <input class="form-control" placeholder="Mobile Number"/> -->
- 				 <button class="btn btn-primary btn-block" type="submit" id="signupbtn">SIGN UP</button>
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<h4>BoostupLikes</h4>
+				<button id="lo">lo</button>
+				<div class="face front">
 
 
- 				 <p class="text-center">
- 					 <a href="signin" class="fliper-btn">Already have an account?</a>
- 				 </p>
+					<div class="panel panel-default">
 
- 			 </form>
+						<form class="form-horizontal" action="/signup" method="post">
 
- 		 </div>
+							<br>
+
+							<h1 class="text-center">Sign Up</h1>
+
+							<br>
+							<label>User Information</label>
+							<input class="form-control" name="username" placeholder="Username" />
+							<input class="form-control" name="email" placeholder="Email" />
+
+							<input class="form-control" name="password" password="password" placeholder="Password" />
+							<!-- <input class="form-control" placeholder="Mobile Number"/> -->
+							<button class="btn btn-primary btn-block" type="submit" id="signupbtn">SIGN UP</button>
+
+
+							<p class="text-center">
+								<a href="signin" class="fliper-btn">Already have an account?</a>
+							</p>
+
+						</form>
+
+					</div>
 
 
 
 
- 	 </div>
-  </div>
- </div>
+				</div>
+			</div>
+		</div>
 
 
 
 
-  </div>
-  <div class="col-md-4"></div>
+	</div>
+	<div class="col-md-4"></div>
+	<!-- /.container -->
+</body>
 
- </div>
-
- </div><!-- /.container -->
- </body>
- </html>
+</html>

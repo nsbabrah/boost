@@ -7,7 +7,7 @@
 
 <title>signin</title>
 <script src="../../static/update/js/jquery.min.js"></script>
-    <script src="../../static/update/js/bootstrap.min.js"></script>
+<script src="../../static/update/js/bootstrap.min.js"></script>
 <!-- Bootstrap -->
 <link href="../../static/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
@@ -19,51 +19,62 @@
 
 <!-- Custom Theme Style -->
 <link href="../../static/custom.css" rel="stylesheet">
-			<style type="text/css">
-			body{
-	    padding-top: 100px;
+<style type="text/css">
+	body {
+		padding-top: 100px;
 	}
-	form{
+
+	form {
 		padding: 20px;
-		    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 15px 0 rgba(0,0,0,0.12) !important;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 15px 0 rgba(0, 0, 0, 0.12) !important;
 	}
-	h4{
-	    text-align: center;
+
+	h4 {
+		text-align: center;
 	}
-	.btn{
+
+	.btn {
 		border-radius: 0px;
 	}
-	.form-control{
+
+	.form-control {
 		border-radius: 0px;
 		margin-bottom: 10px;
 	}
-	p{
+
+	p {
 		margin-bottom: 10px;
 		margin-top: 10px;
 		text-align: center;
 	}
-	.blue{
+
+	.blue {
 		color: #337ab7;
 	}
-	.fa{
+
+	.fa {
 		color: #337ab7;
 	}
-	.fa-facebook-f{
+
+	.fa-facebook-f {
 		padding: 10px 12px 10px 12px;
 		border: 1px solid #337ab7;
 		border-radius: 50%;
 	}
-	.fa-google-plus{
+
+	.fa-google-plus {
 		padding: 10px 8px 10px 8px;
 		border: 1px solid #337ab7;
 		border-radius: 50%;
 	}
-	.fa-twitter{
+
+	.fa-twitter {
 		padding: 10px 8px 10px 8px;
 		border: 1px solid #337ab7;
 		border-radius: 50%;
 	}
-	i{
+
+	i {
 		margin-left: 5px;
 		margin-right: 5px;
 	}
@@ -72,92 +83,99 @@
 
 
 	.flip {
-	  -webkit-perspective: 800;
-	perspective: 800;
+		-webkit-perspective: 800;
+		perspective: 800;
 
-	    position: relative;
+		position: relative;
 	}
+
 	.flip .card.flipped {
-	  -webkit-transform: rotatey(-180deg);
-	    transform: rotatey(-180deg);
+		-webkit-transform: rotatey(-180deg);
+		transform: rotatey(-180deg);
 	}
+
 	.flip .card {
 
-	  height: 100%;
-	  -webkit-transform-style: preserve-3d;
-	  -webkit-transition: 0.5s;
-	    transform-style: preserve-3d;
-	    transition: 0.5s;
+		height: 100%;
+		-webkit-transform-style: preserve-3d;
+		-webkit-transition: 0.5s;
+		transform-style: preserve-3d;
+		transition: 0.5s;
 	}
+
 	.flip .card .face {
 
-	  -webkit-backface-visibility: hidden ;
-	    backface-visibility: hidden ;
-	  z-index: 2;
-
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		z-index: 2;
 	}
+
 	.flip .card .front {
-	  position: absolute;
-	   width: 100%;
-	  z-index: 1;
-
+		position: absolute;
+		width: 100%;
+		z-index: 1;
 	}
+
 	.flip .card .back {
-	  -webkit-transform: rotatey(-180deg);
-	    transform: rotatey(-180deg);
+		-webkit-transform: rotatey(-180deg);
+		transform: rotatey(-180deg);
 	}
-	  .inner{margin:0px !important;}
-		</style>
+
+	.inner {
+		margin: 0px !important;
+	}
+</style>
 <script>
-$('.fliper-btn').click(function(){
-	 $('.flip').find('.card').toggleClass('flipped');
+	$('.fliper-btn').click(function () {
+		$('.flip').find('.card').toggleClass('flipped');
 
-});
+	});
 </script>
-			</head>
+</head>
 
+<body>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+	<div class="container">
 
-			<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"  rel="stylesheet">
-			    <div class="container">
+		<div class="row">
 
-			      <div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
 
-			        <div class="col-md-4"></div>
-			        <div class="col-md-4">
-
-			        <h4>BoostupLikes</h4>
-
-
-			          <div class="flip">
-			        <html class="card">
-			          <div class="face front">
+				<h4>BoostupLikes</h4>
+				<div class="face front">
 
 
 
-			            <div class="panel panel-default">
+					<div class="panel panel-default">
 
-			              <form class="form-horizontal" action='/signin' method="post"  id="signForm" >
+						<form class="form-horizontal" action='/signin' method="post" id="signForm">
 
-			                <br>
+							<br>
 
-			                <h1 class="text-center">Sign In</h1>
+							<h1 class="text-center">Sign In</h1>
 
-			                <br>
+							<br>
 
-			                <input class="form-control" name='username'  placeholder="Username"/>
-			                <input class="form-control" type="password" name='password' placeholder="Password"/>
-			                <p class="text-right"><a href="">Forgot Password</a></p>
-			                <button class="btn btn-primary btn-block">LOG IN</button>
-			                <hr>
-                              <hr>
-			                <p class="text-center">
-			                  <a href="signup" class="fliper-btn">Create new account?</a>
-			                </p>
-			              </form>
+							<input class="form-control" name='username' placeholder="Username" />
+							<input class="form-control" type="password" name='password' placeholder="Password" />
+							<p class="text-right"><a href="">Forgot Password</a></p>
+							<button class="btn btn-primary btn-block">LOG IN</button>
+							<hr>
+							<hr>
+							<p class="text-center">
+								<a href="signup" class="fliper-btn">Create new account?</a>
+							</p>
+						</form>
 
-			            </div>
+					</div>
 
 
-			          </div>
-                    </body>
-                    </html>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
