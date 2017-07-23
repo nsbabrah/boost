@@ -34,9 +34,8 @@ import flask_login
 from config import *
 from OpenSSL import SSL
 import siginview
-from siginview import getusername
+# from siginview import getusername
 # print getusername()
-from siginview import getusername
 from approutes import my_view
 from userauth import storename
 @my_view.route ('/start_paypal', methods=['POST'])
@@ -181,7 +180,7 @@ def subscribe():
             if user == None:
                 return "False User Already Register"
             elif user!= None:
-                    userpy = models.Autoroundmodel.userpackage_autoround()
+                    userpy = models.Usermodel.userpackage()
                     userpy.username = t['LoggedOnUser']
                     userpy.Auto_ac_name = t['username']
                     userpy.usr_email = t['email']

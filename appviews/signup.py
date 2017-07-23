@@ -17,6 +17,7 @@ signup = Blueprint('signup', __name__)
 from approutes import my_view
 from app import db
 # from models.Usermodel import
+from flask import jsonify
 
 @my_view.route ('/signup', methods=['POST', 'GET'])
 def index2():
@@ -36,9 +37,11 @@ def index2():
         email = models.Usermodel.User.query.filter(models.Usermodel.User.email == email).first ()
         print user
         if user!=None:
-            return render_template ('public/signup.html')
+            error = {"0":"Username already acquired.","1":"Please enter another username"}
+            return jsonify(error)
         if email!= None:
-            return render_template ('public/signup.html')
+            error = {"0":"Email Exists","1":"Please enter another email"}
+            return jsonify(error)
 
         if user == None:
             if email == None:

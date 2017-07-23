@@ -22,8 +22,8 @@
 <!-- Custom Theme Style -->
 <link href="../../static/custom.css" rel="stylesheet">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.common.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.css">
 
 <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
@@ -145,9 +145,10 @@
 			$.ajax({
 				url: form.attr('action'),
 				type: form.attr('method'),
-				data: form.serialize(), // data to be submitted
-				fail: function (response) {
-					swal('Oops...', 'Something went wrong!', response);
+				data: form.serialize(), 
+				success:function(response){
+				console.log(response);
+					swal(response['0'], response['1']);
 				}
 			});
 			return false;
@@ -166,7 +167,6 @@
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
 				<h4>BoostupLikes</h4>
-				<button id="lo">lo</button>
 				<div class="face front">
 
 

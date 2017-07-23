@@ -11,7 +11,7 @@ print controller.gen()
 # login_manager.session_protection = "strong"
 from config import *
 from approutes import my_view
-from siginview import getusername
+
 
 
 @my_view.route ('/dashboard', methods=['POST', 'GET'])

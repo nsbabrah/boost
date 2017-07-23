@@ -12,13 +12,14 @@ import siginview
 
 storename = None
 # User = models.Usermodel.userpackage
-
+from siginview import before_request
+from flask import jsonify
 @my_view.route ('/userauth', methods=['GET'])
 def userauth():
     if request.method == 'GET':
         # username = request.get_json()
 
-        us = siginview.getusername()
+        us = siginview.before_request()
         storename = us
 
         print storename

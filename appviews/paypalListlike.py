@@ -34,9 +34,9 @@ import flask_login
 from config import *
 from OpenSSL import SSL
 import siginview
-from siginview import getusername
+# from siginview import before_request
 # print getusername()
-from siginview import getusername
+# from siginview import getusername
 from approutes import my_view
 
 @my_view.route ('/start_paypal_listlike', methods=['POST'])

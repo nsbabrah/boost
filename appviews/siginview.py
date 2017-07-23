@@ -15,6 +15,7 @@ from app import db
 import models
 userdatastore=None
 
+from flask import jsonify
 # signin = Blueprint('signin',__name__)
 from approutes import my_view
 # from model import db
@@ -74,7 +75,6 @@ def before_request():
      flask.session.permanent = True
      my_view.permanent_session_lifetime = datetime.timedelta(seconds=2330)
      flask.session.modified = True
+     global userdatastore
+     return userdatastore
 
-def getusername():
-    global userdatastore
-    return userdatastore

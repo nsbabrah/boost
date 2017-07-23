@@ -14,7 +14,7 @@ import models
 
 useraccname=0
 from userauth import storename
-from siginview import getusername
+from siginview import before_request
 @my_view.route ('/manage', methods=['POST', 'GET'])
 def manage():
     if request.method == 'POST':
@@ -22,7 +22,7 @@ def manage():
 
         print request.json
         global useraccname
-        useraccname = getusername()
+        useraccname = before_request()
         print str(useraccname)
         userchangevalue=request.json['value']
         changewhat=request.json['change']
