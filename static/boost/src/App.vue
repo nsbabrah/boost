@@ -30,7 +30,7 @@
                 <v-list-tile-title @click="logout">Logout</v-list-tile-title>
               </v-list-tile>
             </v-list-item>
-            
+
           </v-list>
         </v-menu>
       </v-toolbar>
