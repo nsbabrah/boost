@@ -50,8 +50,7 @@
             <v-layout row>
               <v-flex xs3 offset-xs8>
                 <div v-on:click="activeTab = check1() || 'mobile-tabs-4-1'">
-                  <v-btn light info>
-                    Next</v-btn>
+                  <v-btn light primary> Next</v-btn>
                 </div>
               </v-flex>
             </v-layout>
@@ -82,8 +81,7 @@
             <v-layout row>
               <v-flex xs3 offset-xs8>
                 <div v-on:click="activeTab = check2() || 'mobile-tabs-4-2'">
-                  <v-btn light info>
-                    Next</v-btn>
+                  <v-btn light primary> Next</v-btn>
                 </div>
               </v-flex>
             </v-layout>
@@ -178,11 +176,9 @@ export default {
         this.Userinfo['password'] = this.insta_password;
         this.Userinfo['payment_for'] = "listlike";
         this.Userinfo['LoggedOnUser'] = localStorage.getItem("LoggedOnUser");
-        console.log(this.Userinfo);
         let self = this;
         this.axios.post('/start_paypal', this.Userinfo)
           .then(function (response) {
-            console.log(response);
             sessionStorage.removeItem('paypal_data');
             sessionStorage.setItem('paypal_data', JSON.stringify(self.Userinfo));
             localStorage.removeItem("LoggedOnUser");

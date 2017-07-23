@@ -60,8 +60,7 @@
             <v-layout row>
               <v-flex xs3 offset-xs8>
                 <div v-on:click="activeTab = check1() || 'mobile-tabs-4-1'">
-                  <v-btn light info>
-                    Next</v-btn>
+                  <v-btn light primary> Next</v-btn>
                 </div>
               </v-flex>
             </v-layout>
@@ -93,8 +92,7 @@
             <v-layout row>
               <v-flex xs3 offset-xs8>
                 <div v-on:click="activeTab = check2() || 'mobile-tabs-4-2'">
-                  <v-btn light info>
-                    Next</v-btn>
+                  <v-btn light primary> Next</v-btn>
                 </div>
               </v-flex>
             </v-layout>
@@ -185,7 +183,6 @@ export default {
   },
   methods: {
     check1: function () {
-      console.log(this.Userinfo.username);
       if (this.chosen_subscription !== null && this.Userinfo.selectedPack != null) {
         return 'mobile-tabs-4-2';
       }
@@ -214,7 +211,6 @@ export default {
             sessionStorage.removeItem('paypal_data');
             sessionStorage.setItem('paypal_data', JSON.stringify(self.Userinfo));
             localStorage.removeItem("LoggedOnUser");
-            console.log(response);
             window.location.href = response.data;
           })
           .catch(function (error) {

@@ -8,33 +8,18 @@
           </v-alert>
         </v-flex>
       </v-layout>
-      <v-btn v-if="showUsers" floating large @click.native="add_user" class="blue text-xs-right ma-1">
+      <v-btn v-if="showUsers" floating large @click.native="add_user" primary class="text-xs-right ma-1">
         <v-icon light>add</v-icon>
       </v-btn>
       <v-layout row wrap align-start v-if="showUsers">
         <div v-for="(item,index) in users" :key="index">
-          <cards v-on:help="showhelp=!showhelp" :postData="item" class="ma-1"></cards>
+          <cards :postData="item" class="ma-1"></cards>
         </div>
       </v-layout>
       <v-layout row-lg wrap column v-else>
         <tabs v-on:goback="showUsers = true"> </tabs>
       </v-layout>
     </v-container>
-    <v-layout row justify-center>
-      <v-dialog v-model="showhelp" width="700px" scrollable height="100px">
-        <!--<v-btn primary dark slot="activator">Open Dialog</v-btn>-->
-        <v-card>
-          <v-card-title>
-            <span class="headline">Help</span>
-          </v-card-title>
-          <v-card-text>1) Default active your three autoround accounts timings: 1) 8 PM 2)11 PM 2)3AM Second 1)You can gain likes in Autoround depend on traffic 2)Get likes from real user in pool ready for liking your images
-          </v-card-text>
-          <!--<v-card-actions>-->
-          <v-btn class="green--text darken-1" flat="flat" @click.native="showhelp = !showhelp">Okay</v-btn>
-          <!--</v-card-actions>-->
-        </v-card>
-      </v-dialog>
-    </v-layout>
   </main>
   <main v-else>
     <v-container fluid>
@@ -58,7 +43,6 @@ export default {
   data() {
     return {
       showUsers: true,
-      showhelp: false,
       loader: false,
       users: null,
       alert: null,
@@ -81,6 +65,12 @@ export default {
         console.log(err);
       })
       this.users = [{
+        'username': 'test',
+        'listlike': 'test',
+        'usr_id': '1',
+        'Auto_ac_name': 'test',
+        'play': true
+      }, {
         'username': 'test',
         'listlike': 'test',
         'usr_id': '1',
@@ -116,13 +106,11 @@ export default {
       let self = this;
       this.loader = true;
       let paypal_res = /(?:.+paymentid=)(.+?)(?:&.+payerid=)(.+)/ig.exec(url)
-      console.log(paypal_res);
       this.axios.post('/Usernamechanged', {
         'paymentid': paypal_res[1],
         'payerid': paypal_res[2]
       })
         .then(function (response) {
-          console.log(response);
           window.location.href = url.slice(0, url.indexOf('?'));
           self.alert = true;
           self.response = true;
@@ -134,7 +122,6 @@ export default {
           a.click();
         })
         .catch(function (error) {
-          console.log(error);
           self.alert = true;
           self.response = false;
           window.location.href = url.slice(0, url.indexOf('?'));
@@ -151,10 +138,8 @@ export default {
       self.loader = false;
     }
   },
-  created: function () {
-    this.auth();
-  },
   mounted() {
+    this.auth();
     let url = window.location.href;
     switch (true) {
       case /\?success_user/g.test(url):
