@@ -12,34 +12,39 @@ import siginview
 
 storename = None
 # User = models.Usermodel.userpackage
-from siginview import before_request
 from flask import jsonify
 @my_view.route ('/userauth', methods=['GET'])
 def userauth():
     if request.method == 'GET':
-        # username = request.get_json()
+        try:
+            # username = request.get_json()
 
-        us = siginview.before_request()
-        storename = us
+            us = siginview.before_request()
+            storename = us
 
-        print storename
-        # username=models.Usermodel.User.query.filter_by (username=storename).first()
-        # print json.dump(username[0])
-        # if userisauth and userdatastore is not None:
-        user = db.session.query(models.Usermodel.userpackage.username, models.Usermodel.userpackage.Auto_ac_name,models.Usermodel.userpackage.Listlikepackage,
-                                 models.Usermodel.userpackage.usr_id,models.Usermodel.userpackage.Auto_round_state).filter(models.Usermodel.userpackage.username == storename).all()
+            if storename!="":
 
-        t = []
-        col = ["username", "Auto_ac_name", "listlike", "usr_id","play","Auto_round_state"]
 
-        for i in user:
-            t.append (list (i))
+                print storename
+                # username=models.Usermodel.User.query.filter_by (username=storename).first()
+                # print json.dump(username[0])
+                # if userisauth and userdatastore is not None:
+                user = db.session.query(models.Usermodel.userpackage.username, models.Usermodel.userpackage.Auto_ac_name,models.Usermodel.userpackage.Listlikepackage,
+                                         models.Usermodel.userpackage.usr_id,models.Usermodel.userpackage.Auto_round_state).filter(models.Usermodel.userpackage.username == storename).all()
 
-        temp = []
-        for i in t:
-            temp.append (dict (zip (col, i)))
-        print (temp)
-        return json.dumps (temp)
+                t = []
+                col = ["username", "Auto_ac_name", "listlike", "usr_id","play","Auto_round_state"]
+
+                for i in user:
+                    t.append (list (i))
+
+                temp = []
+                for i in t:
+                    temp.append (dict (zip (col, i)))
+                print (temp)
+                return json.dumps (temp)
+        except:
+            pass
     else:
         return {'auth': "false"}
 

@@ -68,7 +68,6 @@ my_api.get_access_token ()
 logging.basicConfig (level=logging.INFO)
     # return 'http://0.0.0.0:2300/'
 from appviews.approutes import my_view
-from appviews.siginview import before_request
 from appviews.signup import signup
 
 from appviews.dashboard import dashboard

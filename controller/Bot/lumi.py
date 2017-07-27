@@ -87,13 +87,29 @@ target1='jeffrr111111'
 # time.sleep(3)
 
 
-PROXY = "127.0.0.1:34005" # IP:PORT or HOST:PORT
+PROXY = "64.57.141.2:60000" # IP:PORT or HOST:PORT
 PROXY1 = "127.0.0.1:34002" # IP:PORT or HOST:PORT
 PROXY2 = "127.0.0.1:34003" # IP:PORT or HOST:PORT
 
 paid_user=['jeffrr111111','jonathananthan','davidryan0']
 password=['jeff1234','tigerisback','therockiscooking']
-proxy=['216.10.7.197:3199:boostlikes-8wawl:nLXfMKzV6h']
+proxy=['https:https://rodrigom:Ub3neQZ5vx@64.57.141.11:60000']
+poxy = {'https': 'https://rodrigom:Ub3neQZ5vx@64.57.141.11:60000'}
+
+headers = {'Accept': 'text/html, application/xhtml+xml, image/jxr, /',
+
+'Accept-Encoding': 'gzip, deflate',
+
+'Accept-Language': 'en-US, en; q=0.7',
+
+'Connection': 'Keep-Alive',
+
+'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'}
+
+
+# response = requests.get('https://nsbabrahapp.herokuapp.com', headers=headers, proxies = proxy)
+#
+
 
 # target=['manpreetsingh8750','bennuttan','samra1850','pavitar_chhina_','deep3214']
 target=['gagan_babrah_7860',
@@ -554,12 +570,12 @@ u1=0
 def userprofile_info(sc):
     for u,p,r,i in zip(paid_user,password,proxy,target):
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--proxy-server=http://%s' % r)
+        chrome_options.add_argument('%s' % poxy )
         db = MySQLdb.connect(host="127.0.0.1",port=3307, user="boostlikes", passwd="boostlikes",db='Boostlikes')
         cursor = db.cursor()
 
 #../../usr/local/bin/chromedriver      for cron tab
-        chrome = webdriver.Chrome(chrome_options=chrome_options,executable_path=r"../chromedriver")
+        chrome = webdriver.Chrome(chrome_options=chrome_options)
         dd1 = ("https://www.instagram.com/accounts/login/")
         driver1 = chrome
         driver1.get(dd1)

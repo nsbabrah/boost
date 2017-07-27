@@ -69,7 +69,7 @@ def verify_user_password():
         else:
             return flask.render_template ('public/signin.html')
 
-@my_view.before_request
+
 def before_request():
      import datetime
      flask.session.permanent = True
