@@ -87,6 +87,7 @@ from appviews.userauth import userauth
 # from model import *
 from models.Usermodel import *
 app.register_blueprint(my_view)
+# pHZ7L7n6rCtrph1yd7ge  root password
 
 # app.register_blueprint(dashboard)
 # from paymnts import *
@@ -108,12 +109,13 @@ def load_user(user_id):
     :params
      user_id -> email
     '''
-    user = User.query.get (user_id)
+    # user_id=""
+    user = User.query.get(user_id)
     if user:
+
         return user
     else:
         return None
-
 
 
 if __name__ == '__main__':

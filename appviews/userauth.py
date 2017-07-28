@@ -7,30 +7,41 @@ from app import db
 from flask import render_template, request
 from sqlalchemy import update
 import models
-
+import app
 import siginview
+import flask_login
 
-storename = None
+storename=None
 # User = models.Usermodel.userpackage
 from flask import jsonify
+import siginview
+import re
 @my_view.route ('/userauth', methods=['GET'])
 def userauth():
     if request.method == 'GET':
-        try:
+
             # username = request.get_json()
 
-            us = siginview.before_request()
-            storename = us
+            # us = app.load_user()
+            storename = flask_login.current_user
+            print storename
+            if storename ==None:
+                print 'Null'
+            else:
+                us=storename.username
+                print us
 
-            if storename!="":
+                #
+                # print str(storename)
+                # us=storename.split(":")
+                # print us
 
 
-                print storename
                 # username=models.Usermodel.User.query.filter_by (username=storename).first()
                 # print json.dump(username[0])
                 # if userisauth and userdatastore is not None:
                 user = db.session.query(models.Usermodel.userpackage.username, models.Usermodel.userpackage.Auto_ac_name,models.Usermodel.userpackage.Listlikepackage,
-                                         models.Usermodel.userpackage.usr_id,models.Usermodel.userpackage.Auto_round_state).filter(models.Usermodel.userpackage.username == storename).all()
+                                         models.Usermodel.userpackage.usr_id,models.Usermodel.userpackage.Auto_round_state).filter(models.Usermodel.userpackage.username == us).all()
 
                 t = []
                 col = ["username", "Auto_ac_name", "listlike", "usr_id","play","Auto_round_state"]
@@ -40,11 +51,10 @@ def userauth():
 
                 temp = []
                 for i in t:
-                    temp.append (dict (zip (col, i)))
+                    temp.append (dict(zip (col, i)))
                 print (temp)
-                return json.dumps (temp)
-        except:
-            pass
+                return json.dumps(temp)
+
     else:
         return {'auth': "false"}
 

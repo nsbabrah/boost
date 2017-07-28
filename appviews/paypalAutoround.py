@@ -37,7 +37,6 @@ import siginview
 # from siginview import getusername
 # print getusername()
 from approutes import my_view
-from userauth import storename
 @my_view.route ('/start_paypal', methods=['POST'])
 # @cross_origin()
 # @auth.verify_password

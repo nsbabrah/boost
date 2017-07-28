@@ -13,7 +13,7 @@ from approutes import my_view
 import models
 
 useraccname=0
-from userauth import storename
+# from userauth import storename
 @my_view.route ('/manage', methods=['POST', 'GET'])
 def manage():
     if request.method == 'POST':
