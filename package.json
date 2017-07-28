@@ -1,0 +1,23 @@
+{
+  "name": "boost",
+  "version": "1.0.0",
+  "description": "a boost server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nsbabrah/boost.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nsbabrah/boost/issues"
+  },
+  "homepage": "https://github.com/nsbabrah/boost#readme",
+  "dependencies": {
+    "address-rfc2822": "^2.0.1",
+    "inbox": "^1.1.59"
+  }
+}

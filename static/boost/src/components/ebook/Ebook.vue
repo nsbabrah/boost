@@ -1,6 +1,6 @@
 <template>
   <main>
-    <v-container fluid>
+    <v-container fluid v-if="!comingsoon">
       <v-layout justify-center wrap v-if="!pay_view">
         <a @click.stop="dialog = true">
           <img src="http://1.bp.blogspot.com/-DFZSo3Mj6sc/T5ajpLJFRVI/AAAAAAAAAJ8/AuIB_Tfhlmk/s1600/locked-pdf.jpg" />
@@ -41,17 +41,22 @@
             <v-icon>keyboard_arrow_left</v-icon>
           </v-btn>
           <!-- <v-btn outline primary small fab class="ml-5" floating @click.native.stop="rotate += 90">
-                      <v-icon>rotate_right</v-icon>
-                    </v-btn>
-                    <v-btn outline primary small fab class="ml-5  mr-5" right floating @click.native.stop="rotate -= 90">
-                      <v-icon>rotate_left</v-icon>
-                    </v-btn> -->
+                        <v-icon>rotate_right</v-icon>
+                      </v-btn>
+                      <v-btn outline primary small fab class="ml-5  mr-5" right floating @click.native.stop="rotate -= 90">
+                        <v-icon>rotate_left</v-icon>
+                      </v-btn> -->
           <v-btn round outline primary style="float:right" medium fab @click.native.stop="page++">
             <v-icon>keyboard_arrow_right</v-icon>
           </v-btn>
           <v-progress-linear v-if="loadedRatio > 0 && loadedRatio < 1" :value="Math.floor(loadedRatio * 100)" height="5"></v-progress-linear>
           <pdf :page="page" src="./static/static_vuejs/pdf/ebook.pdf" :rotate="rotate" @progress="loadedRatio = $event" @numPages="numPages = $event"></pdf>
         </v-flex>
+      </v-layout>
+    </v-container>
+    <v-container fluid v-else>
+      <v-layout justify-center wrap>
+        <h3>Comming Soon</h3>
       </v-layout>
     </v-container>
   </main>
@@ -72,6 +77,7 @@ export default {
       numPages: 0,
       loadedRatio: 0,
       rotate: 0,
+      comingsoon: true
     }
   },
   watch: {

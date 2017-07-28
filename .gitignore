@@ -16,3 +16,4 @@ static/static_vuejs/
 templates/public/test1\.html
 *.worker.js.map
 *.worker.js
+node_modules/
