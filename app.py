@@ -85,6 +85,7 @@ from appviews.changeAccountname import changeAccountname
 from appviews.paypalAutoround import startpaypal
 from appviews.userauth import userauth
 # from model import *
+from appviews.Listlikeview import startlistlikes
 from models.Usermodel import *
 app.register_blueprint(my_view)
 # pHZ7L7n6rCtrph1yd7ge  root password

@@ -38,7 +38,7 @@
 # # chrome_options.add_argument('--proxy-server=http://%s' % PROXY1)
 # #
 # #
-# # chrome = webdriver.Chrome(chrome_options=chrome_options,executable_path=r"../../Downloads/chromedriver")
+# # chrome = webdriver.Chrome(chrome_options=chrome_options,p")
 #
 #
 # for u,p,r in zip(paid_user,password,proxy):

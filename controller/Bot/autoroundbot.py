@@ -2,7 +2,6 @@
 
 #Author: Navjot Singh Babrah
 from selenium import webdriver
-from instagram.client import InstagramAPI
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -487,9 +486,9 @@ u1=0
 def userprofile_info(sc):
     for u,p,r,i in zip(paid_user,password,proxy,target):
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--proxy-server=http://%s' % r)
+        chrome_options.add_argument('--proxy-server=%s' % r)
 
-        chrome = webdriver.Chrome(chrome_options=chrome_options,executable_path=r"../../usr/local/bin/chromedriver")
+        chrome = webdriver.Chrome(chrome_options=chrome_options)
         dd1 = ("https://www.instagram.com/accounts/login/")
         driver1 = chrome
         driver1.get(dd1)
@@ -534,46 +533,6 @@ def userprofile_info(sc):
                  except:
                      print 'err'
                  #   continue
-
-
-
-
-                    # driver1.quit()
-
-                # s.enter(6, 1, userprofile_info, (sc,))
-
-
-
-
-
-
-
-
-
-
-  # time.sleep(4)
-        # s.enter(6, 1, userprofile_info, (sc,))
-
-
-
-
-
-
-                    # driver1.find_element_by_css_selector('._phrgb').click() for follow
-                # time.sleep(3)
-                # while True:
-                #     try:
-                #         print(driver1.get('https://lumtest.com/myip.json'))
-                #         time.sleep(4)
-                #         s.enter(6, 1, userprofile_info, (sc,))
-                #
-                #
-                #     except:
-                #         # driver1.find_element_by_css_selector('._3eajp').click()
-                #         time.sleep(2)
-                #         s.enter(6, 1, userprofile_info, (sc,))
-
-
 
 
 

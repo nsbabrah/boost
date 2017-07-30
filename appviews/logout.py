@@ -8,5 +8,6 @@ from flask_login import logout_user,login_required
 def logout():
     # logout_user()
     if request.method == 'POST':
+        logout_user()
         return '/signin'
 

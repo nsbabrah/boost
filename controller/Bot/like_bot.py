@@ -1,6 +1,6 @@
 #Author: Navjot Singh Babrah
 from selenium import webdriver
-from instagram.client import InstagramAPI
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from selenium.webdriver.common.by import By
