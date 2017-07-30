@@ -39,10 +39,10 @@
       <v-divider class="mt-3"></v-divider>
 
       <!--<v-layout row>
-                                <v-flex xs12 sm12 lg12>
-                                  <notifications :data="notify"></notifications>
-                                </v-flex>
-                              </v-layout>-->
+                                          <v-flex xs12 sm12 lg12>
+                                            <notifications :data="notify"></notifications>
+                                          </v-flex>
+                                        </v-layout>-->
     </v-container>
     <v-container fluid v-if="add_user">
       <v-layout row-sm wrap column>
@@ -138,8 +138,12 @@ export default {
           'title': el
         };
       }));
-      this.axiospost('/startlistlike', {
+      this.axios.post('/startlistlike', {
         'users': this.users,
+      }).then(function (response) {
+        console.log('data sent');
+      }).catch(function (error) {
+        alert(error);
       });
     },
     getUser() {
@@ -147,37 +151,37 @@ export default {
       this.axios.get('/listlikeinfo')
         .then(function (response) {
           this.userAccounts = response.data;
-        })
-        .catch(function (error) {
+        }).catch(function (error) {
+          alert(error);
         });
     },
     changeActiveUser() {
-      this.selected_active_user = this.temp_active_user;
-      this.axiospost('/changeActiveUser', {
-        'active_user': this.selected_active_user,
-      });
+      this.axios.post('/changeActiveUser', {
+        'old_active_user': this.selected_active_user,
+        'new_active_user': this.temp_active_user,
+      })
+        .then(function (response) {
+          this.selected_active_user = this.temp_active_user;
+        }).catch(function (error) {
+          alert(error);
+        });
     },
     changeInstaData() {
       if (this.insta_username && this.insta_password && this.insta_username.length > 1 && this.insta_password.length > 1) {
-        this.manage_dialog = false;
-        this.axiospost('/changeInstaData', {
+        this.axios.post('/changeInstaData', {
           'insta_username': this.insta_username,
           'insta_password': this.insta_password,
+        }).then(function (response) {
+          this.manage_dialog = false;
+          this.alert = true;
+          setTimeout(() => {
+            this.alert = false;
+          }, 4000);
+        }).catch(function (error) {
+          alert(error);
         });
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 4000);
       }
     },
-    axiospost(url, data) {
-      let self = this;
-      this.axios.post(url, data)
-        .then(function (response) {
-        })
-        .catch(function (error) {
-        });
-    }
   },
   mounted() {
     this.getUser();
