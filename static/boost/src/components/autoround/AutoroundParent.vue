@@ -64,19 +64,22 @@ export default {
       }).catch((err) => {
         console.log(err);
       })
-      this.users = [{
-        'username': 'test',
-        'listlike': 'test',
-        'usr_id': '1',
-        'Auto_ac_name': 'test',
-        'play': true
-      }, {
-        'username': 'test',
-        'listlike': 'test',
-        'usr_id': '1',
-        'Auto_ac_name': 'test',
-        'play': true
-      }];
+      this.users = null;
+      // this.users = [
+      //   {
+      //   'username': 'test',
+      //   'listlike': 'test',
+      //   'usr_id': '1',
+      //   'Auto_ac_name': 'test',
+      //   'play': true
+      // }, {
+      //   'username': 'test',
+      //   'listlike': 'test',
+      //   'usr_id': '1',
+      //   'Auto_ac_name': 'test',
+      //   'play': true
+      // }
+      // ];
     },
     paypal_addUser: function (url) {
       this.loader = true;

@@ -1,11 +1,15 @@
 <template>
   <main>
     <v-container fluid v-if="!add_user">
+      <v-alert v-if="alert" success :value="alert" transition="scale-transition">Settings Updated
+      </v-alert>
       <v-layout row justify-space-around class="mb-4">
-        <h5>Active User Account:
-          <b>{{getUser()}}</b>
-        </h5>
-        <v-btn primary light medium @click.native="manage">Manage Account</v-btn>
+        <v-btn outline @click.native="change_active_user = true">
+          <h5>Active User Account:
+            <b>{{selected_active_user}}</b>
+          </h5>
+        </v-btn>
+        <v-btn primary light medium @click.native="manage_dialog = true">Manage Account</v-btn>
       </v-layout>
       <v-layout row-sm wrap colum>
         <v-flex xs12 sm12 lg1>
@@ -35,10 +39,10 @@
       <v-divider class="mt-3"></v-divider>
 
       <!--<v-layout row>
-                <v-flex xs12 sm12 lg12>
-                  <notifications :data="notify"></notifications>
-                </v-flex>
-              </v-layout>-->
+                                <v-flex xs12 sm12 lg12>
+                                  <notifications :data="notify"></notifications>
+                                </v-flex>
+                              </v-layout>-->
     </v-container>
     <v-container fluid v-if="add_user">
       <v-layout row-sm wrap column>
@@ -47,6 +51,36 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <v-layout row justify-center>
+      <v-dialog v-model="manage_dialog" persistent width="350">
+        <v-card>
+          <v-card-title>
+            <span class="headline">User Profile</span>
+          </v-card-title>
+          <v-card-text>
+            <v-text-field required label="Change Insta Username" v-model="insta_username"></v-text-field>
+            <v-text-field required label="Change Insta Password" :append-icon="insta_password_visibility ? 'visibility' : 'visibility_off'" :append-icon-cb="() => (insta_password_visibility = !insta_password_visibility)" type="password" class="input-group--focused" :type="insta_password_visibility ? 'text' : 'password'" v-model="insta_password"></v-text-field>
+          </v-card-text>
+          <v-spacer></v-spacer>
+          <v-btn class="blue--text darken-1" flat @click.native="manage_dialog = false">Close</v-btn>
+          <v-btn class="blue--text darken-1" flat @click.native="changeInstaData()">Save</v-btn>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+    <v-layout row justify-center>
+      <v-dialog v-model="change_active_user" scrollable persistent>
+        <v-card>
+          <v-card-title>Select User Account</v-card-title>
+          <v-divider></v-divider>
+          <v-card-text style="height: 300px;overflow:overlay">
+            <v-radio :label="user" v-model="temp_active_user" v-for="(user, index) in userAccounts" :key="user" :value="user"></v-radio>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-btn class="blue--text darken-1" flat @click.native="change_active_user = false">Close</v-btn>
+          <v-btn class="blue--text darken-1" flat @click.native="change_active_user = false,changeActiveUser()">Save</v-btn>
+        </v-card>
+      </v-dialog>
+    </v-layout>
   </main>
 </template>
 
@@ -62,8 +96,17 @@ export default {
   },
   data() {
     return {
+      alert: false,
       user_input: null,
       add_user: false,
+      manage_dialog: false,
+      change_active_user: false,
+      insta_username: null,
+      insta_password: null,
+      insta_password_visibility: false,
+      selected_active_user: '',
+      temp_active_user: '',
+      userAccounts: null,
       users: [{
         title: '@Test'
       },],
@@ -95,16 +138,50 @@ export default {
           'title': el
         };
       }));
+      this.axiospost('/startlistlike', {
+        'users': this.users,
+      });
     },
     getUser() {
-      localStorage.setItem("LoggedOnUser", "test");
-      return localStorage.getItem("LoggedOnUser");
-
+      this.selected_active_user = 'test';
+      this.axios.get('/listlikeinfo')
+        .then(function (response) {
+          this.userAccounts = response.data;
+        })
+        .catch(function (error) {
+        });
     },
-    manage() {
-      window.location.href = '#/ManageAccount';
+    changeActiveUser() {
+      this.selected_active_user = this.temp_active_user;
+      this.axiospost('/changeActiveUser', {
+        'active_user': this.selected_active_user,
+      });
+    },
+    changeInstaData() {
+      if (this.insta_username && this.insta_password && this.insta_username.length > 1 && this.insta_password.length > 1) {
+        this.manage_dialog = false;
+        this.axiospost('/changeInstaData', {
+          'insta_username': this.insta_username,
+          'insta_password': this.insta_password,
+        });
+        this.alert = true;
+        setTimeout(() => {
+          this.alert = false;
+        }, 4000);
+      }
+    },
+    axiospost(url, data) {
+      let self = this;
+      this.axios.post(url, data)
+        .then(function (response) {
+        })
+        .catch(function (error) {
+        });
     }
   },
+  mounted() {
+    this.getUser();
+  }
 }
 </script>
 
