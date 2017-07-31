@@ -1,6 +1,13 @@
 <template>
   <main>
     <v-container fluid v-if="!add_user">
+      <v-layout row wrap v-if="paypal">
+        <v-flex xs12 sm12 lg12>
+          <v-alert :success="response" :error="!response" dismissible v-model="paypal">
+            {{response ? approved_message : unapproved_message}}
+          </v-alert>
+        </v-flex>
+      </v-layout>
       <v-alert v-if="alert" success :value="alert" transition="scale-transition">Settings Updated
       </v-alert>
       <v-layout row justify-space-around class="mb-4">
@@ -107,6 +114,10 @@ export default {
       selected_active_user: '',
       temp_active_user: '',
       userAccounts: null,
+      paypal: false,
+      response: null,
+      approved_message: 'Thanks, Your Payment Has Been Approved!',
+      unapproved_message: 'Sorry, Payment Failed.',
       users: [{
         title: '@Test'
       },],
@@ -187,9 +198,47 @@ export default {
         });
       }
     },
+     paypal_addUser: function (url) {
+      this.loader = true;
+      let self = this;
+      this.axios.post('/subscribe_listlike', {
+        'token': /token?=(.*)/g.exec(url)[1],
+        'userdata': sessionStorage.getItem('paypal_data')
+      })
+        .then(function (response) {
+          sessionStorage.removeItem('paypal_data');
+          window.location.href = url.slice(0, url.indexOf('?'));
+          self.paypal = true;
+          self.response = true;
+        })
+        .catch(function (error) {
+          sessionStorage.removeItem('paypal_data');
+          self.paypal = true;
+          self.response = false;
+          window.location.href = url.slice(0, url.indexOf('?'));
+        });
+    },
+    paypal_failed() {
+      this.paypal = true;
+      this.response = false;
+      self.loader = false;
+    }
   },
   mounted() {
     this.getUser();
+    let url = window.location.href;
+    switch (true) {
+      case /\?success_user/g.test(url):
+        this.paypal_addUser(url);
+        break;
+      case /\?failed_user/g.test(url):
+        this.paypal_failed();
+        break;
+      default:
+        this.paypal = false;
+        this.response = false;
+        break;
+    }
   }
 }
 </script>
