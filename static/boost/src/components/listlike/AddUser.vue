@@ -177,7 +177,7 @@ export default {
         this.Userinfo['payment_for'] = "listlike";
         this.Userinfo['LoggedOnUser'] = localStorage.getItem("LoggedOnUser");
         let self = this;
-        this.axios.post('/start_paypal', this.Userinfo)
+        this.axios.post('/start_paypal_listlike', this.Userinfo)
           .then(function (response) {
             sessionStorage.removeItem('paypal_data');
             sessionStorage.setItem('paypal_data', JSON.stringify(self.Userinfo));
