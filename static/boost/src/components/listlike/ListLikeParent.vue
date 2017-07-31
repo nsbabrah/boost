@@ -11,10 +11,9 @@
       <v-alert v-if="alert" success :value="alert" transition="scale-transition">Settings Updated
       </v-alert>
       <v-layout row justify-space-around class="mb-4">
-        <v-btn outline @click.native="change_active_user = true">
-          <h5>Active User Account:
-            <b>{{selected_active_user}}</b>
-          </h5>
+        <v-btn  primary large light @click.native="change_active_user = true">
+          Active User Account:
+            <b >{{selected_active_user}}</b>
         </v-btn>
         <v-btn primary light medium @click.native="manage_dialog = true">Manage Account</v-btn>
       </v-layout>
