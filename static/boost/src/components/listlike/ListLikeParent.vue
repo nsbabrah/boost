@@ -138,8 +138,9 @@ export default {
           'title': el
         };
       }));
+      let self = this;
       this.axios.post('/startlistlike', {
-        'users': this.users,
+        'users': self.users,
       }).then(function (response) {
         console.log('data sent');
       }).catch(function (error) {
@@ -148,34 +149,38 @@ export default {
     },
     getUser() {
       this.selected_active_user = 'test';
+      let self = this;
       this.axios.get('/listlikeinfo')
         .then(function (response) {
-          this.userAccounts = response.data;
+          console.log(response);
+          self.userAccounts = response.data;
         }).catch(function (error) {
           alert(error);
         });
     },
     changeActiveUser() {
+      let self = this;
       this.axios.post('/changeActiveUser', {
-        'old_active_user': this.selected_active_user,
-        'new_active_user': this.temp_active_user,
+        'old_active_user': self.selected_active_user,
+        'new_active_user': self.temp_active_user,
       })
         .then(function (response) {
-          this.selected_active_user = this.temp_active_user;
+          self.selected_active_user = self.temp_active_user;
         }).catch(function (error) {
           alert(error);
         });
     },
     changeInstaData() {
+      let self = this;
       if (this.insta_username && this.insta_password && this.insta_username.length > 1 && this.insta_password.length > 1) {
         this.axios.post('/changeInstaData', {
-          'insta_username': this.insta_username,
-          'insta_password': this.insta_password,
+          'insta_username': self.insta_username,
+          'insta_password': self.insta_password,
         }).then(function (response) {
-          this.manage_dialog = false;
-          this.alert = true;
+          self.manage_dialog = false;
+          self.alert = true;
           setTimeout(() => {
-            this.alert = false;
+            self.alert = false;
           }, 4000);
         }).catch(function (error) {
           alert(error);

@@ -54,10 +54,10 @@ def startpaypal_listlike():
             "description": "Create Plan for Regular",
             "merchant_preferences": {
                 "auto_bill_amount": "yes",
-                "cancel_url": "http://pythonapps.com:1300/dashboard#/Autoround?failed_user",
+                "cancel_url": "http://pythonapps.com:1300/dashboard#/Listlikes?failed_user",
                 "initial_fail_amount_action": "continue",
                 "max_fail_attempts": "0",
-                "return_url": "http://pythonapps.com:1300/dashboard#/Autoround?success_user"
+                "return_url": "http://pythonapps.com:1300/dashboard#/Listlikes?success_user"
 
             },
             "payment_definitions": [
@@ -159,7 +159,7 @@ def subscribe_listlike():
         #Autoround
         print request.json
         # auto_round_name = request.json['username']
-        # LoggedOnUser = request.json['LoggedOnUser']
+        LoggedOnUser = request.json['LoggedOnUser']
         print request.json['userdata']
         r=request.json['userdata']
         print r['username']
@@ -169,24 +169,14 @@ def subscribe_listlike():
         selectedPack = request.json['purchaseOrder']
 
         user = models.Usermodel.User.query.filter (models.Usermodel.User.username == LoggedOnUser).first ()
-
-        if payment_for == 'autoround':
-
-            user=models.Usermodel.userpackage.query.filter (models.Usermodel.userpackage.username == LoggedOnUser).first()
-            if user != None:
-                return "False User Already Register"
-            if user == None:
-                userpy = models.Usermodel.userpackage ()
-                userpy.username = LoggedOnUser
-                userpy.Auto_ac_name = auto_round_name
-                userpy.email = email
-                db.session.add (userpy)
-                db.session.commit ()
-                return 'sussesc'
-        elif payment_for == 'listlike':
-            userdata=models.Usermodel.userpackage()
+        if user == None:
+            return 'false'
+        if user!=None:
+            userdata=models.Usermodel.Listlikes()
             userdata.username = LoggedOnUser
-            userdata.Listlikepackage = 'True'
+            userdata.instauser= 'True'
+            userdata.instapass = 'True'
+            userdata.listlikestatus = 1
             db.session.add(userdata)
             db.session.commit()
             return 'listlike'
