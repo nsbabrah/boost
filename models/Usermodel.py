@@ -118,9 +118,8 @@ class userpackage(db.Model):
     Auto_ac_name = db.Column (db.String (255))
     Listlikepackage = db.Column (db.String (255))
     Auto_round_state = db.Column (db.BOOLEAN (200))
-
-
-
+    instauser = db.Column (db.String (255))
+    instapass = db.Column (db.String (255))
 
 
     def get_id(self):
@@ -139,21 +138,21 @@ class userpackage(db.Model):
     def __repr__(self):
         return '{}'.format(self.username,self.Auto_ac_name,self.Listlikepackage)
 
-class Listlikes(db.Model):
-
-    __tablename__ = "Listlikes"
-
-    usr_id = db.Column(db.Integer, primary_key = True, autoincrement =True)
-    username = db.Column(db.String(255))
-    email = db.Column(db.String(255), unique=True)
-    listlikestatus = db.Column (db.String (255))
-    listaccount_name = db.Column (db.String (255))
-    instauser = db.Column (db.String (255))
-    instapass = db.Column (db.String (255))
-
-
-
-
-    def __repr__(self):
-        return '{}'.format(self.username,self.lislikestatus,self.listaccount_name,self.instauser,self.instapass)
-
+# class Listlikes(db.Model):
+#
+#     __tablename__ = "Listlikes"
+#
+#     usr_id = db.Column(db.Integer, primary_key = True, autoincrement =True)
+#     username = db.Column(db.String(255))
+#
+#     listlikestatus = db.Column (db.String (255))
+#     listaccount_name = db.Column (db.String (255))
+#     instauser = db.Column (db.String (200))
+#     instapass = db.Column (db.String (200))
+#
+#
+#
+#
+#     def __repr__(self):
+#         return 'Listlikes :{}'.format(self.username,self.instauser,self.instapass,self.listlikestatus)
+#

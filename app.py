@@ -89,7 +89,7 @@ from appviews.Listlikeview import startlistlikes
 from models.Usermodel import *
 app.register_blueprint(my_view)
 # pHZ7L7n6rCtrph1yd7ge  root password
-
+from models import listlike
 # app.register_blueprint(dashboard)
 # from paymnts import *
 def commit(obj):

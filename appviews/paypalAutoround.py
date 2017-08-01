@@ -160,13 +160,14 @@ def subscribe():
         t=json.loads(username)
 
         print t['LoggedOnUser']
+        loggeduser=flask_login.current_user
         if (t['payment_for'] == 'autoround'):
-            user = models.Usermodel.userpackage.query.filter(models.Usermodel.userpackage.username == t['LoggedOnUser']).first ()
+            user = models.Usermodel.userpackage.query.filter(models.Usermodel.userpackage.username == loggeduser).first ()
             if user == None:
                 return "False User Already Register"
             elif user!= None:
                     userpy =models.Usermodel.userpackage()
-                    userpy.username = t['LoggedOnUser']
+                    userpy.username = loggeduser
                     userpy.Auto_ac_name = t['username']
                     userpy.usr_email = t['email']
                     userpy.Listlikepackage='0'

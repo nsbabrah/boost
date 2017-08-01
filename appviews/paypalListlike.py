@@ -1,4 +1,3 @@
-
 #Author: Navjot singh Babrah
 import os
 import re
@@ -23,20 +22,19 @@ from sqlalchemy.orm.exc import MultipleResultsFound
 # import flask_sqlalchemy
 from paypalrestsdk import Payment
 import logging
-
+from models.listlike import Listlikes
 from paypalrestsdk import BillingPlan, BillingAgreement
 import models
-from app import db
 
+from app import db
 import paypalrestsdk
 import flask_login
 
 from config import *
 from OpenSSL import SSL
 import siginview
-# from siginview import before_request
-# print getusername()
 # from siginview import getusername
+# print getusername()
 from approutes import my_view
 
 @my_view.route ('/start_paypal_listlike', methods=['POST'])
@@ -50,14 +48,14 @@ def startpaypal_listlike():
         print username
 
         billing_plan = BillingPlan ({
-            "name": "navjotbabrah",
+            "name":"dd",
             "description": "Create Plan for Regular",
             "merchant_preferences": {
                 "auto_bill_amount": "yes",
-                "cancel_url": "http://pythonapps.com:1300/dashboard#/Listlikes?failed_user",
+                "cancel_url": "http://pythonapps.com:1300/dashboard#/Listlike?failed_user",
                 "initial_fail_amount_action": "continue",
                 "max_fail_attempts": "0",
-                "return_url": "http://pythonapps.com:1300/dashboard#/Listlikes?success_user"
+                "return_url": "http://pythonapps.com:1300/dashboard#/Listlike?success_user"
 
             },
             "payment_definitions": [
@@ -158,28 +156,28 @@ def subscribe_listlike():
         # #listlike
         #Autoround
         print request.json
+        import json
         # auto_round_name = request.json['username']
-        LoggedOnUser = request.json['LoggedOnUser']
+
+
         print request.json['userdata']
         r=request.json['userdata']
-        print r['username']
-        payment_for = request.json['payment_for']
-        password = request.json['']
-        email = request.json['email']
-        selectedPack = request.json['purchaseOrder']
+        t = json.loads(r)
 
-        user = models.Usermodel.User.query.filter (models.Usermodel.User.username == LoggedOnUser).first ()
-        if user == None:
-            return 'false'
-        if user!=None:
-            userdata=models.Usermodel.Listlikes()
-            userdata.username = LoggedOnUser
-            userdata.instauser= 'True'
-            userdata.instapass = 'True'
-            userdata.listlikestatus = 1
-            db.session.add(userdata)
-            db.session.commit()
-            return 'listlike'
+
+
+
+        userdatas=models.listlike.Listlikes()
+        LoggedOnUser = flask_login.current_user
+        user = LoggedOnUser.username
+        print user
+        userdatas.user = user
+        userdatas.instauser= t['username']
+        userdatas.instapass = t['password']
+        userdatas.listlikestatus = '1'
+        db.session.add(userdatas)
+        db.session.commit()
+        return 'listlike'
 
 
 
