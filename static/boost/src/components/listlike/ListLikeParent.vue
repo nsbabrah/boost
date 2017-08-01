@@ -11,9 +11,9 @@
       <v-alert v-if="alert" success :value="alert" transition="scale-transition">Settings Updated
       </v-alert>
       <v-layout row justify-space-around class="mb-4">
-        <v-btn  primary large light @click.native="change_active_user = true">
+        <v-btn primary large light @click.native="change_active_user = true">
           Active User Account:
-            <b >{{selected_active_user}}</b>
+          <b>{{selected_active_user}}</b>
         </v-btn>
         <v-btn primary light medium @click.native="manage_dialog = true">Manage Account</v-btn>
       </v-layout>
@@ -45,10 +45,10 @@
       <v-divider class="mt-3"></v-divider>
 
       <!--<v-layout row>
-                                          <v-flex xs12 sm12 lg12>
-                                            <notifications :data="notify"></notifications>
-                                          </v-flex>
-                                        </v-layout>-->
+                                              <v-flex xs12 sm12 lg12>
+                                                <notifications :data="notify"></notifications>
+                                              </v-flex>
+                                            </v-layout>-->
     </v-container>
     <v-container fluid v-if="add_user">
       <v-layout row-sm wrap column>
@@ -64,6 +64,7 @@
             <span class="headline">User Profile</span>
           </v-card-title>
           <v-card-text>
+            <v-select required v-model="manage_active_user" v-bind:items="userAccounts" label="Select" class="input-group--focused" dark item-value="text"></v-select>
             <v-text-field required label="Change Insta Username" v-model="insta_username"></v-text-field>
             <v-text-field required label="Change Insta Password" :append-icon="insta_password_visibility ? 'visibility' : 'visibility_off'" :append-icon-cb="() => (insta_password_visibility = !insta_password_visibility)" type="password" class="input-group--focused" :type="insta_password_visibility ? 'text' : 'password'" v-model="insta_password"></v-text-field>
           </v-card-text>
@@ -111,15 +112,14 @@ export default {
       insta_password: null,
       insta_password_visibility: false,
       selected_active_user: '',
+      manage_active_user: '',
       temp_active_user: '',
-      userAccounts: null,
+      userAccounts: [],
       paypal: false,
       response: null,
       approved_message: 'Thanks, Your Payment Has Been Approved!',
       unapproved_message: 'Sorry, Payment Failed.',
-      users: [{
-        title: '@Test'
-      },],
+      users: [],
       notify: [
 
         {
@@ -143,7 +143,8 @@ export default {
   },
   methods: {
     startLiking() {
-      this.users = this.users.concat(this.user_input.replace(/\s+|,+/g, " ").split(/[\s,]/).map((el) => {
+      this.users = [];
+      this.users = this.users.concat(this.user_input.trim().replace(/\s+|,+/g, " ").split(/[\s,]/).map((el) => {
         return {
           'title': el
         };
@@ -158,12 +159,12 @@ export default {
       });
     },
     getUser() {
-      this.selected_active_user = 'test';
       let self = this;
       this.axios.get('/listlikeinfo')
         .then(function (response) {
           console.log(response);
-          self.userAccounts = response.data;
+          self.userAccounts = response.data['data'];
+          self.selected_active_user = response.data['active_user'];
         }).catch(function (error) {
           alert(error);
         });
@@ -182,10 +183,11 @@ export default {
     },
     changeInstaData() {
       let self = this;
-      if (this.insta_username && this.insta_password && this.insta_username.length > 1 && this.insta_password.length > 1) {
+      if (this.insta_username && this.manage_active_user && this.insta_password && this.insta_username.length > 1 && this.insta_password.length > 1) {
         this.axios.post('/changeInstaData', {
           'insta_username': self.insta_username,
           'insta_password': self.insta_password,
+          'manage_active_user': self.manage_active_user,
         }).then(function (response) {
           self.manage_dialog = false;
           self.alert = true;
@@ -197,7 +199,7 @@ export default {
         });
       }
     },
-     paypal_addUser: function (url) {
+    paypal_addUser: function (url) {
       this.loader = true;
       let self = this;
       this.axios.post('/subscribe_listlike', {
