@@ -151,7 +151,7 @@ export default {
       }));
       let self = this;
       this.axios.post('/startlistlike', {
-        'users': self.users,
+        'users': self.user_input.trim().replace(/\s+|,+/g, " ").split(/[\s,]/),
       }).then(function (response) {
         console.log('data sent');
       }).catch(function (error) {
@@ -191,6 +191,7 @@ export default {
         }).then(function (response) {
           self.manage_dialog = false;
           self.alert = true;
+          self.getUser();
           setTimeout(() => {
             self.alert = false;
           }, 4000);

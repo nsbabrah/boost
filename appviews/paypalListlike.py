@@ -174,7 +174,7 @@ def subscribe_listlike():
         userdatas.user = user
         userdatas.instauser= t['username']
         userdatas.instapass = t['password']
-        userdatas.listlikestatus = '1'
+        userdatas.listlikestatus = '0'
         db.session.add(userdatas)
         db.session.commit()
         return 'listlike'

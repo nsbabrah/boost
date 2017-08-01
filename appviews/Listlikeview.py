@@ -16,37 +16,40 @@ def listlikeinfo():
     t=[]
     user=user.username
     uslistlikes= db.session.query(models.listlike.Listlikes.instauser).filter(models.listlike.Listlikes.user ==  user).all()
+    active_user = db.session.query(models.listlike.Listlikes.instauser).filter(models.listlike.Listlikes.listlikestatus ==1,models.listlike.Listlikes.user ==  user).all()
+    print active_user
+
     for i in uslistlikes:
         t.append (list (i))
 
 
-    print t
 
-    return json.dumps(t)
+    print sum(t, [])
+
+    return jsonify({'data':sum(t, []),'active_user':str(active_user[0][0])})
 
 @my_view.route('/startlistlike',methods=['POST'])
 def startlistlikes():
 
     targets=request.json
     username=flask_login.current_user
-    print json.loads(targets)
+    print (targets)
+    print u", ".join(targets['users'])
     accname=[]
     password=[]
     user = username.username
-
-    user = db.session.query(models.listlike.Listlikes.user).filter (models.listlike.Listlikes.user == username).all ()
-    if user!=None:
-        user = db.session.query (models.listlike.Listlikes.instauser,models.listlike.Listlikes.instapass).filter( models.listlike.Listlikes.user == user).all ()
-        print user
+    #here u need to check which user from this boostlike user have listlikestatus one send him to bot func
+    return 'START'
 
 
-
-        lumi.userprofile_start()
-
-        return 'START'
-
-
-
+    # user = db.session.query(models.listlike.Listlikes.user).filter (models.listlike.Listlikes.user == username).all ()
+    # if user!=None:
+    #     user = db.session.query (models.listlike.Listlikes.instauser,models.listlike.Listlikes.instapass).filter( models.listlike.Listlikes.user == user).all ()
+    #     print user
+    #
+    #
+    #
+    #     lumi.userprofile_start()
 @my_view.route('/changeActiveUser',methods=['POST'])
 def listlike_changename():
     changeusername = request.json
@@ -55,18 +58,25 @@ def listlike_changename():
     username=flask_login.current_user
     print changeusername
 
-    user = db.session.query(models.listlike.Listlikes.user).filter(models.listlike.Listlikes.user== username).all()
-    if user == None:
-        return 'User have no account'
-    if user!=None:
-        userch = db.session.query(models.listlike.Listlikes.user).filter(models.listlike.Listlikes.instauser == changeusername).all()
-        if userch == None:
-            return 'You dont have any account'
-        if userch != None:
+
+
+
+
+
+    if len(old_name) == 0:
+        userdata = models.listlike.Listlikes.query.filter_by (instauser=changeusername).first ()
+        userdata.listlikestatus = '1'
+
+        db.session.add (userdata)
+        db.session.commit ()
+        return 'True'
+
+    elif len(old_name)!=0:
             try:
 
                 userdata = models.listlike.Listlikes.query.filter_by(instauser=old_name).first()
                 userdata.listlikestatus = '0'
+
 
                 userdata = models.listlike.Listlikes.query.filter_by (instauser=changeusername).first()
                 userdata.listlikestatus = '1'
@@ -76,9 +86,6 @@ def listlike_changename():
             except:
                 db.session.rollback()
             return 'True'
-        else:
-            db.session.rollback()
-            return 'False'
 
 
 
@@ -90,16 +97,13 @@ def listlike_INsta_data():
     print changeusername
     newinsta_user=request.json['insta_username']
     newinsta_pass=request.json['insta_password']
-    status = db.session.query(models.listlike.Listlikes.user).filter(models.listlike.Listlikes.user == username.username).all ()
-    if status!=None:
-
-
+    us = db.session.query(models.listlike.Listlikes.user).filter(models.listlike.Listlikes.user == username.username).all ()
+    if us!=None:
         userdata = models.listlike.Listlikes.query.filter_by (listlikestatus='1').first ()
         userdata.instauser = newinsta_user
         userdata.instapass = newinsta_pass
         db.session.add (userdata)
         db.session.commit ()
-
         return 'True'
     # if user == None:
     #     return 'User have no account'

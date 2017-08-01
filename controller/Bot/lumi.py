@@ -13,12 +13,20 @@ from selenium.webdriver.common.keys import Keys
 import time,sched
 import sched
 
+from pyvirtualdisplay import Display
 s = sched.scheduler(time.time, time.sleep)
 username = "jeffrr111111"
 password = "jeff1234"
 target='gagan_babrah_7860'
 target1='jeffrr111111'
 # time.sleep(3)
+
+
+
+
+
+# now Firefox will run in a virtual display.
+# you will not see the browser.
 
 
 PROXY = ["64.57.141.2:60000"] # IP:PORT or HOST:PORT
@@ -48,9 +56,13 @@ p1=[1,2,3,4,5,6,7,8,9,10]
 u1=0
 
 def userprofile_start():
+
+
+
     for u,p,r,i in zip(paid_user,password,PROXY,target):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('%s' % poxy )
+#        display.start ()
 
 
 #../../usr/local/bin/chromedriver      for cron tab
@@ -105,6 +117,7 @@ def userprofile_start():
                         continue
                         # s.enter(6, 1, userprofile_info, (sc,))
     driver1.quit()
+    #display.stop()
 
 # s.enter(1, 1, userprofile_start,())
 # s.run()
