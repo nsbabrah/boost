@@ -14,10 +14,10 @@ import time,sched
 import sched
 import MySQLdb
 s = sched.scheduler(time.time, time.sleep)
-username = "jeffrr111111"
-password = "jeff1234"
-target='gagan_babrah_7860'
-target1='jeffrr111111'
+username = ""
+password = ""
+target=''
+target1='1'
 # time.sleep(3)
 
 
@@ -25,10 +25,10 @@ PROXY = "64.57.141.2:60000" # IP:PORT or HOST:PORT
 PROXY1 = "127.0.0.1:34002" # IP:PORT or HOST:PORT
 PROXY2 = "127.0.0.1:34003" # IP:PORT or HOST:PORT
 # listlike
-paid_user=['jeffrr111111','jonathananthan','davidryan0']
-password=['jeff1234','tigerisback','therockiscooking']
-proxy=['https:https://rodrigom:Ub3neQZ5vx@64.57.141.11:60000']
-poxy = {'https': 'https://rodrigom:Ub3neQZ5vx@64.57.141.11:60000'}
+paid_user=['','jn','dayan']
+password=['je34','tiack','ng']
+proxy=['']
+poxy = {''}
 
 headers = {'Accept': 'text/html, application/xhtml+xml, image/jxr, /',
 
@@ -46,14 +46,7 @@ headers = {'Accept': 'text/html, application/xhtml+xml, image/jxr, /',
 
 
 # target=['manpreetsingh8750','bennuttan','samra1850','pavitar_chhina_','deep3214']
-target=['gagan_babrah_7860',
-'luxuryrumor',
-'Tunerlab',
-'Bmwm_insta',
-'Gojko.lojpur',
-'jerseychampsllc',
-'thedapperhaus',
-'quotes4abundance',
+target=[
 ]
 i=0
 # d=0

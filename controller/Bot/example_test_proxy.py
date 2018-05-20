@@ -120,7 +120,7 @@ import sched
 s = sched.scheduler(time.time, time.sleep)
 proxy=['127.0.0.1:34003','127.0.0.1:34002','127.0.0.1:34003','127.0.0.1:34002','127.0.0.1:34002']
 ip = "0.0.0.0:9878"
-boostlikes_users=['davinderbhullar_90','gagan_babrah_7860','navjotbabrah','jeffrr111111','luxury.lifes','jaideep085','jonathananthan','davidryan0','navbbarnad','manpreetsingh8750','bennuttan','samra1850','pavitar_chhina_','deep321','maninderbhatti50','shoppingbird_asr','aulakh4235','harshgill0786','gurbir3195','samakshvanmolly','jagrooppb02','love____struck','sudhir_chodhary','gurtaj1996','viren_galaxy','bhullar_rajwant','vickybhullar786','jassisakhira','psgaganpb02','daljit.singh666','ramdeep16','deepakthakur3003','hemaantarora','jatt_personality','dr_nickx','hrmn_sndhu7','jaibeer_singh_chhina','chhinaharry30','maannavtej','ayesha_i___9','s_andhu6','sidhumantri','sharmamayan','simran_bhullar_','suhail_19_','patrick.k.wong','gupta_api','gurvir_sandhu1','gurkaran7575','amritbir.singh.39','966miguel','joban_chhina','aarav_sharmaarav']
+boostlikes_users=[]
 
 # print(opener.open('https://www.instagram.com/gagan_babrah_7860/?__a=1').read())
 d=0

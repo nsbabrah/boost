@@ -38,15 +38,15 @@ chrome_options = webdriver.ChromeOptions()
 
 mysql = MySQL()
 app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'canam1234'
+app.config['MYSQL_DATABASE_USER'] = 'rt'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
 
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = ''
 mysql.init_app(app)
-username = "jeffrr111111"
-password = "jeff1234"
-target='gagan_babrah_7860'
-target1='jeffrr111111'
+username = "j"
+password = ""
+target='g'
+target1='j'
 # time.sleep(3)
 
 
